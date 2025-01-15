@@ -1,16 +1,16 @@
 import { database } from '@repo/database';
 
 export const GET = async () => {
-  const newPage = await database.page.create({
+  const newUser = await database.user.create({
     data: {
       name: 'cron-temp',
-      email: 'test@test.com',
+      email: 'cron-temp@test.com',
     },
   });
 
-  await database.page.delete({
+  await database.user.delete({
     where: {
-      id: newPage.id,
+      id: newUser.id,
     },
   });
 

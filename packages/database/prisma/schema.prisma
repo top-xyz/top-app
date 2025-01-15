@@ -16,8 +16,6 @@ model User {
   email         String    @unique
   name          String?
   contexts      Context[]
-  notifications Notification[]
-  preferences   Json?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -32,9 +30,7 @@ model Context {
   status        ContextStatus
   type          ContextType
   requirements  String[]
-  metadata      Json?
   files         ContextFile[]
-  questions     ContextQuestion[]
   interactions  ContextInteraction[]
   deployments   ContextDeployment[]
   createdAt     DateTime  @default(now())
@@ -58,22 +54,6 @@ model ContextFile {
   @@index([contextId])
 }
 
-// Questions that need user input during generation
-model ContextQuestion {
-  id          String    @id @default(cuid())
-  contextId   String
-  context     Context   @relation(fields: [contextId], references: [id])
-  question    String
-  options     Json?     // For structured questions
-  answer      String?
-  status      QuestionStatus
-  metadata    Json?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@index([contextId])
-}
-
 // Track all interactions during context generation
 model ContextInteraction {
   id          String    @id @default(cuid())
@@ -87,7 +67,7 @@ model ContextInteraction {
   @@index([contextId])
 }
 
-// Preview deployments (Vercel integration)
+// Preview deployments
 model ContextDeployment {
   id          String    @id @default(cuid())
   contextId   String
@@ -99,22 +79,6 @@ model ContextDeployment {
   updatedAt   DateTime  @updatedAt
 
   @@index([contextId])
-}
-
-// User notifications
-model Notification {
-  id          String    @id @default(cuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
-  type        NotificationType
-  title       String
-  message     String
-  metadata    Json?
-  read        Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@index([userId])
 }
 
 // Enums for type safety
@@ -132,12 +96,6 @@ enum ContextType {
   FORK
 }
 
-enum QuestionStatus {
-  PENDING
-  ANSWERED
-  SKIPPED
-}
-
 enum InteractionType {
   SYSTEM
   USER
@@ -150,11 +108,4 @@ enum DeploymentStatus {
   DEPLOYING
   READY
   FAILED
-}
-
-enum NotificationType {
-  QUESTION
-  COMPLETION
-  ERROR
-  DEPLOYMENT
 }

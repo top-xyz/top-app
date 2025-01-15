@@ -2,6 +2,14 @@
   "name": "@repo/design-system",
   "version": "0.0.0",
   "private": true,
+  "main": "index.tsx",
+  "exports": {
+    ".": "./index.tsx",
+    "./styles/*": "./styles/*",
+    "./lib/*": "./lib/*",
+    "./components/*": "./components/*",
+    "./postcss.config.mjs": "./postcss.config.mjs"
+  },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"

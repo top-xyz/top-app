@@ -1,16 +1,13 @@
-import type { HTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
+import * as React from 'react'
 
-type ThreadProps = HTMLAttributes<HTMLDivElement>;
+export interface ThreadProps {
+  children: React.ReactNode
+}
 
-export const Thread = ({ children, className, ...props }: ThreadProps) => (
-  <div
-    className={twMerge(
-      'flex flex-1 flex-col items-start gap-4 overflow-y-auto p-8 pb-0',
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </div>
-);
+export function Thread({ children }: ThreadProps) {
+  return (
+    <div className="flex flex-col gap-4">
+      {children}
+    </div>
+  )
+}
