@@ -2,19 +2,159 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-// This is a stub model.
-// Delete it and add your own Prisma models.
-model Page {
-  id    Int     @id @default(autoincrement())
-  name  String
+// Core user and authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  contexts      Context[]
+  notifications Notification[]
+  preferences   Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Context generation and management
+model Context {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  status        ContextStatus
+  type          ContextType
+  requirements  String[]
+  metadata      Json?
+  files         ContextFile[]
+  questions     ContextQuestion[]
+  interactions  ContextInteraction[]
+  deployments   ContextDeployment[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+// Generated files within a context
+model ContextFile {
+  id          String    @id @default(cuid())
+  contextId   String
+  context     Context   @relation(fields: [contextId], references: [id])
+  path        String
+  content     String
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([contextId, path])
+  @@index([contextId])
+}
+
+// Questions that need user input during generation
+model ContextQuestion {
+  id          String    @id @default(cuid())
+  contextId   String
+  context     Context   @relation(fields: [contextId], references: [id])
+  question    String
+  options     Json?     // For structured questions
+  answer      String?
+  status      QuestionStatus
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([contextId])
+}
+
+// Track all interactions during context generation
+model ContextInteraction {
+  id          String    @id @default(cuid())
+  contextId   String
+  context     Context   @relation(fields: [contextId], references: [id])
+  type        InteractionType
+  content     String
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+
+  @@index([contextId])
+}
+
+// Preview deployments (Vercel integration)
+model ContextDeployment {
+  id          String    @id @default(cuid())
+  contextId   String
+  context     Context   @relation(fields: [contextId], references: [id])
+  url         String
+  status      DeploymentStatus
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([contextId])
+}
+
+// User notifications
+model Notification {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  type        NotificationType
+  title       String
+  message     String
+  metadata    Json?
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+// Enums for type safety
+enum ContextStatus {
+  PENDING
+  QUESTIONING
+  GENERATING
+  COMPLETE
+  FAILED
+}
+
+enum ContextType {
+  TEMPLATE
+  CUSTOM
+  FORK
+}
+
+enum QuestionStatus {
+  PENDING
+  ANSWERED
+  SKIPPED
+}
+
+enum InteractionType {
+  SYSTEM
+  USER
+  AI
+  ERROR
+}
+
+enum DeploymentStatus {
+  PENDING
+  DEPLOYING
+  READY
+  FAILED
+}
+
+enum NotificationType {
+  QUESTION
+  COMPLETION
+  ERROR
+  DEPLOYMENT
 }
