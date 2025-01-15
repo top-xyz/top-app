@@ -4,12 +4,10 @@
   "bin": {
     "next-forge": "scripts/index.mjs"
   },
-  "files": [
-    "scripts/*.mjs"
-  ],
+  "files": ["scripts/*.mjs"],
   "scripts": {
     "build": "turbo build --filter=!app",
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=!app",
     "lint": "ultracite lint",
     "format": "ultracite format",
     "test": "turbo test",
