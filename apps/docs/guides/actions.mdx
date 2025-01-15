@@ -1,0 +1,428 @@
+---
+title: 'Actions'
+description: 'Understanding and working with Top Actions'
+---
+
+# Actions
+
+Actions are intelligent operations that Top can perform on your codebase. They represent discrete tasks that can be suggested, executed, and monitored throughout your development workflow.
+
+## What are Actions?
+
+Actions are more than just commands - they're intelligent operations that:
+- Understand context and requirements
+- Handle dependencies automatically
+- Provide real-time feedback
+- Generate previews
+- Self-heal on failures
+
+```typescript
+interface Action {
+  id: string
+  type: ActionType
+  status: ActionStatus
+  payload: Record<string, any>
+  metadata: {
+    priority: number
+    retryCount: number
+    timeout: number
+    dependencies: string[]
+  }
+}
+
+type ActionType =
+  | 'clone_template'
+  | 'configure_tooling'
+  | 'modify_files'
+  | 'deploy'
+  | 'install_dependencies'
+  | 'run_tests'
+  | 'generate_preview'
+  | 'custom'
+
+type ActionStatus =
+  | 'pending'
+  | 'running'
+  | 'completed'
+  | 'failed'
+  | 'cancelled'
+```
+
+## Action Types
+
+### 1. Code Generation
+```typescript
+// Generate a new component
+await context.actions.execute({
+  type: 'modify_files',
+  payload: {
+    operation: 'generate',
+    template: 'react-component',
+    options: {
+      name: 'AuthForm',
+      props: ['onSubmit', 'loading']
+    }
+  }
+})
+```
+
+### 2. Dependency Management
+```typescript
+// Install and configure dependencies
+await context.actions.execute({
+  type: 'install_dependencies',
+  payload: {
+    packages: ['@auth0/auth0-react'],
+    dev: false,
+    version: 'latest'
+  }
+})
+```
+
+### 3. Configuration
+```typescript
+// Configure tooling
+await context.actions.execute({
+  type: 'configure_tooling',
+  payload: {
+    tool: 'auth0',
+    config: {
+      domain: 'your-domain.auth0.com',
+      clientId: 'your-client-id'
+    }
+  }
+})
+```
+
+### 4. Testing
+```typescript
+// Generate and run tests
+await context.actions.execute({
+  type: 'run_tests',
+  payload: {
+    pattern: 'src/auth/**/*.test.ts',
+    coverage: true,
+    watch: false
+  }
+})
+```
+
+### 5. Deployment
+```typescript
+// Deploy changes
+await context.actions.execute({
+  type: 'deploy',
+  payload: {
+    target: 'preview',
+    config: {
+      framework: 'next',
+      env: 'development'
+    }
+  }
+})
+```
+
+## Working with Actions
+
+### 1. Suggesting Actions
+```typescript
+// Get action suggestions based on context
+const suggestions = await context.actions.suggest({
+  intent: 'Add authentication',
+  constraints: ['Use Auth0', 'Include tests']
+})
+
+// Review suggestions
+console.log(suggestions.map(s => s.description))
+
+// Execute suggested actions
+await context.actions.execute(suggestions)
+```
+
+### 2. Custom Actions
+```typescript
+// Define a custom action
+await context.actions.define({
+  name: 'update-api-docs',
+  description: 'Update API documentation',
+  run: async (ctx) => {
+    const changes = await ctx.diff()
+    if (changes.hasApiChanges) {
+      await ctx.docs.generate('api')
+    }
+  }
+})
+
+// Execute custom action
+await context.actions.execute('update-api-docs')
+```
+
+### 3. Action Workflows
+```typescript
+// Define an action workflow
+const workflow = await context.actions.workflow({
+  name: 'setup-auth',
+  steps: [
+    {
+      name: 'install-deps',
+      action: 'install_dependencies',
+      payload: {
+        packages: ['@auth0/auth0-react']
+      }
+    },
+    {
+      name: 'configure-auth0',
+      action: 'configure_tooling',
+      payload: {
+        tool: 'auth0'
+      }
+    },
+    {
+      name: 'generate-components',
+      action: 'modify_files',
+      payload: {
+        operation: 'generate',
+        template: 'auth-components'
+      }
+    }
+  ]
+})
+
+// Execute workflow
+await workflow.run()
+```
+
+### 4. Action Monitoring
+```typescript
+// Monitor action progress
+context.actions.on('start', (action) => {
+  console.log(`Started: ${action.type}`)
+})
+
+context.actions.on('progress', (action, progress) => {
+  console.log(`Progress: ${progress}%`)
+})
+
+context.actions.on('complete', (action) => {
+  console.log(`Completed: ${action.type}`)
+})
+
+// Get action status
+const status = await context.actions.status('action-id')
+```
+
+### 5. Error Handling
+```typescript
+// Handle action failures
+try {
+  await context.actions.execute('risky-action')
+} catch (error) {
+  // Get detailed error info
+  const details = await context.actions.getError(error.actionId)
+  
+  // Retry with different options
+  await context.actions.retry(error.actionId, {
+    timeout: 30000,
+    retries: 3
+  })
+}
+```
+
+## Best Practices
+
+### 1. Action Composition
+```typescript
+// Compose multiple actions
+const actions = [
+  {
+    type: 'install_dependencies',
+    payload: { packages: ['@auth0/auth0-react'] }
+  },
+  {
+    type: 'configure_tooling',
+    payload: { tool: 'auth0' }
+  },
+  {
+    type: 'modify_files',
+    payload: { template: 'auth-components' }
+  }
+]
+
+// Execute in sequence
+for (const action of actions) {
+  await context.actions.execute(action)
+}
+```
+
+### 2. Action Configuration
+```typescript
+// Configure action behavior
+await context.actions.configure({
+  defaultTimeout: 30000,
+  maxRetries: 3,
+  concurrency: 2,
+  rollbackOnFailure: true
+})
+```
+
+### 3. Action Validation
+```typescript
+// Validate actions before execution
+const validation = await context.actions.validate(actions)
+
+if (validation.valid) {
+  await context.actions.execute(actions)
+} else {
+  console.error(validation.errors)
+}
+```
+
+### 4. Action Documentation
+```typescript
+// Document action purpose
+await context.actions.execute({
+  type: 'modify_files',
+  payload: { /* ... */ },
+  metadata: {
+    description: 'Add Auth0 configuration',
+    rationale: 'Required for social login',
+    impact: ['auth', 'security']
+  }
+})
+```
+
+### 5. Action Testing
+```typescript
+// Test actions in isolation
+await context.actions.test({
+  action: 'configure-auth0',
+  mocks: {
+    config: { /* ... */ }
+  },
+  assertions: {
+    files: ['auth0.config.js'],
+    content: /clientId/
+  }
+})
+```
+
+## Advanced Features
+
+### 1. Action Hooks
+```typescript
+// Add pre and post hooks
+context.actions.before('deploy', async (action) => {
+  await runTests()
+})
+
+context.actions.after('deploy', async (action) => {
+  await notifyTeam()
+})
+```
+
+### 2. Action Queues
+```typescript
+// Queue actions for later
+await context.actions.queue([
+  'update-deps',
+  'run-tests',
+  'deploy'
+])
+
+// Process queue
+await context.actions.processQueue()
+```
+
+### 3. Action Templates
+```typescript
+// Create action template
+const template = await context.actions.template({
+  name: 'feature-setup',
+  actions: [
+    'install-deps',
+    'configure-tools',
+    'generate-components'
+  ]
+})
+
+// Use template
+await template.execute({
+  variables: {
+    feature: 'auth'
+  }
+})
+```
+
+### 4. Action Policies
+```typescript
+// Define action policies
+await context.actions.policy({
+  name: 'security',
+  rules: [
+    {
+      action: 'deploy',
+      require: ['tests', 'security-scan']
+    }
+  ]
+})
+```
+
+### 5. Action Analytics
+```typescript
+// Track action metrics
+const metrics = await context.actions.metrics({
+  period: '7d',
+  types: ['deploy', 'test']
+})
+
+console.log(metrics.summary)
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Action Timeout**
+```typescript
+// Increase timeout
+await context.actions.execute(action, {
+  timeout: 60000
+})
+```
+
+2. **Dependency Conflicts**
+```typescript
+// Resolve conflicts
+await context.actions.resolve({
+  conflicts: ['@auth0/auth0-react'],
+  strategy: 'latest'
+})
+```
+
+3. **Resource Constraints**
+```typescript
+// Optimize resource usage
+await context.actions.execute(action, {
+  resources: {
+    memory: '2GB',
+    cpu: 2
+  }
+})
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Previews" icon="eye" href="/guides/previews">
+    Learn how actions generate previews
+  </Card>
+  <Card title="AI Integration" icon="brain" href="/guides/ai-integration">
+    See how AI suggests actions
+  </Card>
+  <Card title="Workflows" icon="diagram-project" href="/guides/workflows">
+    Build complex action workflows
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/actions/create">
+    View the actions API reference
+  </Card>
+</CardGroup> 

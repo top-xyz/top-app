@@ -12,43 +12,43 @@ datasource db {
 
 // Core user and authentication
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  contexts      Context[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  contexts  Context[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 // Context generation and management
 model Context {
-  id            String    @id @default(cuid())
-  name          String
-  description   String?
-  userId        String
-  user          User      @relation(fields: [userId], references: [id])
-  status        ContextStatus
-  type          ContextType
-  requirements  String[]
-  files         ContextFile[]
-  interactions  ContextInteraction[]
-  deployments   ContextDeployment[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String               @id @default(cuid())
+  name         String
+  description  String?
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id])
+  status       ContextStatus
+  type         ContextType
+  requirements String[]
+  files        ContextFile[]
+  interactions ContextInteraction[]
+  deployments  ContextDeployment[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
 
   @@index([userId])
 }
 
 // Generated files within a context
 model ContextFile {
-  id          String    @id @default(cuid())
-  contextId   String
-  context     Context   @relation(fields: [contextId], references: [id])
-  path        String
-  content     String
-  metadata    Json?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(cuid())
+  contextId String
+  context   Context  @relation(fields: [contextId], references: [id])
+  path      String
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([contextId, path])
   @@index([contextId])
@@ -56,27 +56,27 @@ model ContextFile {
 
 // Track all interactions during context generation
 model ContextInteraction {
-  id          String    @id @default(cuid())
-  contextId   String
-  context     Context   @relation(fields: [contextId], references: [id])
-  type        InteractionType
-  content     String
-  metadata    Json?
-  createdAt   DateTime  @default(now())
+  id        String          @id @default(cuid())
+  contextId String
+  context   Context         @relation(fields: [contextId], references: [id])
+  type      InteractionType
+  content   String
+  metadata  Json?
+  createdAt DateTime        @default(now())
 
   @@index([contextId])
 }
 
 // Preview deployments
 model ContextDeployment {
-  id          String    @id @default(cuid())
-  contextId   String
-  context     Context   @relation(fields: [contextId], references: [id])
-  url         String
-  status      DeploymentStatus
-  metadata    Json?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String           @id @default(cuid())
+  contextId String
+  context   Context          @relation(fields: [contextId], references: [id])
+  url       String
+  status    DeploymentStatus
+  metadata  Json?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
   @@index([contextId])
 }

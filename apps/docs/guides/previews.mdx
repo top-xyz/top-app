@@ -1,0 +1,389 @@
+---
+title: 'Previews'
+description: 'Understanding and working with Top Previews'
+---
+
+# Previews
+
+Previews are instant, isolated environments that let you visualize and test your changes in real-time. They're automatically generated for every significant change, making it easy to validate and share your work.
+
+## What are Previews?
+
+Previews are more than just deployments - they're intelligent environments that:
+- Deploy automatically
+- Update in real-time
+- Maintain isolation
+- Share context
+- Capture feedback
+
+```typescript
+interface Preview {
+  id: string
+  url: string
+  status: PreviewStatus
+  type: PreviewType
+  metadata: {
+    branch: string
+    commit: string
+    environment: string
+    deployedAt: Date
+    expiresAt: Date
+  }
+}
+
+type PreviewStatus =
+  | 'generating'
+  | 'ready'
+  | 'failed'
+  | 'expired'
+
+type PreviewType =
+  | 'full'      // Complete application
+  | 'component' // Single component
+  | 'api'       // API endpoints
+  | 'docs'      // Documentation
+```
+
+## Preview Types
+
+### 1. Full Application
+```typescript
+// Deploy complete application
+const preview = await context.preview.create({
+  type: 'full',
+  config: {
+    framework: 'next',
+    node: '18.x',
+    env: {
+      AUTH0_DOMAIN: 'preview.auth0.com'
+    }
+  }
+})
+
+console.log(`Preview URL: ${preview.url}`)
+```
+
+### 2. Component Preview
+```typescript
+// Preview a specific component
+const preview = await context.preview.component({
+  name: 'AuthForm',
+  props: {
+    onSubmit: 'console.log',
+    loading: false
+  },
+  variants: ['light', 'dark']
+})
+```
+
+### 3. API Preview
+```typescript
+// Preview API endpoints
+const preview = await context.preview.api({
+  routes: ['/api/auth/*'],
+  mocks: {
+    '/api/auth/user': {
+      GET: { id: 1, name: 'Test User' }
+    }
+  }
+})
+```
+
+### 4. Documentation Preview
+```typescript
+// Preview documentation changes
+const preview = await context.preview.docs({
+  files: ['guides/auth.mdx'],
+  layout: 'docs'
+})
+```
+
+## Working with Previews
+
+### 1. Creating Previews
+```typescript
+// Basic preview
+const preview = await context.preview.create()
+
+// Advanced configuration
+const preview = await context.preview.create({
+  type: 'full',
+  config: {
+    framework: 'next',
+    buildCommand: 'npm run build',
+    outputDir: 'dist',
+    env: {
+      NODE_ENV: 'preview'
+    }
+  }
+})
+```
+
+### 2. Real-time Updates
+```typescript
+// Enable live updates
+const preview = await context.preview.create({
+  live: true
+})
+
+// Watch for changes
+preview.on('change', async (change) => {
+  await preview.update(change)
+})
+
+// Get update status
+const status = await preview.status()
+```
+
+### 3. Preview Management
+```typescript
+// List active previews
+const previews = await context.preview.list()
+
+// Get specific preview
+const preview = await context.preview.get('preview-id')
+
+// Delete preview
+await preview.delete()
+
+// Clean up old previews
+await context.preview.cleanup({
+  older: '7d',
+  status: 'expired'
+})
+```
+
+### 4. Preview Sharing
+```typescript
+// Share preview
+const share = await preview.share({
+  access: 'public',
+  expiry: '24h'
+})
+
+console.log(`Share URL: ${share.url}`)
+
+// Manage access
+await share.updateAccess({
+  users: ['team@company.com'],
+  permissions: ['view', 'comment']
+})
+```
+
+### 5. Preview Testing
+```typescript
+// Run tests against preview
+const results = await preview.test({
+  suite: 'e2e',
+  browser: 'chrome',
+  device: 'desktop'
+})
+
+// Get test coverage
+const coverage = await preview.coverage()
+```
+
+## Best Practices
+
+### 1. Preview Configuration
+```typescript
+// Configure preview defaults
+await context.preview.configure({
+  defaultType: 'full',
+  autoCleanup: true,
+  maxDuration: '24h',
+  resources: {
+    cpu: 1,
+    memory: '1GB'
+  }
+})
+```
+
+### 2. Environment Management
+```typescript
+// Set up preview environment
+await preview.environment({
+  type: 'development',
+  variables: {
+    API_URL: 'https://api.preview.dev',
+    FEATURES: ['auth', 'api']
+  },
+  secrets: {
+    AUTH0_SECRET: process.env.AUTH0_SECRET
+  }
+})
+```
+
+### 3. Resource Optimization
+```typescript
+// Optimize preview resources
+await preview.optimize({
+  caching: true,
+  compression: true,
+  minification: true
+})
+
+// Monitor resource usage
+const metrics = await preview.metrics()
+```
+
+### 4. Preview Workflows
+```typescript
+// Define preview workflow
+const workflow = await context.preview.workflow({
+  steps: [
+    'build',
+    'test',
+    'deploy',
+    'notify'
+  ],
+  on: {
+    success: async () => {
+      await notifySlack('Preview ready')
+    }
+  }
+})
+
+// Run workflow
+await workflow.run()
+```
+
+### 5. Quality Checks
+```typescript
+// Add quality gates
+await preview.quality({
+  checks: [
+    'lighthouse',
+    'a11y',
+    'security'
+  ],
+  thresholds: {
+    performance: 90,
+    accessibility: 95
+  }
+})
+```
+
+## Advanced Features
+
+### 1. Preview Branching
+```typescript
+// Create preview branch
+const branch = await preview.branch({
+  name: 'feature/auth',
+  from: 'main'
+})
+
+// Merge changes
+await branch.merge({
+  target: 'main',
+  squash: true
+})
+```
+
+### 2. A/B Testing
+```typescript
+// Create A/B test
+const test = await preview.ab({
+  variants: {
+    A: { feature: 'old-auth' },
+    B: { feature: 'new-auth' }
+  },
+  distribution: {
+    A: 0.5,
+    B: 0.5
+  }
+})
+
+// Track results
+const results = await test.results()
+```
+
+### 3. Preview Analytics
+```typescript
+// Track preview usage
+const analytics = await preview.analytics({
+  period: '7d',
+  metrics: ['views', 'interactions']
+})
+
+// Generate report
+const report = await analytics.report()
+```
+
+### 4. Custom Domains
+```typescript
+// Set up custom domain
+await preview.domain({
+  url: 'preview.company.com',
+  ssl: true
+})
+
+// Manage DNS
+await preview.dns.configure({
+  provider: 'cloudflare'
+})
+```
+
+### 5. Preview Hooks
+```typescript
+// Add preview hooks
+preview.on('ready', async () => {
+  await runTests()
+})
+
+preview.on('expire', async () => {
+  await cleanup()
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Deployment Failed**
+```typescript
+// Get deployment logs
+const logs = await preview.logs()
+
+// Retry deployment
+await preview.retry({
+  clean: true,
+  cache: false
+})
+```
+
+2. **Performance Issues**
+```typescript
+// Analyze performance
+const analysis = await preview.analyze()
+
+// Optimize resources
+await preview.optimize()
+```
+
+3. **Environment Problems**
+```typescript
+// Check environment
+const check = await preview.doctor()
+
+// Fix common issues
+await preview.repair()
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Actions" icon="bolt" href="/guides/actions">
+    Learn how actions create previews
+  </Card>
+  <Card title="AI Integration" icon="brain" href="/guides/ai-integration">
+    See how AI enhances previews
+  </Card>
+  <Card title="Testing" icon="vial" href="/guides/testing">
+    Test your previews effectively
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/previews/create">
+    View the previews API reference
+  </Card>
+</CardGroup> 

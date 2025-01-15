@@ -6,7 +6,12 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build", "test"],
-      "outputs": [".next/**", "!.next/cache/**", ".basehub/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        ".basehub/**",
+        "../../node_modules/.pnpm/@prisma+client*/**"
+      ]
     },
     "test": {
       "dependsOn": ["^test"]

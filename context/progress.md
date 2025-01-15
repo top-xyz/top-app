@@ -8,6 +8,7 @@ Related Documents:
 - [[02-ai-integration|AI Integration]] - AI provider system
 - [[05-context-management|Context Management]] - Context system
 - [[21-database-schema|Database Schema]] - Data models
+- [[22-documentation-system|Documentation System]] - Auto-generating docs
 
 ## Current State
 
@@ -19,7 +20,7 @@ apps/
   ├── web/        // Marketing site (In Progress)
   ├── app/        // Main application
   ├── email/      // Email templates
-  ├── docs/       // Documentation
+  ├── docs/       // Documentation (In Progress)
   └── storybook/  // Component library
 ```
 
@@ -52,6 +53,14 @@ packages/
 - [ ] AI pipeline integration
 - [ ] Real-time updates
 - [ ] Rate limiting
+
+#### Documentation (🟡 In Progress)
+- [x] Mintlify setup
+- [x] Custom theme
+- [x] Navigation structure
+- [ ] Core concept guides
+- [ ] API reference
+- [ ] Auto-generation system
 
 #### Web Marketing (🟡 In Progress)
 - [x] Hero section with AI integration
@@ -93,6 +102,14 @@ See [[02-ai-integration|AI Integration]]
 - [ ] Context processing
 - [ ] Embeddings
 
+### Documentation (🟡 In Progress)
+See [[22-documentation-system|Documentation System]]
+- [x] Mintlify configuration
+- [x] Theme setup
+- [x] Navigation
+- [ ] Content generation
+- [ ] Auto-updates
+
 ### Authentication (🟢 Ready)
 - [x] Clerk integration
 - [x] Middleware
@@ -127,32 +144,32 @@ See [[08-notification-system|Notification System]]
    - Fix @repo/database exports
    - Test API routes with fixed packages
 
-2. Complete API Implementation
+2. Complete Documentation
+   - Core concept guides
+   - API reference
+   - Auto-generation system
+
+3. Complete API Implementation
    - AI pipeline integration
    - Real-time updates with WebSocket
    - Rate limiting with @rate-limit
 
-3. Web Marketing
-   - Complete hero section
-   - Add product features
-   - Implement pricing page
-
 ### Technical Priorities
-1. AI Pipeline
+1. Documentation System
+   - Content generation pipeline
+   - Auto-update system
+   - Quality checks
+
+2. AI Pipeline
    - Complete Vertex AI integration
    - Implement streaming for context
    - Add caching layer
 
-2. Preview System
+3. Preview System
    See [[12-context-preview-workflow|Preview Workflow]]
    - Vercel deployment integration
    - URL generation
    - Real-time updates
-
-3. Real-time Features
-   - WebSocket setup
-   - Live previews
-   - Collaboration
 
 ## Challenges & Solutions
 
@@ -162,15 +179,15 @@ See [[08-notification-system|Notification System]]
    - Type definitions
    - Integration testing
 
-2. **AI Integration**
+2. **Documentation**
+   - Auto-generation complexity
+   - Content organization
+   - Update synchronization
+
+3. **AI Integration**
    - Vertex AI setup
    - Streaming optimization
    - Cost management
-
-3. **Preview System**
-   - Deployment strategy
-   - Resource management
-   - Cost efficiency
 
 ### Proposed Solutions
 1. **Package Integration**
@@ -178,15 +195,15 @@ See [[08-notification-system|Notification System]]
    - Add type definitions
    - Add integration tests
 
-2. **AI Integration**
+2. **Documentation**
+   - Implement smart content analysis
+   - Use topic clustering
+   - Build sync engine
+
+3. **AI Integration**
    - Implement provider abstraction
    - Add response caching
    - Optimize token usage
-
-3. **Preview System**
-   - Use Vercel for previews
-   - Implement cleanup jobs
-   - Resource pooling
 
 ## Timeline
 
@@ -195,7 +212,12 @@ See [[08-notification-system|Notification System]]
 - [x] Core packages
 - [🟡] API development
   - [x] Core routes
+  - [ ] Package fixes
   - [ ] AI integration
+- [🟡] Documentation
+  - [x] Basic setup
+  - [ ] Core content
+  - [ ] Auto-generation
 - [🟡] Web marketing
   - [x] Hero section
   - [ ] Features

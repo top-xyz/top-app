@@ -1,71 +1,90 @@
 ---
-title: Introduction
-description: 'Welcome to the home of your new documentation'
+title: 'Welcome to Top'
+description: 'Create, understand, and evolve code through natural conversation'
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
-/>
+# Welcome to Top
 
-## Setting up
+Top is a revolutionary development environment that transforms how you interact with code. Through natural conversation and context-aware AI, Top helps you understand, create, and evolve code more efficiently than ever before.
 
-The first step to world-class documentation is setting up your editing environments.
+## Why Top?
 
 <CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
+  <Card title="Natural Interaction" icon="comments">
+    Talk to your code like you'd talk to a colleague. No more context switching between tools.
   </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
+  <Card title="Context Awareness" icon="brain">
+    Top understands your codebase, your intentions, and your workflow.
+  </Card>
+  <Card title="Living Documentation" icon="book">
+    Documentation that evolves with your code, automatically generated from your conversations.
+  </Card>
+  <Card title="Instant Previews" icon="eye">
+    See your changes in real-time with automatic preview deployments.
   </Card>
 </CardGroup>
 
-## Make it yours
+## Key Features
 
-Update your docs to your brand and add valuable content for the best user conversion.
+### 🤝 Context-Aware Development
+
+```typescript
+// Top understands your code in context
+const context = await top.createContext({
+  intention: "Add authentication",
+  codebase: "./src",
+  requirements: ["OAuth", "Session management"]
+})
+
+// Natural conversation drives development
+const result = await context.discuss(`
+  I want to add user authentication using Auth0.
+  It should handle both social and email login.
+`)
+```
+
+### 🚀 Intelligent Actions
+
+Top can automatically:
+- Generate code
+- Create tests
+- Deploy previews
+- Update documentation
+- And much more
+
+### 📱 Preview Everything
+
+Every change gets an instant preview:
+- Full application deployments
+- Component previews
+- API endpoints
+- Documentation changes
+
+### 📚 Living Documentation
+
+Documentation that:
+- Updates automatically
+- Captures decisions
+- Includes examples
+- Stays fresh
+
+## Quick Links
 
 <CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
+  <Card title="Quickstart" icon="play" href="/quickstart">
+    Get up and running in minutes
   </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
+  <Card title="Core Concepts" icon="lightbulb" href="/guides/contexts">
+    Learn about contexts, actions, and previews
   </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Explore the API documentation
   </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
+  <Card title="Examples" icon="stars" href="/guides/examples">
+    See Top in action
   </Card>
 </CardGroup>
+
+## Get Started
+
+Ready to transform your development workflow? Start with our [quickstart guide](/quickstart) or explore our [core concepts](/guides/contexts).

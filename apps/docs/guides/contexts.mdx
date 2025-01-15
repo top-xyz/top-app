@@ -1,0 +1,366 @@
+---
+title: 'Contexts'
+description: 'Understanding and working with Top Contexts'
+---
+
+# Contexts
+
+Contexts are the foundation of Top's development environment. They represent intelligent workspaces that understand your code, intentions, and development flow.
+
+## What is a Context?
+
+A context is more than just a workspace - it's a living environment that:
+- Understands your codebase
+- Remembers conversations and decisions
+- Manages development flow
+- Coordinates actions and previews
+- Generates documentation
+
+```typescript
+interface Context {
+  id: string
+  type: 'feature' | 'bug' | 'refactor' | 'docs'
+  status: 'setup' | 'active' | 'completed'
+  flow: {
+    resistance: "none" | "low" | "high"
+    friction: "minimal" | "moderate" | "high"
+    direction: "natural" | "guided" | "constrained"
+  }
+  metadata: {
+    title: string
+    description: string
+    tags: string[]
+    created: Date
+    updated: Date
+  }
+}
+```
+
+## Context Types
+
+### Feature Development
+```typescript
+const authFeature = await top.createContext({
+  type: 'feature',
+  title: 'User Authentication',
+  description: 'Implement OAuth and session management',
+  tags: ['auth', 'security']
+})
+```
+
+### Bug Fixing
+```typescript
+const bugfix = await top.createContext({
+  type: 'bug',
+  title: 'Auth Token Expiry',
+  description: 'Fix token refresh logic',
+  tags: ['auth', 'bugfix']
+})
+```
+
+### Code Refactoring
+```typescript
+const refactor = await top.createContext({
+  type: 'refactor',
+  title: 'API Error Handling',
+  description: 'Standardize error responses',
+  tags: ['api', 'quality']
+})
+```
+
+### Documentation
+```typescript
+const docs = await top.createContext({
+  type: 'docs',
+  title: 'API Documentation',
+  description: 'Generate API reference',
+  tags: ['docs', 'api']
+})
+```
+
+## Context Lifecycle
+
+### 1. Creation
+```typescript
+// Create a new context
+const context = await top.createContext({
+  type: 'feature',
+  title: 'User Authentication'
+})
+
+// Or initialize in existing directory
+await top.init({
+  type: 'feature',
+  title: 'User Authentication'
+})
+```
+
+### 2. Setup
+```typescript
+// Configure the context
+await context.configure({
+  requirements: [
+    'OAuth support',
+    'Session management',
+    'Password reset flow'
+  ],
+  constraints: [
+    'Must use Auth0',
+    'GDPR compliance required'
+  ]
+})
+```
+
+### 3. Development
+```typescript
+// Start a conversation
+const result = await context.discuss(`
+  I want to implement the OAuth flow using Auth0.
+  It should support:
+  1. Google login
+  2. GitHub login
+  3. Email/password
+`)
+
+// Review suggestions
+const suggestions = await result.suggestions()
+
+// Execute actions
+await context.actions.execute(suggestions)
+```
+
+### 4. Review
+```typescript
+// Get changes
+const changes = await context.diff()
+
+// Review changes
+await context.review(changes)
+
+// Generate preview
+const preview = await context.preview.create()
+```
+
+### 5. Completion
+```typescript
+// Mark as complete
+await context.complete({
+  summary: 'Implemented OAuth authentication',
+  artifacts: ['docs', 'tests', 'deployment']
+})
+```
+
+## Context Features
+
+### 1. Intelligent Understanding
+```typescript
+// Context understands your codebase
+const analysis = await context.analyze()
+
+// Get insights
+const insights = await context.insights()
+```
+
+### 2. Natural Conversation
+```typescript
+// Have natural conversations about code
+await context.discuss('How do we handle token refresh?')
+
+// Get explanations
+await context.explain('src/auth/refresh.ts')
+```
+
+### 3. Action Management
+```typescript
+// Get suggested actions
+const actions = await context.suggestActions()
+
+// Execute specific actions
+await context.actions.execute(['install_deps', 'generate_types'])
+
+// Track action status
+const status = await context.actions.status()
+```
+
+### 4. Preview Generation
+```typescript
+// Create preview
+const preview = await context.preview.create()
+
+// Get preview URL
+console.log(preview.url)
+
+// Update preview
+await preview.update()
+```
+
+### 5. Documentation
+```typescript
+// Generate documentation
+const docs = await context.docs.generate()
+
+// Auto-update docs
+await context.docs.watch()
+```
+
+## Best Practices
+
+### 1. Clear Intentions
+```typescript
+// Good
+const context = await top.createContext({
+  type: 'feature',
+  title: 'OAuth Integration',
+  description: 'Add social login support',
+  requirements: ['Auth0', 'Google OAuth']
+})
+
+// Less Good
+const context = await top.createContext({
+  type: 'feature',
+  title: 'Auth stuff'
+})
+```
+
+### 2. Focused Contexts
+Keep contexts focused on specific tasks:
+- Single feature or bug
+- Related refactoring changes
+- Coherent documentation updates
+
+### 3. Regular Updates
+```typescript
+// Update context status
+await context.update({
+  status: 'in_progress',
+  progress: 0.6,
+  notes: 'Completed OAuth flow, working on session management'
+})
+```
+
+### 4. Document Decisions
+```typescript
+// Record important decisions
+await context.decisions.add({
+  title: 'Auth Provider Selection',
+  choice: 'Auth0',
+  rationale: 'Better enterprise support',
+  alternatives: ['Okta', 'Custom solution']
+})
+```
+
+### 5. Link Related Contexts
+```typescript
+// Link related contexts
+await context.link({
+  related: ['auth-ui', 'auth-api'],
+  relationship: 'depends_on'
+})
+```
+
+## Advanced Features
+
+### 1. Flow Control
+```typescript
+// Adjust development flow
+await context.flow.adjust({
+  resistance: 'low',    // How much validation
+  friction: 'minimal',  // How much review
+  direction: 'natural' // How guided
+})
+```
+
+### 2. Metadata Management
+```typescript
+// Add custom metadata
+await context.meta.set({
+  priority: 'high',
+  deadline: '2024-02-01',
+  stakeholders: ['security', 'frontend']
+})
+```
+
+### 3. Event Handling
+```typescript
+// Listen for context events
+context.on('action:complete', async (action) => {
+  await notifyTeam(action)
+})
+
+context.on('preview:ready', async (preview) => {
+  await runTests(preview.url)
+})
+```
+
+### 4. Custom Actions
+```typescript
+// Define custom actions
+await context.actions.define({
+  name: 'security_scan',
+  run: async (ctx) => {
+    await runSecurityScan(ctx.files)
+  }
+})
+```
+
+### 5. Integration Points
+```typescript
+// Integrate with external tools
+await context.integrate({
+  github: {
+    repo: 'org/repo',
+    branch: 'feature/auth'
+  },
+  jira: {
+    ticket: 'AUTH-123'
+  }
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Context Creation Failed**
+```typescript
+// Verify workspace
+await top.doctor()
+
+// Clean workspace
+await top.clean()
+```
+
+2. **Action Execution Failed**
+```typescript
+// Get detailed error
+const error = await context.actions.getError()
+
+// Retry with debug
+await context.actions.retry({ debug: true })
+```
+
+3. **Preview Generation Failed**
+```typescript
+// Check preview logs
+const logs = await context.preview.logs()
+
+// Force rebuild
+await context.preview.rebuild()
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Actions" icon="bolt" href="/guides/actions">
+    Learn about executing and managing actions
+  </Card>
+  <Card title="Previews" icon="eye" href="/guides/previews">
+    Understand the preview system
+  </Card>
+  <Card title="AI Integration" icon="brain" href="/guides/ai-integration">
+    Explore AI capabilities
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/contexts/create">
+    View the contexts API reference
+  </Card>
+</CardGroup> 

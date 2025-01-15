@@ -1,31 +1,35 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Top Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#0055FF",
+    "light": "#66A3FF",
+    "dark": "#0044CC",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#0055FF",
+      "to": "#66A3FF"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@mintlify.com"
+      "url": "mailto:support@top.dev"
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Get Started",
+    "url": "https://app.top.dev"
   },
   "tabs": [
+    {
+      "name": "Guides",
+      "url": "guides"
+    },
     {
       "name": "API Reference",
       "url": "api-reference"
@@ -35,51 +39,116 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://docs.top.dev"
     },
     {
       "name": "Community",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "url": "https://community.top.dev"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://blog.top.dev"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
-    },
-    {
-      "group": "Essentials",
+      "group": "Getting Started",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "introduction",
+        "essence",
+        "quickstart",
+        "development"
       ]
     },
     {
-      "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
+      "group": "Core Concepts",
+      "pages": [
+        {
+          "group": "The Foundation",
+          "pages": [
+            "guides/contexts",
+            "guides/actions",
+            "guides/previews",
+            "guides/ai-integration"
+          ]
+        },
+        {
+          "group": "The Flow",
+          "pages": [
+            "guides/flow-state",
+            "guides/thought-stream",
+            "guides/reality-bending"
+          ]
+        },
+        {
+          "group": "The Magic",
+          "pages": [
+            "guides/quantum-deployments",
+            "guides/neural-architecture",
+            "guides/digital-alchemy"
+          ]
+        }
+      ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Interactive Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "examples/flow-state",
+        "examples/thought-stream",
+        "examples/reality-bending",
+        "examples/quantum-preview"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/introduction",
+        {
+          "group": "Contexts",
+          "pages": [
+            "api-reference/contexts/create",
+            "api-reference/contexts/get",
+            "api-reference/contexts/update",
+            "api-reference/contexts/delete"
+          ]
+        },
+        {
+          "group": "Messages",
+          "pages": [
+            "api-reference/messages/create",
+            "api-reference/messages/list"
+          ]
+        },
+        {
+          "group": "Actions",
+          "pages": [
+            "api-reference/actions/create",
+            "api-reference/actions/list"
+          ]
+        },
+        {
+          "group": "Previews",
+          "pages": [
+            "api-reference/previews/create",
+            "api-reference/previews/list"
+          ]
+        },
+        {
+          "group": "Reality",
+          "pages": [
+            "api-reference/reality/bend",
+            "api-reference/reality/manifest",
+            "api-reference/reality/quantum"
+          ]
+        }
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintlify"
+    "x": "https://x.com/topdev",
+    "github": "https://github.com/top-dev",
+    "linkedin": "https://www.linkedin.com/company/top-dev"
   }
 }

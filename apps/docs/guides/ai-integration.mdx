@@ -1,0 +1,377 @@
+---
+title: 'AI Integration'
+description: 'Understanding how AI powers Top'
+---
+
+# AI Integration
+
+AI is at the core of Top's development environment. It powers natural conversations, understands context, suggests actions, and helps you build better software faster.
+
+## How AI Works in Top
+
+AI in Top is more than just code completion - it's an intelligent system that:
+- Understands your codebase
+- Learns from conversations
+- Suggests intelligent actions
+- Generates accurate previews
+- Maintains context awareness
+
+```typescript
+interface AI {
+  model: AIModel
+  capabilities: AICapability[]
+  context: AIContext
+  config: {
+    temperature: number
+    maxTokens: number
+    topP: number
+    provider: AIProvider
+  }
+}
+
+type AIModel =
+  | 'vertex-ai'
+  | 'gpt-4'
+  | 'claude'
+  | 'custom'
+
+type AICapability =
+  | 'code_understanding'
+  | 'natural_language'
+  | 'action_suggestion'
+  | 'preview_generation'
+  | 'documentation'
+
+interface AIContext {
+  codebase: CodebaseUnderstanding
+  conversation: ConversationHistory
+  actions: ActionHistory
+  preferences: UserPreferences
+}
+```
+
+## Core Features
+
+### 1. Natural Conversations
+```typescript
+// Have natural conversations about code
+const result = await context.ai.discuss(`
+  I want to add user authentication.
+  It should use Auth0 and support:
+  1. Social login (Google, GitHub)
+  2. Email/password
+  3. Two-factor authentication
+`)
+
+// Get AI suggestions
+const suggestions = await result.suggestions()
+
+// Execute suggested actions
+await context.actions.execute(suggestions)
+```
+
+### 2. Code Understanding
+```typescript
+// Analyze codebase
+const analysis = await context.ai.analyze({
+  path: 'src/',
+  depth: 'deep',
+  focus: ['architecture', 'patterns']
+})
+
+// Get insights
+const insights = await context.ai.insights()
+
+// Explain code
+const explanation = await context.ai.explain('src/auth/oauth.ts')
+```
+
+### 3. Action Generation
+```typescript
+// Generate actions from intent
+const actions = await context.ai.generateActions({
+  intent: 'Add authentication',
+  constraints: [
+    'Use Auth0',
+    'Follow security best practices'
+  ]
+})
+
+// Validate generated actions
+const validation = await context.ai.validate(actions)
+```
+
+### 4. Preview Enhancement
+```typescript
+// Enhance preview with AI
+const preview = await context.preview.create({
+  ai: {
+    optimize: true,
+    suggest: true,
+    validate: true
+  }
+})
+
+// Get AI suggestions for preview
+const improvements = await preview.ai.suggest()
+```
+
+### 5. Documentation Generation
+```typescript
+// Generate documentation
+const docs = await context.ai.generateDocs({
+  type: 'api',
+  format: 'mdx',
+  include: ['examples', 'best-practices']
+})
+
+// Keep docs updated
+await context.ai.watchDocs()
+```
+
+## Working with AI
+
+### 1. Configuration
+```typescript
+// Configure AI behavior
+await context.ai.configure({
+  model: 'vertex-ai',
+  temperature: 0.7,
+  maxTokens: 2048,
+  context: {
+    depth: 'medium',
+    history: '7d'
+  }
+})
+```
+
+### 2. Context Management
+```typescript
+// Manage AI context
+await context.ai.context.add({
+  type: 'preference',
+  data: {
+    style: 'typescript',
+    patterns: ['repository']
+  }
+})
+
+// Clear specific context
+await context.ai.context.clear(['conversation'])
+```
+
+### 3. Learning
+```typescript
+// Train on your codebase
+await context.ai.learn({
+  source: 'src/',
+  patterns: ['*.ts', '*.tsx'],
+  exclude: ['*.test.ts']
+})
+
+// Add custom examples
+await context.ai.addExamples([
+  {
+    input: 'Add auth',
+    output: generatedAuthCode
+  }
+])
+```
+
+### 4. Customization
+```typescript
+// Add custom AI capabilities
+await context.ai.extend({
+  name: 'security-check',
+  handler: async (code) => {
+    return await analyzeSecurityIssues(code)
+  }
+})
+
+// Use custom capability
+const security = await context.ai.run('security-check')
+```
+
+### 5. Feedback Loop
+```typescript
+// Provide feedback
+await context.ai.feedback({
+  suggestion: suggestion.id,
+  helpful: true,
+  comments: 'Perfect solution'
+})
+
+// Track AI performance
+const metrics = await context.ai.metrics()
+```
+
+## Best Practices
+
+### 1. Clear Communication
+```typescript
+// Good
+const result = await context.ai.discuss(
+  'Add email verification using JWT tokens'
+)
+
+// Less Good
+const result = await context.ai.discuss(
+  'Make auth better'
+)
+```
+
+### 2. Context Optimization
+```typescript
+// Optimize context for performance
+await context.ai.optimize({
+  contextWindow: '30d',
+  relevanceThreshold: 0.8,
+  cacheStrategy: 'aggressive'
+})
+```
+
+### 3. Error Handling
+```typescript
+// Handle AI errors gracefully
+try {
+  await context.ai.suggest()
+} catch (error) {
+  if (error.type === 'context_overflow') {
+    await context.ai.context.optimize()
+    await context.ai.retry()
+  }
+}
+```
+
+### 4. Model Selection
+```typescript
+// Choose appropriate model
+await context.ai.selectModel({
+  task: 'code_generation',
+  complexity: 'high',
+  speed: 'fast'
+})
+```
+
+### 5. Resource Management
+```typescript
+// Manage AI resources
+await context.ai.resources.configure({
+  maxConcurrent: 5,
+  timeout: 30000,
+  retries: 3
+})
+```
+
+## Advanced Features
+
+### 1. Custom Models
+```typescript
+// Define custom model
+await context.ai.defineModel({
+  name: 'company-gpt',
+  base: 'vertex-ai',
+  fine_tuning: {
+    data: './training/',
+    epochs: 3
+  }
+})
+```
+
+### 2. Chain of Thought
+```typescript
+// Enable detailed reasoning
+const result = await context.ai.reason({
+  question: 'How to structure the auth system?',
+  steps: ['analysis', 'alternatives', 'decision']
+})
+```
+
+### 3. Multi-Model Pipeline
+```typescript
+// Create AI pipeline
+const pipeline = await context.ai.pipeline([
+  {
+    model: 'vertex-ai',
+    task: 'understanding'
+  },
+  {
+    model: 'gpt-4',
+    task: 'generation'
+  }
+])
+```
+
+### 4. Embeddings
+```typescript
+// Generate code embeddings
+const embeddings = await context.ai.embed({
+  code: sourceCode,
+  type: 'semantic'
+})
+
+// Find similar code
+const similar = await context.ai.findSimilar(embeddings)
+```
+
+### 5. AI Policies
+```typescript
+// Define AI usage policies
+await context.ai.policy({
+  rules: [
+    {
+      type: 'security',
+      action: 'scan_secrets'
+    }
+  ]
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Context Overflow**
+```typescript
+// Handle large contexts
+await context.ai.context.compact({
+  strategy: 'semantic',
+  keep: ['critical', 'recent']
+})
+```
+
+2. **Model Errors**
+```typescript
+// Handle model issues
+await context.ai.diagnose()
+await context.ai.repair({
+  reset: ['model', 'cache']
+})
+```
+
+3. **Performance Problems**
+```typescript
+// Optimize performance
+await context.ai.optimize({
+  batch: true,
+  cache: true,
+  parallel: true
+})
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Contexts" icon="folder-tree" href="/guides/contexts">
+    See how AI enhances contexts
+  </Card>
+  <Card title="Actions" icon="bolt" href="/guides/actions">
+    Learn about AI-powered actions
+  </Card>
+  <Card title="Previews" icon="eye" href="/guides/previews">
+    Explore AI-enhanced previews
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/ai/configure">
+    View the AI API reference
+  </Card>
+</CardGroup> 

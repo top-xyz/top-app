@@ -1,86 +1,184 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: 'Quickstart Guide'
+description: 'Start building with Top in minutes'
 ---
 
-## Setup your development
+# Quickstart Guide
 
-Learn how to update your docs locally and and deploy them to the public.
+Get up and running with Top in just a few minutes. This guide will help you set up your development environment and create your first context.
 
-### Edit and preview
+## Installation
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+```bash
+npm install @top/cli -g
+```
 
-### Deploy your changes
+## Authentication
 
-<AccordionGroup>
+```bash
+top login
+```
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+This will open your browser to complete authentication.
 
-</AccordionGroup>
+## Create Your First Context
 
-## Update your docs
+```bash
+# Create a new context
+top create my-project
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+# Or initialize in an existing directory
+cd my-project
+top init
+```
 
-<CardGroup>
+## Start Developing
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+### 1. Open the Context
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+```bash
+top open
+```
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+This opens the Top interface in your default browser.
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
+### 2. Start a Conversation
 
+```typescript
+// Example: Adding authentication to your app
+const result = await context.discuss(`
+  I want to add user authentication.
+  It should support:
+  - Email/password login
+  - Social auth (Google, GitHub)
+  - Session management
+`)
+```
+
+### 3. Execute Actions
+
+Top will suggest actions based on your conversation:
+
+```typescript
+// Review and execute suggested actions
+await context.actions.execute([
+  'install_dependencies',
+  'configure_auth',
+  'generate_routes'
+])
+```
+
+### 4. Preview Changes
+
+```typescript
+// Generate a preview deployment
+const preview = await context.preview.create()
+console.log(`Preview URL: ${preview.url}`)
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Core Concepts" icon="book" href="/guides/contexts">
+    Learn about contexts, actions, and previews
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Explore the API documentation
+  </Card>
+  <Card title="Examples" icon="stars" href="/guides/examples">
+    See example projects and use cases
+  </Card>
+  <Card title="Configuration" icon="gear" href="/guides/configuration">
+    Configure Top for your workflow
+  </Card>
 </CardGroup>
+
+## Common Tasks
+
+### Creating a New Feature
+
+```typescript
+// Start a new feature branch
+const feature = await context.create({
+  type: 'feature',
+  name: 'user-authentication'
+})
+
+// Discuss implementation
+await feature.discuss(`
+  I want to implement user authentication
+  using Auth0 with both social and email login
+`)
+
+// Review and apply changes
+await feature.review()
+await feature.apply()
+```
+
+### Debugging Issues
+
+```typescript
+// Create a debug context
+const debug = await context.create({
+  type: 'debug',
+  issue: 'auth-token-expiry'
+})
+
+// Analyze the problem
+await debug.analyze()
+
+// Get suggestions
+const solutions = await debug.suggest()
+```
+
+### Generating Documentation
+
+```typescript
+// Generate docs for your API
+const docs = await context.docs.generate({
+  type: 'api',
+  output: './docs'
+})
+
+// Auto-update on changes
+await docs.watch()
+```
+
+## Tips & Best Practices
+
+1. **Be Specific**
+   ```typescript
+   // Good
+   await context.discuss('Add email verification using JWT tokens')
+   
+   // Less Good
+   await context.discuss('Add auth')
+   ```
+
+2. **Use Context Types**
+   - `feature` - New feature development
+   - `bug` - Bug fixes
+   - `refactor` - Code improvements
+   - `docs` - Documentation work
+
+3. **Review Changes**
+   Always review suggested changes before applying:
+   ```typescript
+   const changes = await context.diff()
+   await context.review(changes)
+   ```
+
+4. **Save Important Discussions**
+   ```typescript
+   await context.bookmark({
+     title: 'Auth Implementation Decision',
+     tags: ['architecture', 'security']
+   })
+   ```
+
+## Getting Help
+
+- Join our [Community](https://community.top.dev)
+- Check the [FAQ](/guides/faq)
+- Read the [Troubleshooting Guide](/guides/troubleshooting)
+- Contact [Support](mailto:support@top.dev)

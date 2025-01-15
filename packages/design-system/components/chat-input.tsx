@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useEffect } from 'react'
 import { Button } from './button'
 import { SendIcon } from 'lucide-react'
