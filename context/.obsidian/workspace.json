@@ -179,6 +179,9 @@
   },
   "active": "17d66ccfc704ec52",
   "lastOpenFiles": [
+    "ideas/context-to-docs/action.md",
+    "ideas/context-to-docs/thought.md",
+    "ideas/context-to-docs",
     "ideas/digital-alchemy/action.md",
     "ideas/digital-alchemy/thought.md",
     "ideas/reality-social/thought.md",
@@ -210,8 +213,6 @@
     "docs/18-marketing.md",
     "docs/17-magic-moment.md",
     "docs/16-mobile-interface.md",
-    "docs/15-preview-architecture.md",
-    "docs/14-product-vision.md",
     "docs"
   ]
 }
