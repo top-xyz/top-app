@@ -92,6 +92,7 @@ export const config: Config = {
         'glass': '0 2px 8px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
         'glass-sm': '0 1px 4px -1px rgba(0, 0, 0, 0.08)',
         'glass-lg': '0 4px 16px -2px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'text-glow': '0 0 10px rgba(var(--primary-rgb) / 0.3)',
       },
       keyframes: {
         'accordion-down': {
@@ -129,21 +130,46 @@ export const config: Config = {
         'fade-in-up': {
           '0%': { 
             opacity: '0',
-            transform: 'translateY(10px)'
+            transform: 'translateY(10px)',
+            visibility: 'hidden'
+          },
+          '1%': {
+            visibility: 'visible'
           },
           '100%': { 
             opacity: '1',
-            transform: 'translateY(0)'
+            transform: 'translateY(0)',
+            visibility: 'visible'
           },
         },
         'fade-in-scale': {
           '0%': { 
             opacity: '0',
-            transform: 'scale(0.95)'
+            transform: 'scale(0.95)',
+            visibility: 'hidden'
+          },
+          '1%': {
+            visibility: 'visible'
           },
           '100%': { 
             opacity: '1',
-            transform: 'scale(1)'
+            transform: 'scale(1)',
+            visibility: 'visible'
+          },
+        },
+        'fade-in-down': {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(-10px)',
+            visibility: 'hidden'
+          },
+          '1%': {
+            visibility: 'visible'
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'translateY(0)',
+            visibility: 'visible'
           },
         },
         'bounce-in': {
@@ -226,8 +252,42 @@ export const config: Config = {
           }
         },
         'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' }
+          '0%': { 
+            opacity: '0',
+          },
+          '100%': { 
+            opacity: '1',
+          },
+        },
+        'slide-up': {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(10px)',
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'slide-down': {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(-10px)',
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'scale-up': {
+          '0%': { 
+            opacity: '0',
+            transform: 'scale(0.95)',
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'scale(1)',
+          },
         },
         'text-stream': {
           '0%': { 
@@ -255,8 +315,9 @@ export const config: Config = {
         'gradient-flow': 'gradient-flow 3s ease infinite',
         'mist-flow-1': 'mist-flow-1 20s linear infinite',
         'mist-flow-2': 'mist-flow-2 15s linear infinite',
-        'fade-in-up': 'fade-in-up 0.3s ease-out forwards',
-        'fade-in-scale': 'fade-in-scale 0.3s ease-out forwards',
+        'fade-in-up': 'fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in-scale': 'fade-in-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in-down': 'fade-in-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'bounce-in': 'bounce-in 0.3s ease-out',
         'glass-menu-in': 'glass-menu-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards',
         'glass-menu-out': 'glass-menu-out 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards',
@@ -265,7 +326,10 @@ export const config: Config = {
         'border-pulse': 'border-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'card-press': 'card-press 100ms ease-in-out forwards',
         'slide-in-up': 'slide-in-up 0.5s ease-out forwards',
-        'fade-in': 'fade-in 0.3s ease-out forwards',
+        'fade-in': 'fade-in 0.5s ease-out forwards',
+        'slide-up': 'slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'slide-down': 'slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'scale-up': 'scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'text-stream': 'text-stream 2s ease-out forwards',
         'float-subtle': 'float-subtle 4s ease-in-out infinite',
         'float-delayed': 'float-delayed 6s ease-in-out infinite 3s',

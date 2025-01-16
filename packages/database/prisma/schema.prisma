@@ -6,106 +6,375 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-// Core user and authentication
+// User & Profile
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-  contexts  Context[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  name          String?
+  email         String    @unique
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Preferences & Settings
+  favoriteTeams TeamFollow[]
+  favoritePlayers PlayerFollow[]
+  notifications NotificationPreference[]
+
+  // Social & Engagement
+  comments     Comment[]
+  reactions    Reaction[]
+  predictions  Prediction[]
 }
 
-// Context generation and management
-model Context {
-  id           String               @id @default(cuid())
-  name         String
-  description  String?
-  userId       String
-  user         User                 @relation(fields: [userId], references: [id])
-  status       ContextStatus
-  type         ContextType
-  requirements String[]
-  files        ContextFile[]
-  interactions ContextInteraction[]
-  deployments  ContextDeployment[]
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
+model NotificationPreference {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  type        NotificationType
+  enabled     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  @@index([userId])
+  @@unique([userId, type])
 }
 
-// Generated files within a context
-model ContextFile {
-  id        String   @id @default(cuid())
-  contextId String
-  context   Context  @relation(fields: [contextId], references: [id])
-  path      String
-  content   String
-  metadata  Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Core Football Entities
+model Team {
+  id            String    @id @default(cuid())
+  name          String
+  shortName     String
+  logo          String?
+  founded       Int?
+  colors        Json?     // Primary and secondary colors
+  venue         String?
+  country       String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  @@unique([contextId, path])
-  @@index([contextId])
+  // Relations
+  players       Player[]
+  homeMatches   Match[]   @relation("HomeTeam")
+  awayMatches   Match[]   @relation("AwayTeam")
+  followers     TeamFollow[]
+  competitions  TeamCompetition[]
+  statistics    TeamStatistics[]
 }
 
-// Track all interactions during context generation
-model ContextInteraction {
-  id        String          @id @default(cuid())
-  contextId String
-  context   Context         @relation(fields: [contextId], references: [id])
-  type      InteractionType
-  content   String
-  metadata  Json?
-  createdAt DateTime        @default(now())
+model Player {
+  id            String    @id @default(cuid())
+  name          String
+  shortName     String?
+  image         String?
+  nationality   String
+  birthDate     DateTime?
+  position      Position
+  number        Int?
+  height        Int?      // in cm
+  weight        Int?      // in kg
+  foot          Foot?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  @@index([contextId])
+  // Relations
+  team          Team?     @relation(fields: [teamId], references: [id])
+  teamId        String?
+  followers     PlayerFollow[]
+  statistics    PlayerStatistics[]
+  matchEvents   MatchEvent[]
+  transferHistory Transfer[]
 }
 
-// Preview deployments
-model ContextDeployment {
-  id        String           @id @default(cuid())
-  contextId String
-  context   Context          @relation(fields: [contextId], references: [id])
-  url       String
-  status    DeploymentStatus
-  metadata  Json?
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+model Competition {
+  id            String    @id @default(cuid())
+  name          String
+  shortName     String
+  logo          String?
+  type          CompetitionType
+  country       String?
+  season        Int       // e.g., 2023 for 2023/24
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  @@index([contextId])
+  // Relations
+  teams         TeamCompetition[]
+  matches       Match[]
+  standings     Standing[]
 }
 
-// Enums for type safety
-enum ContextStatus {
-  PENDING
-  QUESTIONING
-  GENERATING
-  COMPLETE
-  FAILED
+// Match & Events
+model Match {
+  id            String    @id @default(cuid())
+  competitionId String
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  homeTeamId    String
+  homeTeam      Team      @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeamId    String
+  awayTeam      Team      @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  startTime     DateTime
+  status        MatchStatus
+  score         Json?     // { home: number, away: number }
+  venue         String?
+  referee       String?
+  attendance    Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  events        MatchEvent[]
+  statistics    MatchStatistics[]
+  predictions   Prediction[]
+  comments      Comment[]
+  reactions     Reaction[]
 }
 
-enum ContextType {
-  TEMPLATE
-  CUSTOM
-  FORK
+model MatchEvent {
+  id            String    @id @default(cuid())
+  matchId       String
+  match         Match     @relation(fields: [matchId], references: [id])
+  type          EventType
+  minute        Int
+  playerId      String?
+  player        Player?   @relation(fields: [playerId], references: [id])
+  detail        Json?     // Additional event details
+  createdAt     DateTime  @default(now())
+
+  @@index([matchId, minute])
 }
 
-enum InteractionType {
-  SYSTEM
-  USER
-  AI
-  ERROR
+// Statistics
+model TeamStatistics {
+  id            String    @id @default(cuid())
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id])
+  season        Int
+  type          StatisticType
+  value         Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([teamId, season, type])
 }
 
-enum DeploymentStatus {
-  PENDING
-  DEPLOYING
-  READY
-  FAILED
+model PlayerStatistics {
+  id            String    @id @default(cuid())
+  playerId      String
+  player        Player    @relation(fields: [playerId], references: [id])
+  season        Int
+  type          StatisticType
+  value         Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([playerId, season, type])
+}
+
+model MatchStatistics {
+  id            String    @id @default(cuid())
+  matchId       String
+  match         Match     @relation(fields: [matchId], references: [id])
+  type          StatisticType
+  homeValue     Float
+  awayValue     Float
+  createdAt     DateTime  @default(now())
+
+  @@unique([matchId, type])
+}
+
+// Standings & Rankings
+model Standing {
+  id              String    @id @default(cuid())
+  competitionId   String
+  competition     Competition @relation(fields: [competitionId], references: [id])
+  teamId          String
+  position        Int
+  played          Int
+  won             Int
+  drawn           Int
+  lost            Int
+  goalsFor        Int
+  goalsAgainst    Int
+  points          Int
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([competitionId, teamId])
+  @@index([competitionId, position])
+}
+
+// Social & Engagement
+model Comment {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  matchId       String
+  match         Match     @relation(fields: [matchId], references: [id])
+  content       String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([matchId, createdAt])
+}
+
+model Reaction {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  matchId       String
+  match         Match     @relation(fields: [matchId], references: [id])
+  type          ReactionType
+  createdAt     DateTime  @default(now())
+
+  @@unique([userId, matchId, type])
+}
+
+model Prediction {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  matchId       String
+  match         Match     @relation(fields: [matchId], references: [id])
+  homeScore     Int
+  awayScore     Int
+  points        Int?      // Points earned for correct prediction
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([userId, matchId])
+}
+
+// Following & Preferences
+model TeamFollow {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id])
+  createdAt     DateTime  @default(now())
+
+  @@unique([userId, teamId])
+}
+
+model PlayerFollow {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  playerId      String
+  player        Player    @relation(fields: [playerId], references: [id])
+  createdAt     DateTime  @default(now())
+
+  @@unique([userId, playerId])
+}
+
+// Transfer Market
+model Transfer {
+  id            String    @id @default(cuid())
+  playerId      String
+  player        Player    @relation(fields: [playerId], references: [id])
+  fromTeam      String?
+  toTeam        String?
+  fee           Decimal?
+  currency      String?
+  date          DateTime
+  type          TransferType
+  createdAt     DateTime  @default(now())
+
+  @@index([playerId, date])
+}
+
+// Join Tables
+model TeamCompetition {
+  id              String    @id @default(cuid())
+  teamId          String
+  team            Team      @relation(fields: [teamId], references: [id])
+  competitionId   String
+  competition     Competition @relation(fields: [competitionId], references: [id])
+  season          Int
+  createdAt       DateTime  @default(now())
+
+  @@unique([teamId, competitionId, season])
+}
+
+// Enums
+enum Position {
+  GOALKEEPER
+  DEFENDER
+  MIDFIELDER
+  FORWARD
+}
+
+enum Foot {
+  LEFT
+  RIGHT
+  BOTH
+}
+
+enum CompetitionType {
+  LEAGUE
+  CUP
+  INTERNATIONAL
+}
+
+enum MatchStatus {
+  SCHEDULED
+  LIVE
+  FINISHED
+  POSTPONED
+  CANCELLED
+}
+
+enum EventType {
+  GOAL
+  ASSIST
+  YELLOW_CARD
+  RED_CARD
+  SUBSTITUTION
+  PENALTY_MISSED
+  OWN_GOAL
+  VAR
+}
+
+enum StatisticType {
+  GOALS
+  ASSISTS
+  SHOTS
+  SHOTS_ON_TARGET
+  PASSES
+  PASS_ACCURACY
+  TACKLES
+  FOULS
+  POSSESSION
+  SAVES
+  CLEAN_SHEETS
+  MINUTES_PLAYED
+}
+
+enum NotificationType {
+  MATCH_START
+  MATCH_END
+  GOAL
+  RED_CARD
+  TEAM_NEWS
+  TRANSFER_NEWS
+}
+
+enum ReactionType {
+  LIKE
+  CELEBRATE
+  SAD
+  ANGRY
+}
+
+enum TransferType {
+  PERMANENT
+  LOAN
+  FREE
+  RETURN_FROM_LOAN
 }

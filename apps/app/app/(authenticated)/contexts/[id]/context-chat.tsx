@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@repo/design-system'
-import { ChatInput } from '@repo/design-system'
+import { ChatInput } from '@repo/design-system/components/chat-input'
 import { sendMessage, regenerateResponse } from './actions'
 
 interface Interaction {
@@ -52,7 +52,7 @@ export function ContextChat({ context }: { context: Context }) {
 
       <div className="flex flex-col gap-2">
         <ChatInput
-          onSubmit={async (message) => {
+          onSubmit={async (message: string) => {
             await sendMessage(context.id, message)
           }}
           onRegenerate={async () => {

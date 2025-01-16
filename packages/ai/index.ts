@@ -13,4 +13,13 @@ export * from './lib/providers/registry'
 
 // Create default registry instance
 import { AIProviderRegistry } from './lib/providers/registry'
+import { ContextGenerationPipeline } from './lib/context/pipeline'
+
+// Create and export instances
 export const providerRegistry = new AIProviderRegistry()
+export const aiPipeline = new ContextGenerationPipeline(providerRegistry)
+
+export type {
+  ContextGenerationInput,
+  GeneratedContext
+} from './lib/context/types'

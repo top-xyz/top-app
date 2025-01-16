@@ -1,108 +1,118 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { auth } from '@repo/auth';
-import { db } from '@repo/database';
+import { auth } from '@repo/auth/server'
+import { database } from '@repo/database'
+import { pubsub } from '@repo/notifications/pubsub'
+import { z } from 'zod'
 
-// Input validation schemas
 const updateContextSchema = z.object({
-  title: z.string().optional(),
+  title: z.string().min(1).max(100).optional(),
   description: z.string().optional(),
-  requirements: z.array(z.string()).optional(),
-  config: z.record(z.any()).optional(),
-  status: z.enum(['setup', 'active', 'completed']).optional(),
-});
+  visibility: z.enum(['PUBLIC', 'PRIVATE']).optional()
+})
 
 export async function GET(
-  req: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate request
-    const session = await auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { userId } = auth()
+    if (!userId) {
+      return new Response('Unauthorized', { status: 401 })
     }
 
-    // Get context with messages and actions
-    const context = await db.context.findUnique({
+    const context = await database.context.findUnique({
       where: {
         id: params.id,
-        userId: session.user.id
+        OR: [
+          { userId },
+          { visibility: 'PUBLIC' }
+        ]
       },
       include: {
-        messages: true,
-        actions: true,
-        previews: true
+        interactions: true
       }
-    });
+    })
 
     if (!context) {
-      return NextResponse.json({ error: 'Context not found' }, { status: 404 });
+      return new Response('Not found', { status: 404 })
     }
 
-    return NextResponse.json(context);
+    return Response.json(context)
   } catch (error) {
-    console.error('Error fetching context:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error fetching context:', error)
+    return new Response('Internal server error', { status: 500 })
   }
 }
 
 export async function PATCH(
-  req: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate request
-    const session = await auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const session = await auth()
+    if (!session?.userId) {
+      return new Response('Unauthorized', { status: 401 })
     }
 
-    // Parse and validate request body
-    const body = await req.json();
-    const validatedData = updateContextSchema.parse(body);
+    const json = await request.json()
+    const result = updateContextSchema.safeParse(json)
+    if (!result.success) {
+      return new Response('Invalid input', { status: 400 })
+    }
 
-    // Update context
-    const context = await db.context.update({
+    const context = await database.context.update({
       where: {
         id: params.id,
-        userId: session.user.id
+        userId: session.userId
       },
-      data: validatedData
-    });
+      data: result.data
+    })
 
-    return NextResponse.json(context);
+    // Publish update
+    await pubsub.publish(`context:${params.id}`, {
+      type: 'updated',
+      contextId: params.id,
+      data: context,
+      timestamp: new Date().toISOString()
+    })
+
+    return Response.json(context)
   } catch (error) {
-    console.error('Error updating context:', error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error updating context:', error)
+    return new Response('Internal server error', { status: 500 })
   }
 }
 
 export async function DELETE(
-  req: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authenticate request
-    const session = await auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const session = await auth()
+    if (!session?.userId) {
+      return new Response('Unauthorized', { status: 401 })
     }
 
-    // Delete context and all related data
-    await db.context.delete({
+    // Delete context
+    await database.context.delete({
       where: {
         id: params.id,
-        userId: session.user.id
+        userId: session.userId
       }
-    });
+    })
 
-    return new NextResponse(null, { status: 204 });
+    // Publish deletion event
+    await pubsub.publish(`context:${params.id}`, {
+      type: 'deleted',
+      contextId: params.id,
+      timestamp: new Date().toISOString()
+    })
+
+    // Clean up subscriptions
+    await pubsub.cleanup(`context:${params.id}`)
+
+    return new Response(null, { status: 204 })
   } catch (error) {
-    console.error('Error deleting context:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error deleting context:', error)
+    return new Response('Internal server error', { status: 500 })
   }
 } 

@@ -1,76 +1,84 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { auth } from '@repo/auth';
-import { db } from '@repo/database';
+import { auth } from '@repo/auth/server'
+import { database } from '@repo/database'
+import { analytics } from '@repo/analytics/posthog/server'
+import { notifications } from '@repo/notifications'
+import { z } from 'zod'
 
-// Input validation schemas
+// Input validation
 const createContextSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1).max(100),
   description: z.string().optional(),
-  requirements: z.array(z.string()).optional(),
-  config: z.record(z.any()).optional(),
-});
+  type: z.enum(['TEMPLATE', 'CUSTOM', 'FORK']),
+  visibility: z.enum(['PUBLIC', 'PRIVATE']).default('PRIVATE')
+})
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    // Authenticate request
-    const session = await auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Auth check
+    const { userId } = auth()
+    if (!userId) {
+      return new Response('Unauthorized', { status: 401 })
     }
 
-    // Parse and validate request body
-    const body = await req.json();
-    const validatedData = createContextSchema.parse(body);
+    // Validate input
+    const json = await request.json()
+    const result = createContextSchema.safeParse(json)
+    if (!result.success) {
+      return new Response('Invalid input', { status: 400 })
+    }
 
     // Create context
-    const context = await db.context.create({
+    const context = await database.context.create({
       data: {
-        userId: session.user.id,
-        title: validatedData.title,
-        description: validatedData.description,
-        requirements: validatedData.requirements,
-        config: validatedData.config,
-        status: 'setup',
-        flow: {
-          resistance: 'none',
-          friction: 'minimal',
-          direction: 'natural'
-        }
+        ...result.data,
+        userId,
+        status: 'PENDING'
       }
-    });
+    })
 
-    return NextResponse.json(context, { status: 201 });
+    // Track event
+    await analytics.capture({
+      event: 'context.created',
+      distinctId: userId,
+      properties: {
+        contextId: context.id,
+        type: context.type
+      }
+    })
+
+    // Send notification
+    await notifications.notify(userId, {
+      type: 'context.created',
+      contextId: context.id
+    })
+
+    return Response.json(context)
   } catch (error) {
-    console.error('Error creating context:', error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error creating context:', error)
+    return new Response('Internal server error', { status: 500 })
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(request: Request) {
   try {
-    // Authenticate request
-    const session = await auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { userId } = auth()
+    if (!userId) {
+      return new Response('Unauthorized', { status: 401 })
     }
 
-    // Get contexts for user
-    const contexts = await db.context.findMany({
+    const contexts = await database.context.findMany({
       where: {
-        userId: session.user.id
+        OR: [
+          { userId },
+          { visibility: 'PUBLIC' }
+        ]
       },
-      orderBy: {
-        updatedAt: 'desc'
-      }
-    });
+      orderBy: { createdAt: 'desc' }
+    })
 
-    return NextResponse.json(contexts);
+    return Response.json(contexts)
   } catch (error) {
-    console.error('Error fetching contexts:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Error fetching contexts:', error)
+    return new Response('Internal server error', { status: 500 })
   }
 } 

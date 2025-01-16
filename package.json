@@ -4,9 +4,12 @@
   "bin": {
     "next-forge": "scripts/index.mjs"
   },
-  "files": ["scripts/*.mjs"],
+  "files": [
+    "scripts/*.mjs"
+  ],
   "scripts": {
     "build": "turbo build --filter=!app",
+    "build:apps": "turbo build --filter=app... --filter=api...",
     "dev": "turbo dev --filter=!app",
     "lint": "ultracite lint",
     "format": "ultracite format",
@@ -38,7 +41,9 @@
     "@inquirer/prompts": "^7.2.3",
     "chalk": "^5.4.1",
     "commander": "^13.0.0",
+    "date-fns": "^4.1.0",
     "ora": "^8.1.1",
-    "react-syntax-highlighter": "^15.6.1"
+    "react-syntax-highlighter": "^15.6.1",
+    "sonner": "^1.7.1"
   }
 }
