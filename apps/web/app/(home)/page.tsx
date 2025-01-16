@@ -8,6 +8,7 @@ import { LiveDemoSection } from '@/components/marketing/sections/live-demo'
 import { ContextManagementSection } from '@/components/marketing/sections/context-management'
 import { ProFeaturesSection } from '@/components/marketing/sections/pro-features'
 import { Footer } from '@/components/marketing/footer'
+import { DownloadCTA } from '@/components/marketing/sections/home/download-cta'
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
         <LiveDemoSection />
         <ContextManagementSection />
         <ProFeaturesSection />
+        <DownloadCTA />
       </main>
       <Footer />
     </div>

@@ -85,7 +85,6 @@ export function Footer() {
   return (
     <footer className={cn(
       "relative mt-24",
-      // Enhanced glass effect
       "before:absolute before:inset-0 before:bg-background/50",
       "before:backdrop-blur-xl before:backdrop-saturate-150",
       "before:border-t before:border-border/50",
@@ -113,11 +112,8 @@ export function Footer() {
 
       {/* Main Footer - Improved Layout */}
       <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className={cn(
-          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12",
-          "relative"
-        )}>
-          {/* Newsletter Section - Refined Proportions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 relative">
+          {/* Newsletter Section */}
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4 max-w-md">
               <h3 className={cn(
@@ -181,12 +177,9 @@ export function Footer() {
             </form>
           </div>
 
-          {/* Navigation Links - Enhanced */}
+          {/* Navigation Links */}
           {Object.entries(footerLinks).map(([key, section]) => (
-            <div key={key} className={cn(
-              "space-y-4",
-              "transform-gpu transition-transform hover:translate-y-[-2px]"
-            )}>
+            <div key={key} className="space-y-4">
               <h3 className="text-sm font-semibold">{section.title}</h3>
               <ul className="space-y-3">
                 {section.links.map((link) => (
@@ -197,7 +190,8 @@ export function Footer() {
                       rel={link.external ? "noopener noreferrer" : undefined}
                       className={cn(
                         "text-sm text-muted-foreground",
-                        "hover:text-foreground transition-colors",
+                        "transition-colors duration-300",
+                        "hover:text-foreground",
                         "flex items-center gap-2"
                       )}
                     >
@@ -214,7 +208,7 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar - Enhanced */}
+      {/* Bottom Bar */}
       <div className={cn(
         "border-t border-border/50",
         "bg-background/50 backdrop-blur-xl"
@@ -237,11 +231,11 @@ export function Footer() {
                   "bg-background/50 backdrop-blur-xl",
                   "border border-border/50",
                   "text-muted-foreground",
-                  "hover:text-foreground hover:border-primary/50 transition-colors",
-                  "group"
+                  "hover:text-foreground hover:border-primary/50",
+                  "transition-colors duration-300"
                 )}
               >
-                <Github className="w-5 h-5 transform group-hover:scale-110 transition-transform" />
+                <Github className="w-5 h-5" />
               </a>
               <a
                 href="https://twitter.com"
@@ -252,11 +246,11 @@ export function Footer() {
                   "bg-background/50 backdrop-blur-xl",
                   "border border-border/50",
                   "text-muted-foreground",
-                  "hover:text-foreground hover:border-primary/50 transition-colors",
-                  "group"
+                  "hover:text-foreground hover:border-primary/50",
+                  "transition-colors duration-300"
                 )}
               >
-                <Twitter className="w-5 h-5 transform group-hover:scale-110 transition-transform" />
+                <Twitter className="w-5 h-5" />
               </a>
             </div>
           </div>

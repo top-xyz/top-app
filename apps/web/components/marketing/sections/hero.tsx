@@ -4,6 +4,7 @@ import * as React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@repo/design-system/lib/utils'
 import { HeroProvider } from '@repo/ai/lib/providers/hero'
+import { useIntersectionAnimation } from '@/hooks/use-intersection-animation'
 
 interface HeroResponse {
   response: string
@@ -106,6 +107,14 @@ export function HeroSection() {
   
   const chatRef = useRef<HTMLDivElement>(null)
   const streamRef = useRef<HTMLSpanElement>(null)
+
+  // Animation refs
+  const badgeAnimation = useIntersectionAnimation<HTMLDivElement>()
+  const headlineAnimation = useIntersectionAnimation<HTMLDivElement>()
+  const promptsAnimation = useIntersectionAnimation<HTMLDivElement>()
+  const previewAnimation = useIntersectionAnimation<HTMLDivElement>()
+  const ctaAnimation = useIntersectionAnimation<HTMLDivElement>()
+  const versionAnimation = useIntersectionAnimation<HTMLDivElement>()
 
   const scrollToBottom = () => {
     if (chatRef.current) {
@@ -238,17 +247,34 @@ export function HeroSection() {
   }
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 scroll-fade">
-      <div className="text-center mb-12 space-y-8">
+    <section className="min-h-screen flex flex-col items-center justify-center px-4">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background/80" />
+      <div className={cn(
+        "absolute inset-0",
+        "bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]",
+        "bg-[size:24px_24px]",
+        "[mask-image:radial-gradient(ellipse_at_center,black_60%,transparent)]"
+      )} />
+      <div className={cn(
+        "absolute inset-0",
+        "bg-[radial-gradient(circle_500px_at_50%_200px,#000000,transparent)]"
+      )} />
+      
+      <div className="relative z-10 text-center mb-12 space-y-8">
         {/* Floating Badge */}
-        <div className={cn(
-          "inline-flex items-center gap-2 px-4 py-2 rounded-full",
-          "bg-foreground/5 border border-border/50",
-          "text-sm text-muted-foreground",
-          "group cursor-pointer hover:bg-foreground/10 hover:border-primary/50",
-          "transition-all duration-300",
-          "animate-fade-in-up"
-        )}>
+        <div 
+          ref={badgeAnimation.ref}
+          className={cn(
+            "inline-flex items-center gap-2 px-4 py-2 rounded-full",
+            "bg-foreground/5 border border-border/50",
+            "text-sm text-muted-foreground",
+            "group cursor-pointer hover:bg-foreground/10 hover:border-primary/50",
+            "transition-colors duration-300",
+            "opacity-0",
+            badgeAnimation.isVisible && "animate-fade-in"
+          )}
+        >
           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           <span className="group-hover:text-foreground transition-colors duration-300">
             Not no-code. No coding.
@@ -256,7 +282,13 @@ export function HeroSection() {
         </div>
         
         {/* Main Headline */}
-        <div className="space-y-6 animate-fade-in-up [animation-delay:200ms]">
+        <div 
+          ref={headlineAnimation.ref}
+          className={cn(
+            "space-y-6 opacity-0",
+            headlineAnimation.isVisible && "animate-slide-up"
+          )}
+        >
           <div className="space-y-2">
             <h1 className={cn(
               "text-4xl sm:text-5xl md:text-7xl font-bold font-mono",
@@ -274,11 +306,15 @@ export function HeroSection() {
         </div>
 
         {/* Preset Prompts */}
-        <div className={cn(
-          "flex flex-wrap justify-center gap-2 max-w-2xl mx-auto",
-          "animate-fade-in-up [animation-delay:300ms]"
-        )}>
-          {presetPrompts.map((prompt) => (
+        <div 
+          ref={promptsAnimation.ref}
+          className={cn(
+            "flex flex-wrap justify-center gap-2 max-w-2xl mx-auto",
+            "opacity-0",
+            promptsAnimation.isVisible && "animate-slide-up"
+          )}
+        >
+          {presetPrompts.map((prompt, i) => (
             <button
               key={prompt.title}
               onClick={() => handlePromptSelect(prompt)}
@@ -286,10 +322,14 @@ export function HeroSection() {
                 "px-4 py-2 rounded-lg text-sm",
                 "border border-border/50",
                 "hover:bg-primary/5 hover:border-primary/50",
-                "transition-all duration-300",
-                "transform hover:scale-105",
+                "transition-colors duration-300",
+                "opacity-0",
                 selectedPrompt === prompt && "bg-primary/10 border-primary/50"
               )}
+              style={{
+                animation: promptsAnimation.isVisible ? 
+                  `fade-in 0.5s ease-out forwards ${i * 50}ms` : 'none'
+              }}
             >
               {prompt.title}
             </button>
@@ -297,24 +337,37 @@ export function HeroSection() {
         </div>
         
         {/* Interactive Code Preview */}
-        <div className={cn(
-          "max-w-2xl mx-auto p-6 rounded-lg",
-          "bg-background/50 backdrop-blur-xl",
-          "border border-border/50",
-          "shadow-glow-subtle group hover:shadow-glow-primary",
-          "transition-all duration-500",
-          "animate-fade-in-up [animation-delay:400ms]",
-          "overflow-hidden relative",
-          "transform hover:scale-[1.02]",
-          "will-change-transform"
-        )}>
+        <div 
+          ref={previewAnimation.ref}
+          className={cn(
+            "relative max-w-2xl mx-auto p-6 rounded-lg",
+            "bg-background",
+            "border border-border/50",
+            "shadow-glow-subtle",
+            isTyping && "shadow-glow-primary",
+            "transition-all duration-700",
+            "opacity-0",
+            previewAnimation.isVisible && "animate-scale-up",
+            "overflow-hidden",
+            "will-change-transform will-change-opacity"
+          )}
+        >
+          {/* Animated Gradient Line */}
+          <div className={cn(
+            "absolute bottom-0 left-0 right-0 h-1",
+            "bg-gradient-to-r from-primary/50 via-primary to-primary/50",
+            "bg-[length:200%_100%]",
+            isTyping ? "animate-shimmer" : "opacity-0",
+            "transition-opacity duration-700"
+          )} />
+
           <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
             <div className="flex gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
               <div className="w-2.5 h-2.5 rounded-full bg-warning/50" />
               <div className="w-2.5 h-2.5 rounded-full bg-success/50" />
             </div>
-            <span className="font-mono transition-all duration-300">
+            <span className="font-mono transition-colors duration-300">
               {headerText}
             </span>
           </div>
@@ -328,8 +381,8 @@ export function HeroSection() {
                 key={i} 
                 className={cn(
                   "flex items-start gap-3",
-                  "transition-all duration-500",
-                  message.isNew && "animate-slide-in-up"
+                  "transition-opacity duration-500",
+                  message.isNew && "animate-slide-up"
                 )}
               >
                 <div className={cn(
@@ -341,7 +394,7 @@ export function HeroSection() {
                   <div className="relative">
                     <p className={cn(
                       message.type === 'user' ? "text-muted-foreground" : "text-foreground",
-                      "transition-all duration-300",
+                      "transition-colors duration-300",
                       message.isNew && "animate-fade-in"
                     )}>
                       {i === conversation.length - 1 && isTyping ? (
@@ -362,9 +415,11 @@ export function HeroSection() {
                           className={cn(
                             "px-2 py-1 rounded-md",
                             "bg-primary/10 text-primary font-mono",
-                            "animate-fade-in-scale",
-                            `[animation-delay:${600 + i * 100}ms]`
+                            "opacity-0"
                           )}
+                          style={{
+                            animation: `fade-in 0.5s ease-out forwards ${i * 100}ms`
+                          }}
                         >
                           {tag}
                         </span>
@@ -382,11 +437,12 @@ export function HeroSection() {
                             "bg-background/50 backdrop-blur-sm",
                             "border border-border/50",
                             "hover:bg-primary/5 hover:border-primary/50",
-                            "transition-all duration-300",
-                            "transform hover:scale-105",
-                            "animate-fade-in-up",
-                            `[animation-delay:${800 + i * 100}ms]`
+                            "transition-colors duration-300",
+                            "opacity-0"
                           )}
+                          style={{
+                            animation: `fade-in 0.5s ease-out forwards ${i * 100}ms`
+                          }}
                         >
                           {option}
                         </button>
@@ -397,25 +453,24 @@ export function HeroSection() {
               </div>
             ))}
           </div>
-
-          {/* Animated Gradient Line */}
-          <div className={cn(
-            "absolute bottom-0 left-0 right-0 h-1",
-            "bg-gradient-to-r from-primary/50 via-primary to-primary/50",
-            "animate-shimmer"
-          )} />
         </div>
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up [animation-delay:800ms]">
+      <div 
+        ref={ctaAnimation.ref}
+        className={cn(
+          "flex flex-col sm:flex-row items-center gap-4",
+          "opacity-0",
+          ctaAnimation.isVisible && "animate-slide-up"
+        )}
+      >
         <button className={cn(
           "group relative px-8 py-4 rounded-lg font-medium",
           "bg-foreground text-background",
-          "hover:opacity-90 transition-all duration-300",
+          "hover:opacity-90 transition-opacity duration-300",
           "shadow-glow-primary hover:shadow-glow-primary/50",
           "flex items-center gap-2 overflow-hidden",
-          "transform hover:scale-[1.02] active:scale-[0.98]",
           "will-change-transform"
         )}>
           <div className="absolute inset-0 bg-primary/20 translate-x-[-100%] skew-x-12 group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -425,9 +480,8 @@ export function HeroSection() {
         <button className={cn(
           "group px-8 py-4 rounded-lg font-medium",
           "border border-border/50",
-          "hover:bg-muted/50 transition-all duration-300",
+          "hover:bg-muted/50 transition-colors duration-300",
           "flex items-center gap-2",
-          "transform hover:scale-[1.02] active:scale-[0.98]",
           "will-change-transform"
         )}>
           <span>View Examples</span>
@@ -436,11 +490,15 @@ export function HeroSection() {
       </div>
 
       {/* Version Info */}
-      <div className={cn(
-        "mt-8 text-sm text-muted-foreground font-mono",
-        "flex items-center gap-4",
-        "animate-fade-in-up [animation-delay:1000ms]"
-      )}>
+      <div 
+        ref={versionAnimation.ref}
+        className={cn(
+          "mt-8 text-sm text-muted-foreground font-mono",
+          "flex items-center gap-4",
+          "opacity-0",
+          versionAnimation.isVisible && "animate-fade-in"
+        )}
+      >
         <span className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
           v0.1.0

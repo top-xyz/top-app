@@ -39,10 +39,8 @@ export const Hero = async () => {
               This is the start of something new
             </h1>
             <p className="max-w-2xl text-center text-lg text-muted-foreground leading-relaxed tracking-tight md:text-xl">
-              Managing a small business today is already tough. Avoid further
-              complications by ditching outdated, tedious trade methods. Our
-              goal is to streamline SMB trade, making it easier and faster than
-              ever.
+              Transform your business operations with intelligent trade solutions. We're building the future of B2B commerce, 
+              making transactions smoother, faster, and more efficient than ever before.
             </p>
           </div>
           <div className="flex flex-row gap-3">

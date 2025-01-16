@@ -1,0 +1,36 @@
+import {
+  Search,
+  GitBranch,
+  FileText,
+  GitPullRequest,
+  Plus,
+  Trash,
+  Play,
+  Rocket,
+  Terminal,
+  Brain,
+  Folder,
+  Zap,
+  GitCommit,
+  Loader2,
+  Box,
+  // Add other icons as needed
+} from 'lucide-react'
+
+export const Icons = {
+  search: Search,
+  gitBranch: GitBranch,
+  fileText: FileText,
+  gitPullRequest: GitPullRequest,
+  plus: Plus,
+  trash: Trash,
+  play: Play,
+  rocket: Rocket,
+  terminal: Terminal,
+  brain: Brain,
+  folder: Folder,
+  zap: Zap,
+  gitCommit: GitCommit,
+  cube: Box,
+  spinner: Loader2,
+} 

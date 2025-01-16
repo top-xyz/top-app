@@ -17,6 +17,7 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import Logo from './logo.svg';
+import { UserNav } from '@/components/user-nav';
 
 export const Header = () => {
   const navigationItems = [
@@ -136,12 +137,7 @@ export const Header = () => {
           <div className="hidden md:inline">
             <ModeToggle />
           </div>
-          <Button variant="outline" asChild className="hidden md:inline">
-            <Link href={`${env.NEXT_PUBLIC_APP_URL}/sign-in`}>Sign in</Link>
-          </Button>
-          <Button asChild>
-            <Link href={`${env.NEXT_PUBLIC_APP_URL}/sign-up`}>Get started</Link>
-          </Button>
+          <UserNav />
         </div>
         <div className="flex w-12 shrink items-end justify-end lg:hidden">
           <Button variant="ghost" onClick={() => setOpen(!isOpen)}>

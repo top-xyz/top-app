@@ -1,44 +1,28 @@
-import { env } from '@/env';
-import { authMiddleware } from '@repo/auth/middleware';
-import { parseError } from '@repo/observability/error';
-import { secure } from '@repo/security';
-import {
-  noseconeMiddleware,
-  noseconeOptions,
-  noseconeOptionsWithToolbar,
-} from '@repo/security/middleware';
-import { NextResponse } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
+// Create a matcher for public routes
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/blog",
+  "/pricing"
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (isPublicRoute(req)) {
+    return NextResponse.next();
+  }
+
+  // If the user is not signed in and the route is private, redirect to sign-in
+  if (!auth.userId) {
+    const signInUrl = new URL('/sign-in', req.url);
+    signInUrl.searchParams.set('redirect_url', req.nextUrl.pathname);
+    return NextResponse.redirect(signInUrl);
+  }
+
+  return NextResponse.next();
+});
 
 export const config = {
-  // matcher tells Next.js which routes to run the middleware on. This runs the
-  // middleware on all routes except for static assets and Posthog ingest
-  matcher: ['/((?!_next/static|_next/image|ingest|favicon.ico).*)'],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
-
-const securityHeaders = env.FLAGS_SECRET
-  ? noseconeMiddleware(noseconeOptionsWithToolbar)
-  : noseconeMiddleware(noseconeOptions);
-
-export default authMiddleware(async (_auth, request) => {
-  if (!env.ARCJET_KEY) {
-    return securityHeaders();
-  }
-
-  try {
-    await secure(
-      [
-        // See https://docs.arcjet.com/bot-protection/identifying-bots
-        'CATEGORY:SEARCH_ENGINE', // Allow search engines
-        'CATEGORY:PREVIEW', // Allow preview links to show OG images
-        'CATEGORY:MONITOR', // Allow uptime monitoring services
-      ],
-      request
-    );
-
-    return securityHeaders();
-  } catch (error) {
-    const message = parseError(error);
-
-    return NextResponse.json({ error: message }, { status: 403 });
-  }
-});
