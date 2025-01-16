@@ -1,0 +1,508 @@
+---
+title: 'Collaboration'
+description: "Building together with Top's collaborative features"
+---
+
+# Collaborative Development
+
+Top reimagines collaborative development by seamlessly integrating real-time collaboration, smart contexts, and preview systems into a unified experience. This guide explains how to leverage Top's collaborative features to build better software together.
+
+## Core Concepts
+
+### Collaborative Environment
+
+```typescript
+interface CollaborativeEnvironment {
+  // Core components
+  components: {
+    realtime: RealtimeEngine      // Live collaboration
+    contexts: ContextManager      // Shared contexts
+    previews: PreviewSystem      // Live previews
+    notifications: NotifySystem   // Team awareness
+  }
+  
+  // Team configuration
+  team: {
+    members: TeamMember[]        // Team composition
+    permissions: Permissions     // Access control
+    preferences: Preferences     // Team settings
+  }
+  
+  // Features
+  features: {
+    presence: boolean           // Who's working on what
+    awareness: boolean         // Team activity awareness
+    synchronization: boolean   // State synchronization
+  }
+}
+```
+
+## Collaborative Features
+
+### 1. Live Co-Creation
+
+```typescript
+// Start collaborative session
+const session = await top.collaboration.createSession({
+  name: "feature-development",
+  type: "co-creation",
+  participants: ["team@company.com"],
+  context: {
+    shared: true,
+    sync: "real-time"
+  }
+})
+
+// Enable presence awareness
+await session.enablePresence({
+  features: {
+    cursors: true,          // Show cursor positions
+    selections: true,       // Show text selections
+    intentions: true,       // Show planned changes
+    focus: true            // Show focused files
+  },
+  updates: {
+    frequency: "real-time",
+    debounce: 100
+  }
+})
+
+// Configure shared context
+await session.configureContext({
+  sharing: {
+    code: true,
+    terminal: true,
+    previews: true
+  },
+  persistence: {
+    enabled: true,
+    history: "infinite"
+  }
+})
+```
+
+### 2. Smart Workspaces
+
+```typescript
+// Create team workspace
+const workspace = await top.collaboration.createWorkspace({
+  name: "product-team",
+  type: "smart",
+  features: {
+    contextSharing: true,
+    codeIntelligence: true,
+    previewSync: true
+  }
+})
+
+// Configure workspace intelligence
+await workspace.configureIntelligence({
+  learning: {
+    teamPatterns: true,      // Learn team patterns
+    codeStyles: true,        // Adapt to team style
+    workflows: true          // Optimize workflows
+  },
+  assistance: {
+    suggestions: true,       // Smart suggestions
+    automation: true,        // Workflow automation
+    documentation: true      // Auto-documentation
+  }
+})
+
+// Set up workspace integrations
+await workspace.configureIntegrations({
+  tools: [
+    {
+      type: "version-control",
+      provider: "github",
+      sync: "bidirectional"
+    },
+    {
+      type: "communication",
+      provider: "slack",
+      events: ["reviews", "deploys"]
+    },
+    {
+      type: "project-management",
+      provider: "linear",
+      sync: ["tickets", "status"]
+    }
+  ]
+})
+```
+
+### 3. Live Preview Collaboration
+
+```typescript
+// Create collaborative preview
+const preview = await session.createCollaborativePreview({
+  type: "full-stack",
+  sharing: {
+    view: "synchronized",    // Everyone sees the same
+    control: "democratic"    // Anyone can control
+  },
+  features: {
+    comments: true,          // In-preview comments
+    annotations: true,       // Visual annotations
+    recordings: true         // Record sessions
+  }
+})
+
+// Enable preview interactions
+await preview.enableInteractions({
+  types: [
+    "click",                // Track clicks
+    "scroll",               // Track scrolling
+    "form-input",          // Track input
+    "navigation"           // Track navigation
+  ],
+  visualization: {
+    heatmap: true,         // Show interaction heatmap
+    playback: true         // Replay interactions
+  }
+})
+
+// Configure preview sync
+await preview.configureSync({
+  state: {
+    sync: true,            // Sync state
+    merge: "intelligent"   // Smart state merging
+  },
+  resources: {
+    cache: true,           // Cache resources
+    prefetch: true         // Predictive loading
+  }
+})
+```
+
+## Collaborative Workflows
+
+### 1. Team Development Flow
+
+```typescript
+// Configure team workflow
+await workspace.configureWorkflow({
+  flow: {
+    type: "trunk-based",
+    automation: {
+      reviews: "automatic",
+      merges: "protected",
+      deploys: "continuous"
+    }
+  },
+  quality: {
+    gates: {
+      "code-review": { required: true, reviewers: 2 },
+      "tests": { coverage: 80, performance: true },
+      "preview": { required: true, smoke_tests: true }
+    }
+  },
+  notifications: {
+    channels: {
+      "high-priority": ["slack", "email"],
+      "routine": ["slack"],
+      "fyi": ["dashboard"]
+    }
+  }
+})
+```
+
+### 2. Pair Programming Plus
+
+```typescript
+// Start pair session
+const pairSession = await top.collaboration.createPairSession({
+  type: "enhanced",
+  features: {
+    codeshare: true,          // Shared code editing
+    terminalshare: true,      // Shared terminal
+    previewshare: true,       // Shared preview
+    voicechat: true           // Built-in voice
+  }
+})
+
+// Enable AI assistance
+await pairSession.enableAssistance({
+  capabilities: {
+    suggestions: true,        // Code suggestions
+    explanations: true,       // Code explanations
+    refactoring: true,        // Refactoring help
+    documentation: true       // Doc generation
+  },
+  learning: {
+    style: "adaptive",        // Adapt to pair style
+    context: "session"        // Session context
+  }
+})
+
+// Configure session recording
+await pairSession.configureRecording({
+  elements: {
+    code: true,              // Record code changes
+    terminal: true,          // Record terminal
+    voice: true,             // Record voice
+    preview: true            // Record preview
+  },
+  processing: {
+    transcription: true,     // Voice to text
+    indexing: true,          // Searchable
+    highlights: true         // Key moments
+  }
+})
+```
+
+### 3. Async Collaboration
+
+```typescript
+// Configure async workflow
+await workspace.configureAsyncCollaboration({
+  handoff: {
+    context: {
+      capture: true,         // Capture context
+      restore: true,         // Restore context
+      continue: true         // Continue seamlessly
+    },
+    documentation: {
+      automatic: true,       // Auto-document changes
+      format: "rich",        // Rich formatting
+      links: true           // Context links
+    }
+  },
+  communication: {
+    threads: {
+      inline: true,          // In-code threads
+      resolution: true,      // Thread resolution
+      notification: true     // Thread alerts
+    },
+    updates: {
+      digest: "smart",       // Smart update digest
+      priority: "adaptive",  // Adaptive priority
+      delivery: "timezone"   // Timezone aware
+    }
+  }
+})
+```
+
+## Best Practices
+
+### 1. Team Organization
+
+```typescript
+// Configure team structure
+await workspace.configureTeam({
+  structure: {
+    type: "fluid",           // Fluid team structure
+    roles: {
+      "lead": ["manage", "approve", "deploy"],
+      "senior": ["review", "merge", "preview"],
+      "member": ["develop", "test", "share"]
+    }
+  },
+  onboarding: {
+    automatic: true,         // Auto onboarding
+    materials: true,         // Team materials
+    mentorship: true         // Auto mentorship
+  },
+  culture: {
+    feedback: "continuous",  // Continuous feedback
+    learning: "encouraged",  // Learning culture
+    sharing: "rewarded"      // Knowledge sharing
+  }
+})
+```
+
+### 2. Communication Patterns
+
+```typescript
+// Configure communication
+await workspace.configureCommunication({
+  channels: {
+    "code": {
+      type: "inline",
+      features: ["threads", "mentions", "reactions"]
+    },
+    "design": {
+      type: "visual",
+      features: ["annotations", "versions", "feedback"]
+    },
+    "planning": {
+      type: "structured",
+      features: ["tasks", "timelines", "goals"]
+    }
+  },
+  integration: {
+    unified: true,           // Unified inbox
+    context: true,           // Contextual comms
+    ai: true                 // AI assistance
+  }
+})
+```
+
+### 3. Knowledge Sharing
+
+```typescript
+// Configure knowledge sharing
+await workspace.configureKnowledge({
+  capture: {
+    automatic: true,         // Auto capture
+    sources: [
+      "code-changes",
+      "discussions",
+      "decisions",
+      "reviews"
+    ]
+  },
+  organization: {
+    structure: "graph",      // Knowledge graph
+    linking: "automatic",    // Auto linking
+    discovery: "smart"       // Smart discovery
+  },
+  access: {
+    search: "natural",       // Natural search
+    suggestions: "context",  // Contextual suggestions
+    sharing: "seamless"      // Easy sharing
+  }
+})
+```
+
+## Advanced Features
+
+### 1. Collaborative Intelligence
+
+```typescript
+// Enable team intelligence
+await workspace.enableTeamIntelligence({
+  learning: {
+    patterns: {
+      code: true,            // Code patterns
+      workflow: true,        // Work patterns
+      communication: true    // Comm patterns
+    },
+    adaptation: {
+      style: true,           // Style adaptation
+      preferences: true,     // Pref adaptation
+      tooling: true         // Tool adaptation
+    }
+  },
+  optimization: {
+    workflows: true,         // Workflow optimization
+    resources: true,         // Resource optimization
+    communication: true      // Comm optimization
+  }
+})
+```
+
+### 2. Immersive Collaboration
+
+```typescript
+// Enable immersive features
+await workspace.enableImmersive({
+  visualization: {
+    "3d-code": true,        // 3D code viz
+    "team-presence": true,   // Team presence
+    "work-patterns": true    // Work patterns
+  },
+  interaction: {
+    "spatial": true,         // Spatial navigation
+    "gestural": true,        // Gesture control
+    "voice": true           // Voice control
+  },
+  experience: {
+    "ambient": true,         // Ambient awareness
+    "adaptive": true,        // Adaptive UI
+    "seamless": true        // Seamless transitions
+  }
+})
+```
+
+### 3. Cross-Platform Sync
+
+```typescript
+// Configure cross-platform
+await workspace.configurePlatforms({
+  sync: {
+    state: "real-time",      // State sync
+    offline: "supported",     // Offline support
+    conflict: "smart"        // Conflict resolution
+  },
+  experience: {
+    consistent: true,        // Consistent UX
+    adaptive: true,          // Adaptive UI
+    performant: true         // High performance
+  },
+  platforms: {
+    desktop: {
+      native: true,          // Native apps
+      web: true             // Web apps
+    },
+    mobile: {
+      native: true,          // Native mobile
+      web: true             // Mobile web
+    },
+    tablet: {
+      optimized: true,       // Tablet optimized
+      pencil: true          // Pencil support
+    }
+  }
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Sync Problems**
+```typescript
+// Check sync status
+const syncStatus = await workspace.checkSync()
+
+// Repair sync
+await workspace.repairSync({
+  scope: "affected",         // Affected only
+  strategy: "incremental",   // Incremental fix
+  backup: true              // Backup first
+})
+```
+
+2. **Collaboration Issues**
+```typescript
+// Diagnose collaboration
+const diagnosis = await workspace.diagnoseCollaboration()
+
+// Fix collaboration
+await workspace.repairCollaboration({
+  issues: diagnosis.issues,
+  resolution: "automatic",
+  notification: true
+})
+```
+
+3. **Performance Problems**
+```typescript
+// Analyze performance
+const analysis = await workspace.analyzePerformance()
+
+// Optimize collaboration
+await workspace.optimizeCollaboration({
+  target: "responsiveness",
+  scope: "team-wide",
+  aggressive: false
+})
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Smart Context" icon="brain" href="/guides/smart-context">
+    Learn about context intelligence
+  </Card>
+  <Card title="Preview System" icon="eye" href="/guides/previews">
+    Master collaborative previews
+  </Card>
+  <Card title="Team Workflows" icon="users" href="/guides/workflows">
+    Optimize team workflows
+  </Card>
+  <Card title="Platform Integration" icon="puzzle" href="/guides/integrations">
+    Integrate with your stack
+  </Card>
+</CardGroup> 

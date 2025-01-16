@@ -1,0 +1,180 @@
+---
+title: 'List Contexts'
+api: 'GET /v1/contexts'
+description: 'List all contexts'
+---
+
+# List Contexts
+
+List all contexts, with optional filtering and pagination.
+
+## Request
+
+<ParamField query="type" type="string">
+  Filter contexts by type: `development`, `preview`, or `production`
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter contexts by status: `creating`, `active`, `paused`, or `deleted`
+</ParamField>
+
+<ParamField query="limit" type="integer" default="20">
+  Maximum number of contexts to return (1-100)
+</ParamField>
+
+<ParamField query="offset" type="integer" default="0">
+  Number of contexts to skip
+</ParamField>
+
+### Example Request
+
+```bash
+curl "https://api.top.dev/v1/contexts?type=development&limit=10" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response
+
+<ResponseField name="contexts" type="array">
+  List of context objects
+  
+  <Expandable title="Context Object">
+    <ResponseField name="id" type="string">
+      The unique identifier for the context
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      The name of the context
+    </ResponseField>
+    
+    <ResponseField name="description" type="string">
+      The description of the context
+    </ResponseField>
+    
+    <ResponseField name="type" type="string">
+      The type of context
+    </ResponseField>
+    
+    <ResponseField name="status" type="string">
+      The current status of the context
+    </ResponseField>
+    
+    <ResponseField name="config" type="object">
+      The configuration of the context
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      ISO timestamp of when the context was created
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      ISO timestamp of when the context was last updated
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pagination" type="object">
+  Pagination information
+  
+  <Expandable title="properties">
+    <ResponseField name="total" type="integer">
+      Total number of contexts matching the filter
+    </ResponseField>
+    
+    <ResponseField name="limit" type="integer">
+      Number of contexts per page
+    </ResponseField>
+    
+    <ResponseField name="offset" type="integer">
+      Current offset
+    </ResponseField>
+    
+    <ResponseField name="hasMore" type="boolean">
+      Whether there are more contexts to fetch
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "data": {
+    "contexts": [
+      {
+        "id": "ctx_123",
+        "name": "feature-a",
+        "description": "Feature A development",
+        "type": "development",
+        "status": "active",
+        "config": {
+          "features": ["ai", "preview"],
+          "resources": {
+            "cpu": "1",
+            "memory": "2Gi"
+          },
+          "environment": {
+            "NODE_ENV": "development"
+          }
+        },
+        "createdAt": "2024-01-15T12:00:00Z",
+        "updatedAt": "2024-01-15T12:00:00Z"
+      },
+      {
+        "id": "ctx_124",
+        "name": "feature-b",
+        "description": "Feature B development",
+        "type": "development",
+        "status": "active",
+        "config": {
+          "features": ["ai"],
+          "resources": {
+            "cpu": "1",
+            "memory": "2Gi"
+          },
+          "environment": {
+            "NODE_ENV": "development"
+          }
+        },
+        "createdAt": "2024-01-15T12:30:00Z",
+        "updatedAt": "2024-01-15T12:30:00Z"
+      }
+    ],
+    "pagination": {
+      "total": 42,
+      "limit": 10,
+      "offset": 0,
+      "hasMore": true
+    }
+  },
+  "meta": {
+    "requestId": "req_123",
+    "timestamp": "2024-01-15T12:00:00Z"
+  }
+}
+```
+
+## Errors
+
+<ResponseField name="401" type="object">
+  Unauthorized - Invalid or missing API key
+</ResponseField>
+
+<ResponseField name="403" type="object">
+  Forbidden - Insufficient permissions
+</ResponseField>
+
+<ResponseField name="429" type="object">
+  Too many requests - Rate limit exceeded
+</ResponseField>
+
+<ResponseField name="500" type="object">
+  Internal server error
+</ResponseField>
+
+## See Also
+
+- [Create Context](/api-reference/contexts/create)
+- [Get Context](/api-reference/contexts/get)
+- [Update Context](/api-reference/contexts/update)
+- [Delete Context](/api-reference/contexts/delete) 

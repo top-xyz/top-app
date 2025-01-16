@@ -1,0 +1,350 @@
+---
+title: 'Context Generation'
+description: 'Understanding how Top generates contexts from intentions'
+---
+
+# Context Generation
+
+Context generation is the magical process where Top transforms human intention into a fully-realized development environment. This guide explains how the generation process works and how to get the most out of it.
+
+## Core Concepts
+
+### Generation Pipeline
+
+```typescript
+interface GenerationPipeline {
+  // Input processing
+  input: {
+    intention: string        // Raw user intention
+    requirements: string[]   // Specific requirements
+    constraints: string[]    // Technical constraints
+  }
+  
+  // Processing stages
+  stages: {
+    analysis: ContextAnalysis     // Understanding requirements
+    template: TemplateSelection   // Choosing starting point
+    generation: CodeGeneration    // Creating code
+    validation: QualityChecks     // Ensuring quality
+  }
+  
+  // Output
+  output: {
+    context: Context       // Generated context
+    metadata: Metadata     // Generation metadata
+    analytics: Analytics   // Performance data
+  }
+}
+```
+
+## Generation Process
+
+### 1. Intention Analysis
+
+```typescript
+// Simple intention
+const context = await top.generate(`
+  I want to create a user authentication system
+  with social login support
+`)
+
+// Detailed intention
+const context = await top.generate({
+  intention: "Create authentication system",
+  requirements: [
+    "Social login (Google, GitHub)",
+    "Email/password authentication",
+    "JWT session management"
+  ],
+  constraints: [
+    "Must use TypeScript",
+    "Must be serverless"
+  ]
+})
+```
+
+### 2. Template Selection
+
+```typescript
+// Automatic template selection
+const context = await top.generate({
+  intention: "Create authentication system",
+  template: {
+    autoSelect: true,
+    preferences: {
+      modern: true,
+      typescript: true
+    }
+  }
+})
+
+// Manual template selection
+const context = await top.generate({
+  intention: "Create authentication system",
+  template: {
+    name: "next-auth-starter",
+    version: "latest"
+  }
+})
+```
+
+### 3. Code Generation
+
+```typescript
+// Generate with default settings
+const context = await top.generate({
+  intention: "Create authentication system",
+  generation: {
+    mode: "default"
+  }
+})
+
+// Advanced generation settings
+const context = await top.generate({
+  intention: "Create authentication system",
+  generation: {
+    mode: "advanced",
+    settings: {
+      quality: "high",
+      coverage: "complete",
+      documentation: true,
+      tests: true
+    }
+  }
+})
+```
+
+## Generation Features
+
+### 1. Smart Analysis
+
+```typescript
+// Analyze requirements
+const analysis = await top.analyze(`
+  I need a real-time chat system with:
+  - User presence
+  - Message persistence
+  - Typing indicators
+`)
+
+// Get generation plan
+const plan = await analysis.generatePlan()
+
+// Execute plan
+const context = await plan.execute()
+```
+
+### 2. Intelligent Scaffolding
+
+```typescript
+// Generate project structure
+const context = await top.generate({
+  intention: "Create chat app",
+  scaffolding: {
+    structure: "modular",
+    patterns: ["clean-architecture", "domain-driven"],
+    testing: {
+      framework: "jest",
+      coverage: "high"
+    }
+  }
+})
+```
+
+### 3. Quality Assurance
+
+```typescript
+// Generate with quality checks
+const context = await top.generate({
+  intention: "Create chat app",
+  quality: {
+    checks: ["lint", "typecheck", "test"],
+    standards: {
+      coverage: 80,
+      complexity: "low",
+      maintainability: "high"
+    }
+  }
+})
+```
+
+## Best Practices
+
+### 1. Clear Intentions
+
+```typescript
+// Good: Clear and specific
+const context = await top.generate({
+  intention: "Create a REST API for user management",
+  requirements: [
+    "CRUD operations for users",
+    "Role-based access control",
+    "API documentation"
+  ]
+})
+
+// Less Good: Vague and unclear
+const context = await top.generate({
+  intention: "Make a user system"
+})
+```
+
+### 2. Proper Constraints
+
+```typescript
+// Set appropriate constraints
+const context = await top.generate({
+  intention: "Create authentication API",
+  constraints: {
+    technical: {
+      language: "typescript",
+      framework: "express",
+      database: "postgresql"
+    },
+    business: {
+      compliance: ["GDPR", "SOC2"],
+      performance: {
+        latency: "< 100ms",
+        throughput: "> 1000 rps"
+      }
+    }
+  }
+})
+```
+
+### 3. Iterative Refinement
+
+```typescript
+// Initial generation
+const context = await top.generate({
+  intention: "Create chat app"
+})
+
+// Refine generation
+await context.refine({
+  additions: ["Add file upload support"],
+  modifications: ["Use WebSocket instead of polling"],
+  removals: ["Remove group chat feature"]
+})
+```
+
+## Advanced Features
+
+### 1. Custom Templates
+
+```typescript
+// Create custom template
+const template = await top.createTemplate({
+  name: "microservice-starter",
+  description: "Production-ready microservice template",
+  features: [
+    "health-checks",
+    "metrics",
+    "tracing",
+    "containerization"
+  ]
+})
+
+// Use custom template
+const context = await top.generate({
+  intention: "Create payment service",
+  template: template.id
+})
+```
+
+### 2. Generation Hooks
+
+```typescript
+// Add generation hooks
+top.on("beforeGenerate", async (input) => {
+  await validateRequirements(input.requirements)
+})
+
+top.on("afterGenerate", async (context) => {
+  await runCustomValidation(context)
+})
+
+// Handle generation events
+top.on("generationProgress", (progress) => {
+  console.log(`Generation progress: ${progress.percentage}%`)
+})
+```
+
+### 3. Generation Analytics
+
+```typescript
+// Track generation metrics
+const metrics = await top.getGenerationMetrics({
+  period: "7d",
+  dimensions: ["success_rate", "quality_score"]
+})
+
+// Analyze generation patterns
+const patterns = await top.analyzeGenerationPatterns({
+  timeframe: "30d",
+  aspects: ["templates", "requirements"]
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Generation Failures**
+```typescript
+try {
+  const context = await top.generate({
+    intention: "Create chat app"
+  })
+} catch (error) {
+  if (error instanceof GenerationError) {
+    // Get detailed error information
+    const details = await error.getDetails()
+    
+    // Try alternative generation path
+    const context = await top.generateAlternative(details)
+  }
+}
+```
+
+2. **Quality Issues**
+```typescript
+// Validate generation quality
+const quality = await context.validateQuality()
+
+// Fix common issues
+await context.autofix({
+  issues: quality.issues,
+  strategy: "conservative"
+})
+```
+
+3. **Performance Problems**
+```typescript
+// Optimize generation
+await top.optimizeGeneration({
+  cache: true,
+  parallel: true,
+  resources: {
+    cpu: 2,
+    memory: "2GB"
+  }
+})
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Smart Context" icon="brain" href="/guides/smart-context">
+    Learn about context intelligence
+  </Card>
+  <Card title="Context Management" icon="folder-tree" href="/guides/context-management">
+    Manage your generated contexts
+  </Card>
+  <Card title="Action System" icon="bolt" href="/guides/actions">
+    Execute actions in your context
+  </Card>
+  <Card title="Preview System" icon="eye" href="/guides/previews">
+    Preview your generated code
+  </Card>
+</CardGroup> 

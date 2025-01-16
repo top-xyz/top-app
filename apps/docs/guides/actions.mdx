@@ -5,304 +5,291 @@ description: 'Understanding and working with Top Actions'
 
 # Actions
 
-Actions are intelligent operations that Top can perform on your codebase. They represent discrete tasks that can be suggested, executed, and monitored throughout your development workflow.
+Actions are the manifestation of intent in Top's development environment. They transform thoughts into reality through a sophisticated execution pipeline.
 
-## What are Actions?
+## What is an Action?
 
-Actions are more than just commands - they're intelligent operations that:
-- Understand context and requirements
-- Handle dependencies automatically
-- Provide real-time feedback
-- Generate previews
-- Self-heal on failures
+An action is a discrete unit of work that:
+- Has clear intent and purpose
+- Produces predictable results
+- Can be previewed before execution
+- Maintains execution history
+- Supports rollback when needed
 
 ```typescript
 interface Action {
   id: string
   type: ActionType
-  status: ActionStatus
-  payload: Record<string, any>
+  status: 'pending' | 'running' | 'completed' | 'failed'
   metadata: {
-    priority: number
-    retryCount: number
-    timeout: number
-    dependencies: string[]
+    title: string
+    description: string
+    created: Date
+    updated: Date
   }
+  config: Record<string, any>
+  result?: ActionResult
 }
 
-type ActionType =
+type ActionType = 
   | 'clone_template'
   | 'configure_tooling'
   | 'modify_files'
-  | 'deploy'
   | 'install_dependencies'
   | 'run_tests'
+  | 'deploy'
   | 'generate_preview'
-  | 'custom'
-
-type ActionStatus =
-  | 'pending'
-  | 'running'
-  | 'completed'
-  | 'failed'
-  | 'cancelled'
 ```
 
 ## Action Types
 
-### 1. Code Generation
+### Template Actions
 ```typescript
-// Generate a new component
-await context.actions.execute({
-  type: 'modify_files',
-  payload: {
-    operation: 'generate',
-    template: 'react-component',
-    options: {
-      name: 'AuthForm',
-      props: ['onSubmit', 'loading']
+// Clone a template
+const setup = await context.actions.create({
+  type: 'clone_template',
+  config: {
+    template: 'next-auth',
+    target: './auth'
+  }
+})
+
+// Configure tooling
+const config = await context.actions.create({
+  type: 'configure_tooling',
+  config: {
+    tools: ['eslint', 'prettier', 'jest'],
+    configs: {
+      eslint: { extends: ['next'] }
     }
   }
+})
+```
+
+### File Actions
+```typescript
+// Modify files
+const modify = await context.actions.create({
+  type: 'modify_files',
+  config: {
+    files: ['src/auth/*.ts'],
+    changes: [
+      {
+        type: 'add',
+        path: 'src/auth/oauth.ts',
+        content: '...'
+      }
+    ]
+  }
+})
+```
+
+### Development Actions
+```typescript
+// Install dependencies
+const install = await context.actions.create({
+  type: 'install_dependencies',
+  config: {
+    packages: ['@auth0/nextjs-auth0'],
+    dev: false
+  }
+})
+
+// Run tests
+const test = await context.actions.create({
+  type: 'run_tests',
+  config: {
+    pattern: 'src/auth/**/*.test.ts',
+    coverage: true
+  }
+})
+```
+
+### Deployment Actions
+```typescript
+// Generate preview
+const preview = await context.actions.create({
+  type: 'generate_preview',
+  config: {
+    type: 'vercel',
+    options: {
+      environment: 'preview'
+    }
+  }
+})
+
+// Deploy changes
+const deploy = await context.actions.create({
+  type: 'deploy',
+  config: {
+    target: 'production',
+    rollback: true
+  }
+})
+```
+
+## Action Lifecycle
+
+### 1. Creation
+```typescript
+// Create an action
+const action = await context.actions.create({
+  type: 'modify_files',
+  metadata: {
+    title: 'Update Auth Config',
+    description: 'Add OAuth configuration'
+  },
+  config: {
+    files: ['src/auth/config.ts']
+  }
+})
+```
+
+### 2. Validation
+```typescript
+// Validate action
+const validation = await action.validate()
+
+// Check requirements
+const requirements = await action.checkRequirements()
+```
+
+### 3. Preview
+```typescript
+// Preview changes
+const preview = await action.preview()
+
+// Review impact
+const impact = await action.analyzeImpact()
+```
+
+### 4. Execution
+```typescript
+// Execute action
+await action.execute()
+
+// Track progress
+action.on('progress', (progress) => {
+  console.log(`Progress: ${progress}%`)
+})
+```
+
+### 5. Verification
+```typescript
+// Verify result
+const result = await action.verify()
+
+// Run tests
+await action.runTests()
+```
+
+## Action Features
+
+### 1. Smart Suggestions
+```typescript
+// Get suggested actions
+const suggestions = await context.actions.suggest()
+
+// Filter by type
+const fileActions = await context.actions.suggest({
+  type: 'modify_files'
 })
 ```
 
 ### 2. Dependency Management
 ```typescript
-// Install and configure dependencies
-await context.actions.execute({
-  type: 'install_dependencies',
-  payload: {
-    packages: ['@auth0/auth0-react'],
-    dev: false,
-    version: 'latest'
-  }
-})
+// Check dependencies
+const deps = await action.getDependencies()
+
+// Execute with dependencies
+await context.actions.executeWithDeps([action])
 ```
 
-### 3. Configuration
+### 3. Rollback Support
 ```typescript
-// Configure tooling
-await context.actions.execute({
-  type: 'configure_tooling',
-  payload: {
-    tool: 'auth0',
-    config: {
-      domain: 'your-domain.auth0.com',
-      clientId: 'your-client-id'
-    }
-  }
-})
-```
-
-### 4. Testing
-```typescript
-// Generate and run tests
-await context.actions.execute({
-  type: 'run_tests',
-  payload: {
-    pattern: 'src/auth/**/*.test.ts',
-    coverage: true,
-    watch: false
-  }
-})
-```
-
-### 5. Deployment
-```typescript
-// Deploy changes
-await context.actions.execute({
-  type: 'deploy',
-  payload: {
-    target: 'preview',
-    config: {
-      framework: 'next',
-      env: 'development'
-    }
-  }
-})
-```
-
-## Working with Actions
-
-### 1. Suggesting Actions
-```typescript
-// Get action suggestions based on context
-const suggestions = await context.actions.suggest({
-  intent: 'Add authentication',
-  constraints: ['Use Auth0', 'Include tests']
-})
-
-// Review suggestions
-console.log(suggestions.map(s => s.description))
-
-// Execute suggested actions
-await context.actions.execute(suggestions)
-```
-
-### 2. Custom Actions
-```typescript
-// Define a custom action
-await context.actions.define({
-  name: 'update-api-docs',
-  description: 'Update API documentation',
-  run: async (ctx) => {
-    const changes = await ctx.diff()
-    if (changes.hasApiChanges) {
-      await ctx.docs.generate('api')
-    }
+// Enable rollback
+const action = await context.actions.create({
+  type: 'modify_files',
+  config: {
+    rollback: true
   }
 })
 
-// Execute custom action
-await context.actions.execute('update-api-docs')
+// Rollback if needed
+await action.rollback()
 ```
 
-### 3. Action Workflows
+### 4. Progress Tracking
 ```typescript
-// Define an action workflow
-const workflow = await context.actions.workflow({
-  name: 'setup-auth',
-  steps: [
-    {
-      name: 'install-deps',
-      action: 'install_dependencies',
-      payload: {
-        packages: ['@auth0/auth0-react']
-      }
-    },
-    {
-      name: 'configure-auth0',
-      action: 'configure_tooling',
-      payload: {
-        tool: 'auth0'
-      }
-    },
-    {
-      name: 'generate-components',
-      action: 'modify_files',
-      payload: {
-        operation: 'generate',
-        template: 'auth-components'
-      }
-    }
-  ]
+// Track detailed progress
+action.on('stage', (stage) => {
+  console.log(`Current stage: ${stage}`)
 })
 
-// Execute workflow
-await workflow.run()
-```
-
-### 4. Action Monitoring
-```typescript
-// Monitor action progress
-context.actions.on('start', (action) => {
-  console.log(`Started: ${action.type}`)
-})
-
-context.actions.on('progress', (action, progress) => {
-  console.log(`Progress: ${progress}%`)
-})
-
-context.actions.on('complete', (action) => {
-  console.log(`Completed: ${action.type}`)
-})
-
-// Get action status
-const status = await context.actions.status('action-id')
-```
-
-### 5. Error Handling
-```typescript
-// Handle action failures
-try {
-  await context.actions.execute('risky-action')
-} catch (error) {
-  // Get detailed error info
-  const details = await context.actions.getError(error.actionId)
-  
-  // Retry with different options
-  await context.actions.retry(error.actionId, {
-    timeout: 30000,
-    retries: 3
-  })
-}
+// Get execution time
+const duration = await action.getDuration()
 ```
 
 ## Best Practices
 
-### 1. Action Composition
+### 1. Clear Intent
 ```typescript
-// Compose multiple actions
-const actions = [
-  {
-    type: 'install_dependencies',
-    payload: { packages: ['@auth0/auth0-react'] }
-  },
-  {
-    type: 'configure_tooling',
-    payload: { tool: 'auth0' }
-  },
-  {
-    type: 'modify_files',
-    payload: { template: 'auth-components' }
-  }
-]
-
-// Execute in sequence
-for (const action of actions) {
-  await context.actions.execute(action)
-}
-```
-
-### 2. Action Configuration
-```typescript
-// Configure action behavior
-await context.actions.configure({
-  defaultTimeout: 30000,
-  maxRetries: 3,
-  concurrency: 2,
-  rollbackOnFailure: true
-})
-```
-
-### 3. Action Validation
-```typescript
-// Validate actions before execution
-const validation = await context.actions.validate(actions)
-
-if (validation.valid) {
-  await context.actions.execute(actions)
-} else {
-  console.error(validation.errors)
-}
-```
-
-### 4. Action Documentation
-```typescript
-// Document action purpose
-await context.actions.execute({
+// Good
+const action = await context.actions.create({
   type: 'modify_files',
-  payload: { /* ... */ },
   metadata: {
-    description: 'Add Auth0 configuration',
-    rationale: 'Required for social login',
-    impact: ['auth', 'security']
+    title: 'Add OAuth Config',
+    description: 'Configure Auth0 integration'
+  }
+})
+
+// Less Good
+const action = await context.actions.create({
+  type: 'modify_files',
+  metadata: {
+    title: 'Update files'
   }
 })
 ```
 
-### 5. Action Testing
+### 2. Atomic Actions
+Keep actions focused and atomic:
+- Single responsibility
+- Clear success criteria
+- Independent execution
+- Easy to rollback
+
+### 3. Proper Validation
 ```typescript
-// Test actions in isolation
-await context.actions.test({
-  action: 'configure-auth0',
-  mocks: {
-    config: { /* ... */ }
-  },
-  assertions: {
-    files: ['auth0.config.js'],
-    content: /clientId/
+// Validate before execution
+const validation = await action.validate()
+if (!validation.valid) {
+  console.error(validation.errors)
+  return
+}
+```
+
+### 4. Error Handling
+```typescript
+try {
+  await action.execute()
+} catch (error) {
+  // Handle specific errors
+  if (error instanceof ActionValidationError) {
+    await action.fix(error.suggestions)
+  } else if (error instanceof ActionExecutionError) {
+    await action.rollback()
   }
+}
+```
+
+### 5. Documentation
+```typescript
+// Document important actions
+await action.document({
+  purpose: 'Add OAuth support',
+  impact: ['Authentication flow', 'User sessions'],
+  rollback: 'Automatic file restore'
 })
 ```
 

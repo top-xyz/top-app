@@ -1,0 +1,364 @@
+---
+title: 'Preview Workflow'
+description: 'Understanding the preview workflow in Top'
+---
+
+# Preview Workflow
+
+The preview workflow orchestrates the lifecycle of previews from creation to deployment, enabling instant visualization of changes.
+
+## Core Workflow
+
+### Workflow Overview
+
+```typescript
+interface PreviewWorkflow {
+  stages: {
+    creation: CreationStage;     // Preview creation
+    generation: GenerationStage; // Content generation
+    deployment: DeploymentStage; // Preview deployment
+    interaction: InteractionStage; // User interaction
+  };
+  transitions: {
+    triggers: TriggerSystem;    // State transitions
+    validation: ValidatorSystem; // State validation
+    rollback: RollbackSystem;   // Error recovery
+  };
+  monitoring: {
+    progress: ProgressTracker;  // Stage progress
+    metrics: MetricsCollector;  // Performance metrics
+    events: EventSystem;        // Workflow events
+  };
+}
+```
+
+### Workflow Configuration
+
+```typescript
+interface WorkflowConfig {
+  mode: 'automatic' | 'manual' | 'hybrid';
+  stages: {
+    parallel: boolean;      // Parallel execution
+    validation: boolean;    // Stage validation
+    timeout: number;        // Stage timeout
+  };
+  features: {
+    autoRecover: boolean;  // Auto recovery
+    liveUpdates: boolean;  // Real-time updates
+    analytics: boolean;    // Usage tracking
+  };
+}
+```
+
+## Core Stages
+
+### 1. Creation Stage
+
+```typescript
+interface CreationStage {
+  capabilities: {
+    initialization: Initializer;
+    validation: Validator;
+    optimization: Optimizer;
+  };
+  
+  async create(spec: PreviewSpec): Promise<Preview> {
+    const validated = await this.validate(spec);
+    const optimized = await this.optimize(validated);
+    const preview = await this.initialize(optimized);
+    return preview;
+  }
+}
+
+// Example usage
+const preview = await workflow.creation.create({
+  type: 'component',
+  source: './components/Auth.tsx',
+  props: {
+    mode: 'signin'
+  }
+});
+```
+
+### 2. Generation Stage
+
+```typescript
+interface GenerationStage {
+  capabilities: {
+    builder: Builder;
+    compiler: Compiler;
+    bundler: Bundler;
+  };
+  
+  async generate(preview: Preview): Promise<Build> {
+    const built = await this.build(preview);
+    const compiled = await this.compile(built);
+    const bundled = await this.bundle(compiled);
+    return bundled;
+  }
+}
+
+// Example usage
+const build = await workflow.generation.generate({
+  preview: preview,
+  options: {
+    minify: true,
+    sourcemap: true
+  }
+});
+```
+
+### 3. Deployment Stage
+
+```typescript
+interface DeploymentStage {
+  capabilities: {
+    provisioner: Provisioner;
+    deployer: Deployer;
+    validator: Validator;
+  };
+  
+  async deploy(build: Build): Promise<Deployment> {
+    const resources = await this.provision(build);
+    const deployment = await this.deploy(resources);
+    const validated = await this.validate(deployment);
+    return validated;
+  }
+}
+
+// Example usage
+const deployment = await workflow.deployment.deploy({
+  build: build,
+  config: {
+    environment: 'preview',
+    region: 'us-east-1'
+  }
+});
+```
+
+### 4. Interaction Stage
+
+```typescript
+interface InteractionStage {
+  capabilities: {
+    renderer: Renderer;
+    interactor: Interactor;
+    recorder: Recorder;
+  };
+  
+  async interact(deployment: Deployment): Promise<Session> {
+    const rendered = await this.render(deployment);
+    const interactive = await this.makeInteractive(rendered);
+    const session = await this.record(interactive);
+    return session;
+  }
+}
+
+// Example usage
+const session = await workflow.interaction.start({
+  deployment: deployment,
+  mode: 'collaborative'
+});
+```
+
+## Integration Points
+
+### 1. Context Integration
+
+```typescript
+interface ContextIntegration {
+  workflow: {
+    context: PreviewContext;
+    state: WorkflowState;
+    history: WorkflowHistory;
+  };
+  
+  async integrate(preview: Preview): Promise<void> {
+    await this.context.update(preview);
+    await this.state.sync(preview);
+    await this.history.record(preview);
+  }
+}
+
+// Example usage
+await workflow.context.integrate({
+  preview: preview,
+  sync: true,
+  record: true
+});
+```
+
+### 2. Action Integration
+
+```typescript
+interface ActionIntegration {
+  workflow: {
+    actions: ActionSystem;
+    triggers: TriggerSystem;
+    effects: EffectSystem;
+  };
+  
+  async execute(action: Action): Promise<void> {
+    await this.triggers.handle(action);
+    await this.actions.execute(action);
+    await this.effects.apply(action);
+  }
+}
+
+// Example usage
+await workflow.actions.execute({
+  type: 'update',
+  target: preview,
+  changes: changes
+});
+```
+
+## Best Practices
+
+### 1. Workflow Management
+
+```typescript
+// Configure workflow
+const config = {
+  mode: 'automatic',
+  stages: {
+    parallel: true,
+    validation: true,
+    timeout: 30000
+  },
+  features: {
+    autoRecover: true,
+    liveUpdates: true
+  }
+};
+
+await workflow.configure(config);
+
+// Handle workflow events
+workflow.on('stage:complete', async (stage) => {
+  await workflow.progress.update(stage);
+});
+```
+
+### 2. Error Handling
+
+```typescript
+try {
+  await workflow.execute(preview);
+} catch (error) {
+  if (error instanceof StageError) {
+    await workflow.rollback(error.stage);
+  } else if (error instanceof ValidationError) {
+    await workflow.validate(error.context);
+  }
+}
+```
+
+### 3. Performance Optimization
+
+```typescript
+// Optimize workflow
+const optimization = {
+  caching: {
+    enabled: true,
+    strategy: 'aggressive'
+  },
+  batching: {
+    enabled: true,
+    size: 10
+  },
+  resources: {
+    allocation: 'dynamic',
+    priority: 'high'
+  }
+};
+
+await workflow.optimize(optimization);
+```
+
+## Configuration
+
+### 1. Stage Configuration
+
+```typescript
+// Configure stages
+const stages = {
+  creation: {
+    validation: true,
+    optimization: true,
+    timeout: 5000
+  },
+  generation: {
+    parallel: true,
+    incremental: true,
+    cache: true
+  },
+  deployment: {
+    strategy: 'rolling',
+    validation: true,
+    timeout: 30000
+  },
+  interaction: {
+    mode: 'collaborative',
+    recording: true,
+    timeout: 3600000
+  }
+};
+
+await workflow.stages.configure(stages);
+```
+
+### 2. Transition Configuration
+
+```typescript
+// Configure transitions
+const transitions = {
+  triggers: {
+    automatic: ['success', 'timeout'],
+    manual: ['error', 'cancel']
+  },
+  validation: {
+    required: true,
+    timeout: 5000
+  },
+  rollback: {
+    automatic: true,
+    maxAttempts: 3
+  }
+};
+
+await workflow.transitions.configure(transitions);
+```
+
+### 3. Monitoring Configuration
+
+```typescript
+// Configure monitoring
+const monitoring = {
+  progress: {
+    enabled: true,
+    resolution: '1s'
+  },
+  metrics: {
+    collection: true,
+    retention: '7d'
+  },
+  events: {
+    logging: true,
+    alerts: true
+  }
+};
+
+await workflow.monitoring.configure(monitoring);
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Preview System" icon="diagram-project" href="/guides/previews">
+    Learn about the preview system capabilities
+  </Card>
+  <Card title="Preview Architecture" icon="server" href="/guides/preview-architecture">
+    Understand the preview architecture
+  </Card>
+</CardGroup> 

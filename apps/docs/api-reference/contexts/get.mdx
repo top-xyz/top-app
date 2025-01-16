@@ -1,0 +1,129 @@
+---
+title: 'Get Context'
+api: 'GET /v1/contexts/{contextId}'
+description: 'Get a context by ID'
+---
+
+# Get Context
+
+Retrieve a context by its ID.
+
+## Request
+
+<ParamField path="contextId" type="string" required>
+  The unique identifier of the context
+</ParamField>
+
+### Example Request
+
+```bash
+curl https://api.top.dev/v1/contexts/ctx_123 \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Response
+
+<ResponseField name="id" type="string">
+  The unique identifier for the context
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the context
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  The description of the context
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The type of context
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the context
+</ResponseField>
+
+<ResponseField name="config" type="object">
+  The configuration of the context
+  
+  <Expandable title="properties">
+    <ResponseField name="features" type="array">
+      List of enabled features
+    </ResponseField>
+    
+    <ResponseField name="resources" type="object">
+      Resource limits and requests
+    </ResponseField>
+    
+    <ResponseField name="environment" type="object">
+      Environment variables
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  ISO timestamp of when the context was created
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  ISO timestamp of when the context was last updated
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "ctx_123",
+    "name": "my-feature",
+    "description": "New feature development",
+    "type": "development",
+    "status": "active",
+    "config": {
+      "features": ["ai", "preview"],
+      "resources": {
+        "cpu": "1",
+        "memory": "2Gi"
+      },
+      "environment": {
+        "NODE_ENV": "development"
+      }
+    },
+    "createdAt": "2024-01-15T12:00:00Z",
+    "updatedAt": "2024-01-15T12:00:00Z"
+  },
+  "meta": {
+    "requestId": "req_123",
+    "timestamp": "2024-01-15T12:00:00Z"
+  }
+}
+```
+
+## Errors
+
+<ResponseField name="401" type="object">
+  Unauthorized - Invalid or missing API key
+</ResponseField>
+
+<ResponseField name="403" type="object">
+  Forbidden - Insufficient permissions
+</ResponseField>
+
+<ResponseField name="404" type="object">
+  Not Found - Context does not exist
+</ResponseField>
+
+<ResponseField name="429" type="object">
+  Too many requests - Rate limit exceeded
+</ResponseField>
+
+<ResponseField name="500" type="object">
+  Internal server error
+</ResponseField>
+
+## See Also
+
+- [Create Context](/api-reference/contexts/create)
+- [Update Context](/api-reference/contexts/update)
+- [Delete Context](/api-reference/contexts/delete)
+- [List Contexts](/api-reference/contexts/list) 

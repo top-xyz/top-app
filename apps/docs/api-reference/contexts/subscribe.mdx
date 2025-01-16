@@ -1,0 +1,44 @@
+---
+title: 'Subscribe to Context Updates'
+api: 'GET /api/contexts/{contextId}/subscribe'
+description: 'Subscribe to real-time context updates'
+---
+
+# Context Updates Subscription
+
+Subscribe to real-time updates for a specific context using Server-Sent Events (SSE).
+
+## Usage
+
+```typescript
+const eventSource = new EventSource(
+  `/api/contexts/${contextId}/subscribe`
+)
+
+eventSource.onmessage = (event) => {
+  const update = JSON.parse(event.data)
+  // Handle update
+}
+
+// Clean up
+eventSource.close()
+```
+
+## Updates
+
+Updates are sent as JSON objects with the following structure:
+
+```typescript
+interface ContextUpdate {
+  type: 'created' | 'updated' | 'deleted'
+  contextId: string
+  data: any
+  timestamp: string
+}
+```
+
+## Rate Limiting
+
+- 10 requests per 10 seconds per user
+- 429 status code when limit exceeded
+- Includes standard rate limit headers 

@@ -1,0 +1,112 @@
+---
+title: 'Contributing Guidelines'
+description: 'Learn how to contribute to Top'
+---
+
+# Contributing Guidelines
+
+We're excited that you're interested in contributing to Top! This guide will help you understand our contribution process.
+
+## Code of Conduct
+
+We have adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://github.com/top-dev/top/blob/main/CODE_OF_CONDUCT.md) to understand what actions will and will not be tolerated.
+
+## Getting Started
+
+1. **Fork the Repository**
+   - Fork the main repository on GitHub
+   - Clone your fork locally
+
+2. **Set Up Development Environment**
+   - Follow our [Development Setup](/development/setup) guide
+   - Ensure all tests pass locally
+
+3. **Find an Issue**
+   - Look for issues labeled `good first issue`
+   - Comment on the issue you'd like to work on
+   - Wait for assignment or approval
+
+## Development Process
+
+1. **Create a Branch**
+```bash
+git checkout -b feature/your-feature-name
+```
+
+2. **Make Changes**
+   - Write clean, maintainable code
+   - Follow our coding standards
+   - Add tests for new features
+
+3. **Commit Changes**
+```bash
+git add .
+git commit -m "feat: add new feature"
+```
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
+
+4. **Push Changes**
+```bash
+git push origin feature/your-feature-name
+```
+
+5. **Create Pull Request**
+   - Use our PR template
+   - Link related issues
+   - Add detailed description
+
+## Pull Request Guidelines
+
+- Keep PRs focused and atomic
+- Update documentation as needed
+- Add tests for new features
+- Ensure CI passes
+- Follow code style guidelines
+- Respond to review comments
+
+## Testing
+
+1. **Unit Tests**
+```bash
+pnpm test:unit
+```
+
+2. **Integration Tests**
+```bash
+pnpm test:integration
+```
+
+3. **E2E Tests**
+```bash
+pnpm test:e2e
+```
+
+## Documentation
+
+- Update relevant documentation
+- Add JSDoc comments for new functions
+- Include examples where helpful
+- Update changelog if needed
+
+## Review Process
+
+1. **Initial Review**
+   - Automated checks
+   - Documentation review
+   - Code style review
+
+2. **Technical Review**
+   - Architecture review
+   - Performance review
+   - Security review
+
+3. **Final Review**
+   - Maintainer approval
+   - Merge preparation
+
+## Next Steps
+
+- Review our [Architecture Overview](/development/architecture)
+- Learn about our [Security Guidelines](/development/security)
+- Join our [Community Discord](https://discord.gg/top-dev) 

@@ -1,0 +1,351 @@
+---
+title: 'Action Execution'
+description: 'Understanding how Top executes actions in contexts'
+---
+
+# Action Execution System
+
+The action execution system is the engine that powers Top's ability to transform intentions into reality. This guide explains how actions are executed, managed, and monitored.
+
+## Core Concepts
+
+### What is an Action?
+
+```typescript
+interface Action {
+  // Identity
+  id: string
+  contextId: string
+  type: ActionType
+  
+  // Execution
+  status: 'pending' | 'running' | 'completed' | 'failed'
+  payload: Record<string, any>
+  result?: Record<string, any>
+  
+  // Metadata
+  createdAt: Date
+  updatedAt: Date
+  duration?: number
+}
+
+type ActionType =
+  | 'clone_template'
+  | 'configure_tooling'
+  | 'modify_files'
+  | 'install_dependencies'
+  | 'run_tests'
+  | 'deploy'
+  | 'generate_preview'
+```
+
+## Action Lifecycle
+
+### 1. Creation
+
+```typescript
+// Create single action
+const action = await context.actions.create({
+  type: 'modify_files',
+  payload: {
+    files: ['src/auth.ts'],
+    changes: [
+      {
+        type: 'update',
+        path: 'src/auth.ts',
+        content: '// Updated auth code'
+      }
+    ]
+  }
+})
+
+// Create action sequence
+const sequence = await context.actions.createSequence([
+  {
+    type: 'install_dependencies',
+    payload: {
+      packages: ['@auth/core']
+    }
+  },
+  {
+    type: 'modify_files',
+    payload: {
+      files: ['src/auth.ts']
+    }
+  }
+])
+```
+
+### 2. Execution
+
+```typescript
+// Execute single action
+const result = await context.actions.execute(action.id)
+
+// Execute with options
+const result = await context.actions.execute(action.id, {
+  timeout: 5000,
+  retry: {
+    attempts: 3,
+    backoff: 'exponential'
+  }
+})
+
+// Execute sequence
+const results = await context.actions.executeSequence(sequence.id)
+```
+
+### 3. Monitoring
+
+```typescript
+// Get action status
+const status = await context.actions.getStatus(action.id)
+
+// Watch action progress
+context.actions.on('progress', (progress) => {
+  console.log(`Action ${progress.id}: ${progress.status}`)
+})
+
+// Get action logs
+const logs = await context.actions.getLogs(action.id)
+```
+
+## Action Types
+
+### 1. File Operations
+
+```typescript
+// Modify files
+await context.actions.execute({
+  type: 'modify_files',
+  payload: {
+    files: ['src/auth.ts'],
+    operations: [
+      {
+        type: 'update',
+        path: 'src/auth.ts',
+        content: '// New content'
+      },
+      {
+        type: 'create',
+        path: 'src/types.ts',
+        content: 'export type User = {...}'
+      }
+    ]
+  }
+})
+
+// Validate changes
+await context.actions.execute({
+  type: 'validate_changes',
+  payload: {
+    files: ['src/auth.ts'],
+    checks: ['lint', 'typecheck']
+  }
+})
+```
+
+### 2. Dependency Management
+
+```typescript
+// Install dependencies
+await context.actions.execute({
+  type: 'install_dependencies',
+  payload: {
+    packages: ['@auth/core', '@prisma/client'],
+    dev: false
+  }
+})
+
+// Update dependencies
+await context.actions.execute({
+  type: 'update_dependencies',
+  payload: {
+    packages: ['@auth/core'],
+    version: 'latest'
+  }
+})
+```
+
+### 3. Deployment Actions
+
+```typescript
+// Deploy preview
+await context.actions.execute({
+  type: 'deploy',
+  payload: {
+    target: 'preview',
+    config: {
+      framework: 'next',
+      buildCommand: 'npm run build'
+    }
+  }
+})
+
+// Generate preview
+await context.actions.execute({
+  type: 'generate_preview',
+  payload: {
+    type: 'component',
+    path: 'src/components/Auth.tsx'
+  }
+})
+```
+
+## Advanced Features
+
+### 1. Action Templates
+
+```typescript
+// Create action template
+const template = await context.actions.createTemplate({
+  name: 'setup-auth',
+  description: 'Set up authentication system',
+  steps: [
+    {
+      type: 'install_dependencies',
+      payload: {
+        packages: ['@auth/core']
+      }
+    },
+    {
+      type: 'modify_files',
+      payload: {
+        files: ['src/auth.ts']
+      }
+    }
+  ]
+})
+
+// Use template
+await context.actions.executeTemplate(template.id)
+```
+
+### 2. Action Hooks
+
+```typescript
+// Add pre-execution hook
+context.actions.before('modify_files', async (action) => {
+  await validateFiles(action.payload.files)
+})
+
+// Add post-execution hook
+context.actions.after('deploy', async (result) => {
+  await notifyTeam(result.url)
+})
+
+// Add error handler
+context.actions.onError('*', async (error, action) => {
+  await logError(error, action)
+})
+```
+
+### 3. Action Analytics
+
+```typescript
+// Track action metrics
+const metrics = await context.actions.getMetrics({
+  period: '7d',
+  types: ['modify_files', 'deploy']
+})
+
+// Generate action report
+const report = await context.actions.generateReport({
+  include: ['performance', 'errors']
+})
+```
+
+## Best Practices
+
+### 1. Error Handling
+
+```typescript
+try {
+  await context.actions.execute(action.id)
+} catch (error) {
+  if (error instanceof ActionTimeoutError) {
+    await context.actions.retry(action.id)
+  } else if (error instanceof ActionValidationError) {
+    await context.actions.validate(action.id)
+  }
+}
+```
+
+### 2. Resource Management
+
+```typescript
+// Clean up action resources
+await context.actions.cleanup({
+  status: 'completed',
+  olderThan: '7d'
+})
+
+// Optimize action execution
+await context.actions.optimize({
+  parallel: true,
+  cache: true
+})
+```
+
+### 3. Security
+
+```typescript
+// Validate action permissions
+await context.actions.checkPermissions(action)
+
+// Sanitize action payload
+await context.actions.sanitize(action.payload)
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Action Timeout**
+```typescript
+// Increase timeout
+await context.actions.execute(action.id, {
+  timeout: 10000
+})
+
+// Enable progress tracking
+context.actions.on('progress', console.log)
+```
+
+2. **Resource Constraints**
+```typescript
+// Optimize resources
+await context.actions.optimize()
+
+// Scale resources
+await context.actions.scale({
+  cpu: 2,
+  memory: '2GB'
+})
+```
+
+3. **Validation Errors**
+```typescript
+// Get validation details
+const validation = await context.actions.validate(action.id)
+
+// Fix common issues
+await context.actions.autofix(action.id)
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Action Templates" icon="copy" href="/guides/action-templates">
+    Learn about reusable action templates
+  </Card>
+  <Card title="Context Management" icon="folder-tree" href="/guides/context-management">
+    Understand how actions fit into contexts
+  </Card>
+  <Card title="Preview System" icon="eye" href="/guides/previews">
+    See how actions create previews
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/actions/execute">
+    View the actions API reference
+  </Card>
+</CardGroup> 

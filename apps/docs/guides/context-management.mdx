@@ -1,0 +1,287 @@
+---
+title: 'Context Management'
+description: 'Understanding and working with Top contexts'
+---
+
+# Context Management
+
+Contexts in Top are more than just containers for code - they're living, breathing environments where intention becomes reality. This guide explains how to effectively manage contexts in your workflow.
+
+## Core Concepts
+
+### What is a Context?
+
+```typescript
+interface Context {
+  // Core properties
+  id: string
+  status: 'setup' | 'active' | 'completed'
+  
+  // Flow configuration
+  flow: {
+    resistance: "none"    // How smooth the experience is
+    friction: "minimal"   // How natural the interaction feels
+    direction: "natural"  // How intuitive the progression is
+  }
+  
+  // Technical configuration
+  config: {
+    template?: string     // Starting point
+    tooling?: string[]    // Required tools
+    features?: string[]   // Enabled capabilities
+  }
+}
+```
+
+A context represents a complete development environment, including:
+- Code and configuration
+- Conversation history
+- Action history
+- Preview deployments
+- Knowledge graph
+
+## Working with Contexts
+
+### Creating a Context
+
+```typescript
+// Simple context creation
+const context = await top.createContext({
+  name: "authentication-system"
+})
+
+// Advanced context creation
+const context = await top.createContext({
+  name: "authentication-system",
+  template: "next-auth",
+  config: {
+    features: ["oauth", "email", "session"],
+    tooling: ["typescript", "prisma", "jwt"]
+  }
+})
+```
+
+### Context Lifecycle
+
+```typescript
+// Start a context
+await context.start()
+
+// Pause a context
+await context.pause()
+
+// Resume a context
+await context.resume()
+
+// Complete a context
+await context.complete()
+```
+
+### Context State
+
+```typescript
+// Get current state
+const state = await context.getState()
+
+// Update state
+await context.setState({
+  phase: "development",
+  environment: "staging"
+})
+
+// Watch state changes
+context.on("stateChange", (newState) => {
+  console.log("Context state changed:", newState)
+})
+```
+
+## Context Features
+
+### 1. Knowledge Management
+
+```typescript
+// Add knowledge to context
+await context.learn({
+  type: "documentation",
+  content: "Authentication flow documentation"
+})
+
+// Query context knowledge
+const results = await context.query("How does the auth flow work?")
+
+// Export context knowledge
+const knowledge = await context.exportKnowledge({
+  format: "markdown"
+})
+```
+
+### 2. History Tracking
+
+```typescript
+// Get conversation history
+const messages = await context.getMessages()
+
+// Get action history
+const actions = await context.getActions()
+
+// Get preview history
+const previews = await context.getPreviews()
+```
+
+### 3. Resource Management
+
+```typescript
+// Manage dependencies
+await context.addDependencies([
+  "@auth/core",
+  "@prisma/client"
+])
+
+// Configure tooling
+await context.configureTools({
+  typescript: { strict: true },
+  prisma: { provider: "postgresql" }
+})
+```
+
+## Best Practices
+
+### 1. Context Organization
+
+```typescript
+// Group related contexts
+const authFeature = await top.createContext({
+  name: "auth",
+  parent: mainContext.id,
+  type: "feature"
+})
+
+// Link contexts
+await context.link(otherContext, {
+  type: "depends-on"
+})
+```
+
+### 2. Context Sharing
+
+```typescript
+// Share context
+const shareUrl = await context.share({
+  access: "team",
+  expiry: "24h"
+})
+
+// Collaborate on context
+await context.addCollaborators([
+  "team@company.com"
+])
+```
+
+### 3. Context Backup
+
+```typescript
+// Export context
+const backup = await context.export({
+  include: ["code", "history", "knowledge"]
+})
+
+// Import context
+const newContext = await top.importContext(backup)
+```
+
+## Advanced Features
+
+### 1. Context Templates
+
+```typescript
+// Create template from context
+const template = await context.saveAsTemplate({
+  name: "auth-starter",
+  description: "Authentication starter template"
+})
+
+// Use template
+const newContext = await top.createContext({
+  template: template.id
+})
+```
+
+### 2. Context Analytics
+
+```typescript
+// Track context metrics
+const metrics = await context.getMetrics({
+  period: "7d",
+  include: ["activity", "performance"]
+})
+
+// Generate context report
+const report = await context.generateReport()
+```
+
+### 3. Context Automation
+
+```typescript
+// Add context hooks
+context.on("message", async (message) => {
+  if (message.type === "question") {
+    await context.autoRespond(message)
+  }
+})
+
+// Set up automations
+await context.automate({
+  preview: {
+    onCodeChange: true,
+    onActionComplete: true
+  }
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Context Not Responding**
+```typescript
+// Check context health
+const health = await context.checkHealth()
+
+// Repair context
+await context.repair()
+```
+
+2. **Resource Issues**
+```typescript
+// Clean up resources
+await context.cleanup()
+
+// Optimize context
+await context.optimize()
+```
+
+3. **Sync Problems**
+```typescript
+// Force sync
+await context.forceSync()
+
+// Reset sync state
+await context.resetSync()
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Context Generation" icon="wand-magic-sparkles" href="/guides/context-generation">
+    Learn how contexts are generated
+  </Card>
+  <Card title="Smart Context" icon="brain" href="/guides/smart-context">
+    Explore context intelligence
+  </Card>
+  <Card title="Action System" icon="bolt" href="/guides/actions">
+    Understand context actions
+  </Card>
+  <Card title="Preview System" icon="eye" href="/guides/previews">
+    Master context previews
+  </Card>
+</CardGroup> 

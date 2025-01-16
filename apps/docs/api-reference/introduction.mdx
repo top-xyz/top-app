@@ -1,33 +1,118 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Reference'
+description: "Complete reference for Top's REST API"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+# API Reference
 
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+Welcome to the Top API reference. Our API follows REST principles and uses standard HTTP methods and status codes.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API requests require authentication using a bearer token:
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+  https://api.top.dev/v1/contexts
+```
+
+You can obtain an API key from your [Top Dashboard](https://app.top.dev/settings/api).
+
+## Base URL
+
+```
+https://api.top.dev/v1
+```
+
+## Rate Limiting
+
+- 1000 requests per minute per API key
+- Rate limit headers included in responses
+- Exponential backoff recommended
+
+## Response Format
+
+All responses are in JSON format and include:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "data": {
+    // Response data
+  },
+  "meta": {
+    "requestId": "req_123",
+    "timestamp": "2024-01-15T12:00:00Z"
   }
-]
+}
 ```
+
+## Error Handling
+
+Errors follow standard HTTP status codes:
+
+```json
+{
+  "error": {
+    "code": "invalid_request",
+    "message": "Invalid request parameters",
+    "details": {
+      "field": "contextId",
+      "issue": "Required field missing"
+    }
+  }
+}
+```
+
+Common status codes:
+- `400` Bad Request
+- `401` Unauthorized
+- `403` Forbidden
+- `404` Not Found
+- `429` Too Many Requests
+- `500` Internal Server Error
+
+## API Resources
+
+### Contexts
+- [Create Context](/api-reference/contexts/create)
+- [Get Context](/api-reference/contexts/get)
+- [Update Context](/api-reference/contexts/update)
+- [Delete Context](/api-reference/contexts/delete)
+- [List Contexts](/api-reference/contexts/list)
+
+### Messages
+- [Create Message](/api-reference/messages/create)
+- [List Messages](/api-reference/messages/list)
+- [Update Message](/api-reference/messages/update)
+
+### Actions
+- [Create Action](/api-reference/actions/create)
+- [List Actions](/api-reference/actions/list)
+- [Execute Action](/api-reference/actions/execute)
+- [Get Action Status](/api-reference/actions/status)
+
+### Previews
+- [Create Preview](/api-reference/previews/create)
+- [List Previews](/api-reference/previews/list)
+- [Update Preview](/api-reference/previews/update)
+- [Get Preview Status](/api-reference/previews/status)
+
+## SDKs & Libraries
+
+Official SDKs:
+- [JavaScript/TypeScript](https://github.com/top-dev/top-js)
+- [Python](https://github.com/top-dev/top-python)
+- [Go](https://github.com/top-dev/top-go)
+
+## Versioning
+
+The API is versioned using URL path versioning. The current version is `v1`.
+
+Breaking changes are only introduced in new API versions.
+
+## Support
+
+- [API Status](https://status.top.dev)
+- [Community Forum](https://community.top.dev)
+- [Discord Chat](https://discord.gg/top-dev)
+- Email: api@top.dev
