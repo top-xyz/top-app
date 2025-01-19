@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "top-app",
+			"path": "."
+		},
+		{
+			"name": "top-base",
+			"path": "../top-base"
+		},
+		{
+			"name": "ui",
+			"path": "../../../design/ui"
+		}
+	]
+}
