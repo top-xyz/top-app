@@ -1,7 +1,6 @@
 import { auth } from '@repo/auth/server'
 import { database } from '@repo/database'
-import { previewSystem } from '@repo/preview'
-import { z } from 'zod'
+import { previewSystem } from '../../../../../lib/preview'
 
 export async function POST(
   request: Request,

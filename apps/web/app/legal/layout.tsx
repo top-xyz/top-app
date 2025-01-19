@@ -1,15 +1,20 @@
 import { Toolbar } from '@repo/cms/components/toolbar';
-import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
 
-type LegalLayoutProps = {
-  children: ReactNode;
+export const metadata: Metadata = {
+  title: 'Legal - Top',
+  description: 'Legal information for Top',
 };
 
-const LegalLayout = ({ children }: LegalLayoutProps) => (
-  <>
-    {children}
-    <Toolbar />
-  </>
-);
-
-export default LegalLayout;
+export default function LegalLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <Toolbar />
+      {children}
+    </>
+  );
+}

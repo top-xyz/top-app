@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Button } from './button'
 import { Textarea } from './textarea'
-import { cn } from '@repo/design-system/lib/utils'
+import { cn } from '../../lib/utils'
 
 export interface ChatInputProps {
   onSubmit: (message: string) => void

@@ -1,20 +1,17 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // Create a matcher for public routes
-const isPublicRoute = createRouteMatcher([
-  "/",
-  "/blog",
-  "/pricing"
-]);
+const publicRoutes = ["/", "/blog", "/pricing"];
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isPublicRoute(req)) {
+const middleware = clerkMiddleware((auth, req) => {
+  // If it's a public route, allow access
+  if (publicRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
   // If the user is not signed in and the route is private, redirect to sign-in
-  if (!auth.userId) {
+  if (!auth.sessionId) {
     const signInUrl = new URL('/sign-in', req.url);
     signInUrl.searchParams.set('redirect_url', req.nextUrl.pathname);
     return NextResponse.redirect(signInUrl);
@@ -22,6 +19,8 @@ export default clerkMiddleware(async (auth, req) => {
 
   return NextResponse.next();
 });
+
+export default middleware;
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],

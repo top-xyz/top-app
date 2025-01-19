@@ -3,7 +3,9 @@ import { getUserContexts } from '../../actions/context'
 import { Button } from '@repo/design-system'
 import Link from 'next/link'
 
-function ContextCard({ context }: { context: Awaited<ReturnType<typeof getUserContexts>>[0] }) {
+type Context = Awaited<ReturnType<typeof getUserContexts>>[0]
+
+function ContextCard({ context }: { context: Context }) {
   const deployment = context.deployments[0]
   
   return (
@@ -50,7 +52,7 @@ async function ContextsList() {
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {contexts.map((context) => (
+      {contexts.map((context: Context) => (
         <Link key={context.id} href={`/contexts/${context.id}`}>
           <ContextCard context={context} />
         </Link>

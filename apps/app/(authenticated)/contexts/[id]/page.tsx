@@ -1,20 +1,18 @@
-import { LoadingSpinner } from '@repo/design-system/components/ui/loading-spinner'
-import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
-import { getContext } from '../../../actions/context'
-import { ContextChat } from './components/context-chat'
-import type { Metadata } from 'next'
+import { LoadingSpinner } from '@repo/design-system/components/ui/loading-spinner';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { getContext } from '../../../actions/context';
+import { ContextChat } from './components/context-chat';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Context',
-  description: 'View and interact with your context.'
-}
+  description: 'View and interact with your context.',
+};
 
 interface Props {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: { id: string }; // Ensure params is correctly typed
+  searchParams?: Record<string, string | string[] | undefined>;
 }
 
 export default async function ContextPage({ params }: Props) {
@@ -33,4 +31,4 @@ export default async function ContextPage({ params }: Props) {
       </Suspense>
     </div>
   );
-} 
+}

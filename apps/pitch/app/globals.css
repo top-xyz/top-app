@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --primary: 346 77.8% 49.8%;
+    --primary-rgb: 239 68 68;
+    --primary-foreground: 355.7 100% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Elegant scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border/50 rounded-full;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-border;
+} 
