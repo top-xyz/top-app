@@ -23,7 +23,7 @@
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "22.10.5",
-    "@types/react": "19.0.2",
+    "@types/react": "19.0.7",
     "@types/react-dom": "19.0.2",
     "autoprefixer": "^10.4.17",
     "clsx": "^2.1.1",
