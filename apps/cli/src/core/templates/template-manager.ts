@@ -8,13 +8,17 @@ export class TemplateManager {
   private templatesDir: string;
   private templates: Map<string, TemplateConfig> = new Map();
 
-  constructor(templatesDir: string) {
+  constructor(templatesDir: string = path.join(process.cwd(), 'templates')) {
     this.logger = new Logger();
     this.templatesDir = templatesDir;
   }
 
   async initialize(): Promise<void> {
     try {
+      if (!this.templatesDir) {
+        this.templatesDir = path.join(process.cwd(), 'templates');
+      }
+      
       // Create templates directory if it doesn't exist
       await fs.mkdir(this.templatesDir, { recursive: true });
       

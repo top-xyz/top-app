@@ -1,99 +1,158 @@
-import { VertexAIClient } from '../../utils/vertex-ai';
-import { ProjectInitialContext, DocumentGenerationPlan, TemplateConfig } from '../../types';
-import { Logger } from '../../utils/logger';
-import { TemplateManager } from '../templates/template-manager';
-import * as fs from 'fs/promises';
-import * as path from 'path';
 import { debug } from '../../utils/debug';
+import { VertexAIClient } from '../../utils/vertex-ai';
+import { TemplateManager } from '../templates/template-manager';
+import { EnhancedProjectContext, DocumentGenerationPlan } from '../../types/context';
+import { ContextVisualizer } from '../../utils/context-visualizer';
+import { Logger } from '../../utils/logger';
+import path from 'path';
+import fs from 'fs';
 
 export class DocumentationGenerator {
   private ai: VertexAIClient;
-  private logger: Logger;
   private templateManager: TemplateManager;
+  private logger: Logger;
   private outputDir: string;
 
-  constructor(templatesDir: string, outputDir: string) {
-    debug('DocGen', 'Constructor called with:', { templatesDir, outputDir });
-    this.ai = new VertexAIClient();
-    this.logger = new Logger();
-    this.templateManager = new TemplateManager(templatesDir);
-    this.outputDir = outputDir;
-    debug('DocGen', 'DocumentationGenerator instance created');
-  }
-
-  async initialize(): Promise<void> {
+  constructor(outputDir: string) {
     debug('DocGen', 'Initializing DocumentationGenerator');
-    await this.templateManager.initialize();
-    await fs.mkdir(this.outputDir, { recursive: true });
-    debug('DocGen', 'DocumentationGenerator initialized');
+    this.ai = new VertexAIClient();
+    this.templateManager = new TemplateManager();
+    this.logger = new Logger();
+    this.outputDir = outputDir;
   }
 
-  async generateDocumentation(
-    context: ProjectInitialContext,
-    selectedTemplates: string[]
-  ): Promise<string[]> {
-    debug('DocGen', 'Generating documentation for context:', context);
-    debug('DocGen', 'Selected templates:', selectedTemplates);
-    
+  async initialize() {
+    debug('DocGen', 'Loading templates');
+    await this.templateManager.initialize();
+  }
+
+  async generateDocumentation(context: EnhancedProjectContext, selectedTemplates: string[]) {
+    debug('DocGen', 'Generating documentation with context:', {
+      projectName: context.metadata.name,
+      selectedTemplates
+    });
+
     try {
-      const generatedFiles: string[] = [];
+      // Generate a context snapshot for documentation
+      const snapshot = await ContextVisualizer.generateSnapshot(context);
+      debug('DocGen', 'Generated context snapshot');
 
-      // Generate documentation plan
-      debug('DocGen', 'Generating documentation plan');
-      const plan = await this.ai.generateDocumentationPlan(context);
-      debug('DocGen', 'Generated plan:', plan);
-      
-      // Validate templates
-      debug('DocGen', 'Validating templates');
-      if (!await this.templateManager.validateTemplates(plan)) {
-        debug('DocGen', 'Template validation failed');
-        throw new Error('Invalid documentation plan - template validation failed');
-      }
-      debug('DocGen', 'Templates validated successfully');
+      // Generate documentation plan using enhanced context
+      const plan = await this.generateDocumentationPlan(context, snapshot);
+      debug('DocGen', 'Generated documentation plan:', plan);
 
-      // Generate each document
-      for (const templateId of selectedTemplates) {
-        debug('DocGen', `Generating documentation for template: ${templateId}`);
-        this.logger.info(`Generating documentation for template: ${templateId}`);
-        
-        const template = await this.templateManager.getTemplate(templateId);
-        debug('DocGen', 'Retrieved template:', template);
-        
-        const content = await this.ai.generateDocument(template, context, templateId);
-        debug('DocGen', 'Generated content length:', content.length);
-        
-        const fileName = await this.generateFileName(templateId, context.name);
-        const filePath = path.join(this.outputDir, fileName);
-        debug('DocGen', 'Writing to file:', filePath);
-        
-        await fs.writeFile(filePath, content, 'utf-8');
-        generatedFiles.push(fileName);
-        
-        this.logger.success(`Generated ${fileName}`);
+      // Validate selected templates
+      const validTemplates = await this.validateTemplates(selectedTemplates);
+      if (validTemplates.length === 0) {
+        throw new Error('No valid templates selected');
       }
 
-      return generatedFiles;
+      // Generate documents for each template
+      const documents = await Promise.all(
+        validTemplates.map(template =>
+          this.generateDocument(template, context, plan)
+        )
+      );
+
+      // Write documents to files
+      await this.writeDocuments(context.metadata.name, validTemplates, documents);
+
+      return {
+        success: true,
+        templates: validTemplates,
+        documentCount: documents.length
+      };
     } catch (error) {
       this.logger.error('Error generating documentation:', error);
       throw error;
     }
   }
 
-  private async generateFileName(templateId: string, projectName: string): Promise<string> {
-    const result = await this.ai.generateContent({
-      prompt: `Generate a kebab-case filename for a ${templateId} document about project ${projectName}.
-Return just the filename with .md extension.`,
-      type: 'filename'
-    });
+  private async generateDocumentationPlan(
+    context: EnhancedProjectContext,
+    snapshot: any
+  ): Promise<DocumentGenerationPlan> {
+    const prompt = `Generate a documentation plan for ${context.metadata.name}.
+Project Goals: ${context.metadata.goals}
 
-    return result.trim().toLowerCase();
+Context Snapshot:
+${JSON.stringify(snapshot, null, 2)}
+
+System Context:
+${JSON.stringify(context._system, null, 2)}
+
+Return a JSON object with:
+{
+  "templates": TemplateConfig[],
+  "structure": {
+    "type": string,
+    "files": string[],
+    "relationships": Array<{ source: string, target: string, type: string }>
+  },
+  "metadata": {
+    "projectType": string,
+    "complexity": string,
+    "priority": string
+  }
+}`;
+
+    const response = await this.ai.generateContent({ prompt });
+    return JSON.parse(response);
   }
 
-  getAvailableTemplates(): TemplateConfig[] {
-    return this.templateManager.getAvailableTemplates();
+  private async validateTemplates(templates: string[]): Promise<string[]> {
+    const validTemplates = await Promise.all(
+      templates.map(async template => {
+        try {
+          await this.templateManager.getTemplate(template);
+          return template;
+        } catch {
+          debug('DocGen', `Invalid template: ${template}`);
+          return null;
+        }
+      })
+    );
+
+    return validTemplates.filter((t): t is string => t !== null);
   }
 
-  getTemplatesByCategory(category: string): TemplateConfig[] {
-    return this.templateManager.getTemplatesByCategory(category);
+  private async generateDocument(
+    template: string,
+    context: EnhancedProjectContext,
+    plan: DocumentGenerationPlan
+  ): Promise<string> {
+    const templateContent = await this.templateManager.getTemplate(template);
+    
+    // Include relationship graph and contextual hints in generation
+    const enhancedContext = {
+      ...context,
+      _system: {
+        ...context._system,
+        documentationPlan: plan
+      }
+    };
+
+    return this.ai.generateDocument(templateContent, enhancedContext, template);
+  }
+
+  private async writeDocuments(
+    projectName: string,
+    templates: string[],
+    documents: string[]
+  ) {
+    const docsDir = path.join(process.cwd(), 'context');
+    
+    if (!fs.existsSync(docsDir)) {
+      fs.mkdirSync(docsDir, { recursive: true });
+    }
+
+    await Promise.all(
+      templates.map((template, i) =>
+        fs.promises.writeFile(
+          path.join(docsDir, `${template}.md`),
+          documents[i]
+        )
+      )
+    );
   }
 } 

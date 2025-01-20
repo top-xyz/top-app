@@ -12,6 +12,7 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 import { debug, setDebugMode } from './utils/debug'
 import inquirer from 'inquirer'
+import ora from 'ora'
 
 // Load environment variables
 dotenvConfig()
@@ -55,23 +56,27 @@ const cliConfig: CLIConfig = {
 
 // Initialize CLI
 const program = new Command()
+const logger = new Logger()
 let manager: InteractiveManager
 let kbManager: KnowledgeBaseManager
-let logger: Logger
 
 // Initialize managers first
-async function initializeManagers(debugMode = false) {
+async function initializeManagers(debugMode: boolean = false): Promise<void> {
   setDebugMode(debugMode);
-  debug('CLI', 'Initializing managers with debug mode:', debugMode);
-  manager = new InteractiveManager(
-    path.join(process.cwd(), cliConfig.templatesDir),
-    path.join(process.cwd(), cliConfig.contextDir),
-    debugMode
-  );
-  debug('CLI', 'Managers initialized');
-  kbManager = new KnowledgeBaseManager(cliConfig)
-  await kbManager.initialize()
-  logger = new Logger()
+  
+  try {
+    const templatesDir = path.join(process.cwd(), cliConfig.templatesDir);
+    const outputDir = path.join(process.cwd(), cliConfig.contextDir);
+    
+    debug('CLI', 'Creating required directories:', { templatesDir, outputDir });
+    await fs.mkdir(templatesDir, { recursive: true });
+    await fs.mkdir(outputDir, { recursive: true });
+    
+    debug('CLI', 'Directories created successfully');
+  } catch (error) {
+    logger.error('Failed to create directories:', error);
+    throw error;
+  }
 }
 
 program
@@ -84,6 +89,7 @@ program
 program.command('create')
   .description('Create a new project interactively')
   .option('-d, --debug', 'Enable debug mode')
+  .option('--noname', 'Skip name suggestion generation')
   .action(async (options) => {
     try {
       await initializeManagers(options.debug || false)
@@ -145,80 +151,93 @@ ${chalk.bold.blue('🌟 top')} - ${chalk.dim('Universal Context Manager')}
 `
 
 async function handleCreate(options: any) {
-  console.log(chalk.cyan('\n🌟 top - Universal Context Manager\n'));
-  console.log(chalk.cyan('✨ Let\'s create something amazing together!'));
-  console.log(chalk.cyan('I\'ll guide you through each step to set up your project perfectly.\n'));
-
-  // Initialize services early
-  const manager = new InteractiveManager(cliConfig.templatesDir, cliConfig.contextDir, options.debug);
-  await manager.initialize();
-
+  debug('CLI', 'Starting project creation with options:', options);
+  
   try {
-    // Get project name
-    const name = await inquirer.prompt([{
-      type: 'input',
-      name: 'projectName',
-      message: 'What would you like to name your project?',
-      validate: (input: string) => {
-        if (input.trim().length === 0) {
-          return 'Project name cannot be empty';
+    const templatesDir = path.join(process.cwd(), cliConfig.templatesDir);
+    const outputDir = path.join(process.cwd(), cliConfig.contextDir);
+    
+    debug('CLI', 'Using directories:', { templatesDir, outputDir });
+    
+    // Ensure directories exist
+    await fs.mkdir(templatesDir, { recursive: true });
+    await fs.mkdir(outputDir, { recursive: true });
+    
+    debug('CLI', 'Created directories');
+    
+    const manager = new InteractiveManager(templatesDir, outputDir, options.debug);
+    
+    console.log('\n🌟 top - Universal Context Manager\n');
+    console.log('✨ Let\'s create something amazing together!');
+    console.log('I\'ll guide you through each step to set up your project perfectly.\n');
+    console.log('🔧 Initializing services...\n');
+    
+    // Initialize services
+    await manager.initialize();
+    
+    // Get project description first
+    const description = await input({
+      message: chalk.cyan('Describe your project vision in detail:'),
+      validate: (value) => {
+        if (!value || value.length < 10) {
+          return 'Please provide a more detailed description of your project';
         }
         return true;
       }
-    }]);
-    
-    await manager.startProjectCreation(name.projectName);
-    
-    // Get project goals
-    const goals = await input({
-      message: `What are the main goals of ${name.projectName}?`,
-      validate: (value) => value.length > 0 ? true : 'Please enter project goals'
     });
-    
-    await manager.setProjectGoals(goals);
-    
-    // Handle required prompts
+
+    // If --noname flag is not set, get project name suggestions
+    let projectName;
+    if (!options.noname) {
+      // Start the creation process with the description
+      const success = await manager.handleCreate(description);
+      if (!success) {
+        process.exit(1);
+      }
+      projectName = await input({
+        message: chalk.cyan('What would you like to name your project?'),
+        validate: (value) => value.trim().length > 0 ? true : 'Project name cannot be empty'
+      });
+    } else {
+      // Skip name suggestions and just ask for the name directly
+      projectName = await input({
+        message: chalk.cyan('Enter your project name:'),
+        validate: (value) => value.trim().length > 0 ? true : 'Project name cannot be empty'
+      });
+      // Initialize the project with the name and description
+      const success = await manager.handleCreateWithName(projectName, description);
+      if (!success) {
+        process.exit(1);
+      }
+    }
+
+    // Continue with the interactive prompting flow
     let currentStage = 'required_prompts';
     while (currentStage !== 'complete') {
-      debug('CLI', `Current stage: ${currentStage}`);
-      const result = await manager.handleUserInput('', currentStage);
+      const userInput = await input({
+        message: chalk.cyan('Your response:')
+      });
+
+      const result = await manager.handleUserInput(userInput, currentStage);
       
       if (result.response) {
-        console.log('\n' + chalk.cyan(result.response) + '\n');
+        console.log('\n' + chalk.cyan(result.response));
       }
       
       if (result.suggestions?.length > 0) {
-        // Display all suggestions
-        result.suggestions.forEach((suggestion, index) => {
-          console.log(chalk.yellow(`${index + 1}. ${suggestion}`));
-        });
-        console.log();
+        console.log(chalk.dim('\nQuestion:'), result.suggestions[0]);
+      }
 
-        // Get user input for the first suggestion
-        const answer = await input({
-          message: result.suggestions[0],
-          validate: (value) => value.length > 0 ? true : 'Please provide an answer'
-        });
-        
-        debug('CLI', `Got answer for suggestion: ${answer}`);
-        const nextResult = await manager.handleUserInput(answer, currentStage);
-        debug('CLI', `Next result:`, nextResult);
-        
-        if (nextResult.nextStage) {
-          debug('CLI', `Moving to next stage: ${nextResult.nextStage}`);
-          currentStage = nextResult.nextStage;
-        }
-      } else {
-        debug('CLI', 'No suggestions, completing');
-        currentStage = 'complete';
+      if (result.nextStage) {
+        currentStage = result.nextStage;
       }
     }
-    
+
     console.log(chalk.green('\n✅ Project setup complete! You can find your generated documentation in the context directory.\n'));
-    process.exit(0);
+
   } catch (error) {
-    debug('Error in handleCreate:', error);
-    logger.error('An error occurred:', error);
+    debug('CLI', 'An error occurred:', error);
+    console.error(chalk.red('✗'), '[' + new Date().toISOString() + ']', 'An error occurred:', error);
     process.exit(1);
   }
 }
