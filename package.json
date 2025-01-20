@@ -18,7 +18,8 @@
     "bump-deps": "npx npm-check-updates --deep -u -x react-day-picker && pnpm install",
     "bump-ui": "npx shadcn@latest add --all --overwrite -c packages/design-system",
     "migrate": "cd packages/database && npx prisma format && npx prisma generate && npx prisma db push",
-    "clean": "git clean -xdf node_modules"
+    "clean": "git clean -xdf node_modules",
+    "top": "cd cli && NODE_NO_WARNINGS=1 tsx --tsconfig tsconfig.json src/cli.ts"
   },
   "devDependencies": {
     "@auto-it/first-time-contributor": "^11.3.0",
