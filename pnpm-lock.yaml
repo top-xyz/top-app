@@ -266,9 +266,15 @@ importers:
       '@google-cloud/vertexai':
         specifier: ^0.5.0
         version: 0.5.0(encoding@0.1.13)
+      '@inquirer/core':
+        specifier: ^10.1.4
+        version: 10.1.4(@types/node@20.17.13)
       '@inquirer/prompts':
-        specifier: ^3.3.0
+        specifier: ^3.3.2
         version: 3.3.2
+      '@inquirer/select':
+        specifier: ^4.0.6
+        version: 4.0.6(@types/node@20.17.13)
       '@langchain/community':
         specifier: ^0.0.26
         version: 0.0.26(@upstash/redis@1.34.3)(encoding@0.1.13)(google-auth-library@9.15.0(encoding@0.1.13))(hnswlib-node@1.4.2)(html-to-text@9.0.5)(jsdom@25.0.1(bufferutil@4.0.9))(lodash@4.17.21)(openai@4.78.1(encoding@0.1.13)(zod@3.24.1))(typesense@1.8.2(@babel/runtime@7.26.0))(ws@8.18.0(bufferutil@4.0.9))
@@ -13967,6 +13973,20 @@ snapshots:
       '@inquirer/type': 3.0.2(@types/node@22.10.7)
       '@types/node': 22.10.7
 
+  '@inquirer/core@10.1.4(@types/node@20.17.13)':
+    dependencies:
+      '@inquirer/figures': 1.0.9
+      '@inquirer/type': 3.0.2(@types/node@20.17.13)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      strip-ansi: 6.0.1
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    transitivePeerDependencies:
+      - '@types/node'
+
   '@inquirer/core@10.1.4(@types/node@22.10.7)':
     dependencies:
       '@inquirer/figures': 1.0.9
@@ -14115,6 +14135,15 @@ snapshots:
       chalk: 4.1.2
       figures: 3.2.0
 
+  '@inquirer/select@4.0.6(@types/node@20.17.13)':
+    dependencies:
+      '@inquirer/core': 10.1.4(@types/node@20.17.13)
+      '@inquirer/figures': 1.0.9
+      '@inquirer/type': 3.0.2(@types/node@20.17.13)
+      '@types/node': 20.17.13
+      ansi-escapes: 4.3.2
+      yoctocolors-cjs: 2.1.2
+
   '@inquirer/select@4.0.6(@types/node@22.10.7)':
     dependencies:
       '@inquirer/core': 10.1.4(@types/node@22.10.7)
@@ -14127,6 +14156,10 @@ snapshots:
   '@inquirer/type@1.5.5':
     dependencies:
       mute-stream: 1.0.0
+
+  '@inquirer/type@3.0.2(@types/node@20.17.13)':
+    dependencies:
+      '@types/node': 20.17.13
 
   '@inquirer/type@3.0.2(@types/node@22.10.7)':
     dependencies:

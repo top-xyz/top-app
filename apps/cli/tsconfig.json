@@ -12,13 +12,15 @@
     "declaration": true,
     "sourceMap": true,
     "resolveJsonModule": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@cli/*": ["./src/cli/*"],
       "@core/*": ["./src/core/*"],
       "@modules/*": ["./src/modules/*"],
       "@utils/*": ["./src/utils/*"],
       "@config/*": ["./src/config/*"],
-      "@types": ["./src/types"]
+      "@types": ["src/types"]
     }
   },
   "include": [
@@ -29,4 +31,4 @@
     "dist",
     "**/*.test.ts"
   ]
-} 
+}

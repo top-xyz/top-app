@@ -1,6 +1,6 @@
 import { debug } from './debug';
 import chalk from 'chalk';
-import { EnhancedProjectContext, RelationshipGraph } from '../types/context';
+import { EnhancedProjectContext, RelationshipGraph } from '../types_old/context';
 
 interface ContextSnapshot {
   focus: string[];

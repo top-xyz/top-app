@@ -1,5 +1,5 @@
-import { ProjectType } from './project-types/detector';
-import { ProjectInitialContext } from '../../../types';
+import { ProjectType } from '../project-types/detector';
+import { ProjectInitialContext } from '../../types';
 
 export interface InsightCategory {
   key: string;

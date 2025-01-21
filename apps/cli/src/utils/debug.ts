@@ -10,7 +10,7 @@ export function debug(context: string, message: string, data?: any) {
   const timestamp = new Date().toISOString();
   const prefix = chalk.dim(`[${timestamp}]`) + chalk.cyan(` [${context}]`);
   
-  return;
+  //return;
   
   if (data) {
     if (typeof data === 'object') {

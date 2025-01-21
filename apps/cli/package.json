@@ -2,18 +2,18 @@
   "name": "top-base",
   "version": "1.0.0",
   "description": "Project context and documentation management CLI",
-  "main": "src/cli.ts",
+  "main": "src/cli/index.ts",
   "type": "module",
   "bin": {
     "top": "./bin/cli.js",
     "topcli": "./bin/cli.js"
   },
   "engines": {
-    "node": ">=21.7.1"
+    "node": ">=20.18.1"
   },
   "scripts": {
-    "start": "NODE_NO_WARNINGS=1 tsx src/cli.ts --",
-    "build": "tsup src/cli.ts --format esm --dts --clean",
+    "start": "NODE_NO_WARNINGS=1 tsx src/cli/index.ts",
+    "build": "tsup src/cli/index.ts --format esm --dts --clean",
     "test": "vitest",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",

@@ -1,158 +1,132 @@
 import { debug } from '../../utils/debug';
-import { VertexAIClient } from '../../utils/vertex-ai';
-import { TemplateManager } from '../templates/template-manager';
-import { EnhancedProjectContext, DocumentGenerationPlan } from '../../types/context';
+import { VertexAIClient } from '../client/vertex-ai';
+import { EnhancedProjectContext } from '../../types/core/context';
+import { DocumentSection, DocumentStructure, GeneratedDocument } from '../../types/core/documentation';
+import { getDocumentStructurePrompt, getSectionContentPrompt } from '../prompts/templates/documentation';
 import { ContextVisualizer } from '../../utils/context-visualizer';
 import { Logger } from '../../utils/logger';
 import path from 'path';
 import fs from 'fs';
 
 export class DocumentationGenerator {
-  private ai: VertexAIClient;
-  private templateManager: TemplateManager;
   private logger: Logger;
   private outputDir: string;
 
-  constructor(outputDir: string) {
+  constructor(
+    private ai: VertexAIClient,
+    outputDir: string
+  ) {
     debug('DocGen', 'Initializing DocumentationGenerator');
-    this.ai = new VertexAIClient();
-    this.templateManager = new TemplateManager();
     this.logger = new Logger();
     this.outputDir = outputDir;
   }
 
   async initialize() {
-    debug('DocGen', 'Loading templates');
-    await this.templateManager.initialize();
+    debug('DocGen', 'Ensuring output directory exists');
+    await fs.promises.mkdir(this.outputDir, { recursive: true });
   }
 
-  async generateDocumentation(context: EnhancedProjectContext, selectedTemplates: string[]) {
+  async generateDocumentation(context: EnhancedProjectContext): Promise<GeneratedDocument> {
     debug('DocGen', 'Generating documentation with context:', {
-      projectName: context.metadata.name,
-      selectedTemplates
+      projectName: context.name,
+      projectType: context.type
     });
 
     try {
-      // Generate a context snapshot for documentation
+      // Step 1: Generate context snapshot for better LLM understanding
       const snapshot = await ContextVisualizer.generateSnapshot(context);
       debug('DocGen', 'Generated context snapshot');
 
-      // Generate documentation plan using enhanced context
-      const plan = await this.generateDocumentationPlan(context, snapshot);
-      debug('DocGen', 'Generated documentation plan:', plan);
+      // Step 2: Get ideal document structure from LLM
+      const structure = await this.generateDocumentStructure(context, snapshot);
+      debug('DocGen', 'Generated document structure:', structure);
 
-      // Validate selected templates
-      const validTemplates = await this.validateTemplates(selectedTemplates);
-      if (validTemplates.length === 0) {
-        throw new Error('No valid templates selected');
-      }
+      // Step 3: Generate content for each section
+      const content = await this.generateDocumentContent(context, structure);
+      debug('DocGen', 'Generated document content');
 
-      // Generate documents for each template
-      const documents = await Promise.all(
-        validTemplates.map(template =>
-          this.generateDocument(template, context, plan)
-        )
-      );
-
-      // Write documents to files
-      await this.writeDocuments(context.metadata.name, validTemplates, documents);
-
-      return {
-        success: true,
-        templates: validTemplates,
-        documentCount: documents.length
+      // Step 4: Save documentation
+      const document: GeneratedDocument = {
+        content,
+        structure,
+        metadata: {
+          generatedAt: new Date().toISOString(),
+          version: '1.0.0',
+          context: {
+            projectType: context.type?.primaryType || 'unknown',
+            technicalStack: context.insights?.technicalPatterns || []
+          }
+        }
       };
+
+      await this.saveDocumentation(document);
+      return document;
     } catch (error) {
-      this.logger.error('Error generating documentation:', error);
+      debug('DocGen', 'Error generating documentation:', error);
       throw error;
     }
   }
 
-  private async generateDocumentationPlan(
+  private async generateDocumentStructure(
     context: EnhancedProjectContext,
     snapshot: any
-  ): Promise<DocumentGenerationPlan> {
-    const prompt = `Generate a documentation plan for ${context.metadata.name}.
-Project Goals: ${context.metadata.goals}
+  ): Promise<DocumentStructure> {
+    const prompt = getDocumentStructurePrompt(context, snapshot);
 
-Context Snapshot:
-${JSON.stringify(snapshot, null, 2)}
+    const response = await this.ai.generateContent({
+      prompt,
+      type: 'structured',
+      temperature: 0.7
+    });
 
-System Context:
-${JSON.stringify(context._system, null, 2)}
-
-Return a JSON object with:
-{
-  "templates": TemplateConfig[],
-  "structure": {
-    "type": string,
-    "files": string[],
-    "relationships": Array<{ source: string, target: string, type: string }>
-  },
-  "metadata": {
-    "projectType": string,
-    "complexity": string,
-    "priority": string
-  }
-}`;
-
-    const response = await this.ai.generateContent({ prompt });
     return JSON.parse(response);
   }
 
-  private async validateTemplates(templates: string[]): Promise<string[]> {
-    const validTemplates = await Promise.all(
-      templates.map(async template => {
-        try {
-          await this.templateManager.getTemplate(template);
-          return template;
-        } catch {
-          debug('DocGen', `Invalid template: ${template}`);
-          return null;
-        }
-      })
-    );
-
-    return validTemplates.filter((t): t is string => t !== null);
-  }
-
-  private async generateDocument(
-    template: string,
+  private async generateDocumentContent(
     context: EnhancedProjectContext,
-    plan: DocumentGenerationPlan
+    structure: DocumentStructure
   ): Promise<string> {
-    const templateContent = await this.templateManager.getTemplate(template);
-    
-    // Include relationship graph and contextual hints in generation
-    const enhancedContext = {
-      ...context,
-      _system: {
-        ...context._system,
-        documentationPlan: plan
+    const generateSectionContent = async (section: DocumentSection, depth: number = 0): Promise<string> => {
+      const prompt = getSectionContentPrompt(context, section, structure, depth);
+
+      const content = await this.ai.generateContent({
+        prompt,
+        type: 'text',
+        temperature: 0.5
+      });
+
+      let sectionContent = '#'.repeat(depth + 1) + ' ' + section.title + '\n\n' + content;
+
+      if (section.subsections?.length) {
+        for (const subsection of section.subsections) {
+          sectionContent += '\n\n' + await generateSectionContent(subsection, depth + 1);
+        }
       }
+
+      return sectionContent;
     };
 
-    return this.ai.generateDocument(templateContent, enhancedContext, template);
-  }
-
-  private async writeDocuments(
-    projectName: string,
-    templates: string[],
-    documents: string[]
-  ) {
-    const docsDir = path.join(process.cwd(), 'context');
+    let fullContent = `# ${context.name} Documentation\n\n`;
     
-    if (!fs.existsSync(docsDir)) {
-      fs.mkdirSync(docsDir, { recursive: true });
+    for (const section of structure.sections) {
+      fullContent += await generateSectionContent(section) + '\n\n';
     }
 
-    await Promise.all(
-      templates.map((template, i) =>
-        fs.promises.writeFile(
-          path.join(docsDir, `${template}.md`),
-          documents[i]
-        )
-      )
-    );
+    return fullContent;
   }
-} 
+
+  private async saveDocumentation(doc: GeneratedDocument) {
+    const outputPath = path.join(this.outputDir, 'documentation.md');
+    await fs.promises.writeFile(outputPath, doc.content, 'utf8');
+    
+    // Save metadata separately
+    const metaPath = path.join(this.outputDir, 'documentation.meta.json');
+    await fs.promises.writeFile(
+      metaPath,
+      JSON.stringify({ structure: doc.structure, metadata: doc.metadata }, null, 2),
+      'utf8'
+    );
+
+    debug('DocGen', 'Documentation saved to:', outputPath);
+  }
+}

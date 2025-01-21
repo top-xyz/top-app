@@ -17,35 +17,27 @@ INSIGHT TYPES TO CONSIDER:
 - Architectural patterns (e.g., "This data flow approach could enable real-time features...")
 - Implementation insights (e.g., "Vector embeddings here could unlock discovery patterns...")
 - UX opportunities (e.g., "This state management could create fluid transitions...")
-- Scaling considerations (e.g., "This structure naturally evolves into...")
+- Market insights (e.g., "This aligns with the growing trend in...")
 
-Example high-value responses:
-"Nice approach! Your color-based video organization reminds me of how recommendation engines use collaborative filtering, but for visual neighborhoods. This could naturally evolve into emergent categorization patterns as your content grows."
+FORMAT: Return a concise response following this structure.`;
 
-"Great thinking! This is similar to how Figma handles operational transforms, but for video playback. This could enable unique synchronized viewing patterns that most platforms can't support."
+export const getResponsePrompt = (prompt: string) => `${responseTemplate}
 
-Format: Start with a quick acknowledgment, then share your most valuable insight using a relevant technical parallel, followed by one key practical implication.`;
+USER INPUT: ${prompt}`;
 
-export const getResponsePrompt = (prompt: string) => `${prompt}
+export const getContextualResponsePrompt = (promptId: string, response: string, allResponses: Record<string, string>) => {
+  const contextStr = Object.entries(allResponses)
+    .filter(([id]) => id !== promptId)
+    .map(([id, value]) => `${id}: ${value}`)
+    .join('\n');
 
-${responseTemplate}`;
+  return `${responseTemplate}
 
-export const getContextualResponsePrompt = (input: string, question: string) => `Based on the user's response to the question "${question}":
+PREVIOUS CONTEXT:
+${contextStr}
 
-"${input}"
+CURRENT PROMPT: ${promptId}
+USER RESPONSE: ${response}
 
-Provide a brief, encouraging response that:
-1. Acknowledges their input
-2. Reflects understanding of their perspective
-3. Makes a clear statement about potential directions or implications
-4. IMPORTANT: Do not ask any questions in your response
-
-Keep the response concise (2-3 sentences max) and focus on moving the conversation forward.
-
-Example good response:
-"Your vision for a minimalist interface aligns well with modern design principles. This approach will help users stay focused on their tasks without distractions."
-
-Example bad response:
-"Interesting thoughts about the interface! Have you considered how this might work for different user types? Maybe we could explore some alternative approaches?"
-
-Remember: Make statements, don't ask questions.`; 
+Analyze this response in the context of previous answers. Focus on identifying patterns and implications.`;
+};
