@@ -2,7 +2,8 @@ import { debug } from '../../utils/debug';
 import { VertexAIClient } from '../client/vertex-ai';
 import { EnhancedProjectContext } from '../../types/core/context';
 import { DocumentSection, DocumentStructure, GeneratedDocument } from '../../types/core/documentation';
-import { getDocumentStructurePrompt, getSectionContentPrompt } from '../prompts/templates/documentation';
+import { getDocumentStructurePrompt } from '../prompts/templates/documentation/structure';
+import { getDocumentContentPrompt } from '../prompts/templates/documentation/content';
 import { ContextVisualizer } from '../../utils/context-visualizer';
 import { Logger } from '../../utils/logger';
 import path from 'path';
@@ -87,7 +88,7 @@ export class DocumentationGenerator {
     structure: DocumentStructure
   ): Promise<string> {
     const generateSectionContent = async (section: DocumentSection, depth: number = 0): Promise<string> => {
-      const prompt = getSectionContentPrompt(context, section, structure, depth);
+      const prompt = getDocumentContentPrompt(context, section, structure, depth);
 
       const content = await this.ai.generateContent({
         prompt,

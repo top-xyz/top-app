@@ -1,0 +1,349 @@
+{
+  "name": "kyu",
+  "description": "what does chatgpt/cursor for group chat look like? how to ideally augment the group chat conventional experience with ai fueled insights. allow users to customize their contextual enrichment? deep and instinctive tracking of threads in a group chat. better ai summaries of what you missed. native ios with industry standard glassy ui/ux, minimal and fun to use, easy to understand",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "mobile",
+          "secondary": [
+            "ios"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "chatgpt api",
+            "ai summarization",
+            "thread tracking"
+          ],
+          "core": [
+            "ios development",
+            "api integration",
+            "ai/ml"
+          ],
+          "optional": [
+            "cloud storage",
+            "database"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "chat input",
+            "thread selection",
+            "customization options"
+          ],
+          "interactions": [
+            "group chat with ai insights",
+            "customizable enrichment",
+            "deep thread tracking"
+          ],
+          "design": [
+            "native ios ui/ux",
+            "glassy design",
+            "minimal and fun"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "chatgpt api"
+          ],
+          "services": [
+            "ai summarization service"
+          ],
+          "integrations": [
+            "native ios integration"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "chatgpt integration",
+            "ai summarization",
+            "thread tracking"
+          ],
+          "required": [
+            "natural language processing",
+            "machine learning"
+          ],
+          "potential": [
+            "sentiment analysis",
+            "topic modeling"
+          ]
+        },
+        "nameSuggestions": [
+          "chime",
+          "insight",
+          "threadflow",
+          "chatflow",
+          "aiweave"
+        ]
+      },
+      "lastUpdated": "2025-01-21T23:24:10.558Z",
+      "changeLogs": [
+        {
+          "id": "change-1737501850557",
+          "timestamp": "2025-01-21T23:24:10.557Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Novel solution for group chat augmentation with AI insights",
+                  "Focuses on deep and instinctive tracking of threads",
+                  "Aims to improve group chat experience with AI-powered summaries",
+                  "Emphasizes customization and user control over contextual enrichment"
+                ],
+                "secondaryTypes": [
+                  "Explore existing AI-powered group chat solutions for inspiration and differentiation",
+                  "Focus on user experience and intuitive interaction with AI features",
+                  "Consider integrating with popular group chat platforms for wider adoption",
+                  "Develop a clear value proposition and target audience for effective marketing"
+                ]
+              },
+              "timestamp": "2025-01-21T23:24:10.557Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737501850558",
+          "timestamp": "2025-01-21T23:24:10.558Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Novel solution for group chat augmentation with AI insights",
+                  "Focuses on deep and instinctive tracking of threads",
+                  "Aims to improve group chat experience with AI-powered summaries",
+                  "Emphasizes customization and user control over contextual enrichment"
+                ],
+                "secondaryTypes": [
+                  "Explore existing AI-powered group chat solutions for inspiration and differentiation",
+                  "Focus on user experience and intuitive interaction with AI features",
+                  "Consider integrating with popular group chat platforms for wider adoption",
+                  "Develop a clear value proposition and target audience for effective marketing"
+                ]
+              },
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Novel solution for group chat augmentation with AI insights",
+                  "Focuses on deep and instinctive tracking of threads",
+                  "Aims to improve group chat experience with AI-powered summaries",
+                  "Emphasizes customization and user control over contextual enrichment"
+                ],
+                "secondaryTypes": [
+                  "Explore existing AI-powered group chat solutions for inspiration and differentiation",
+                  "Focus on user experience and intuitive interaction with AI features",
+                  "Consider integrating with popular group chat platforms for wider adoption",
+                  "Develop a clear value proposition and target audience for effective marketing"
+                ]
+              },
+              "timestamp": "2025-01-21T23:24:10.558Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-21T23:24:03.869Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "mobile",
+        "secondary": [
+          "ios"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "chatgpt api",
+          "ai summarization",
+          "thread tracking"
+        ],
+        "core": [
+          "ios development",
+          "api integration",
+          "ai/ml"
+        ],
+        "optional": [
+          "cloud storage",
+          "database"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "chat input",
+          "thread selection",
+          "customization options"
+        ],
+        "interactions": [
+          "group chat with ai insights",
+          "customizable enrichment",
+          "deep thread tracking"
+        ],
+        "design": [
+          "native ios ui/ux",
+          "glassy design",
+          "minimal and fun"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "chatgpt api"
+        ],
+        "services": [
+          "ai summarization service"
+        ],
+        "integrations": [
+          "native ios integration"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "chatgpt integration",
+          "ai summarization",
+          "thread tracking"
+        ],
+        "required": [
+          "natural language processing",
+          "machine learning"
+        ],
+        "potential": [
+          "sentiment analysis",
+          "topic modeling"
+        ]
+      },
+      "nameSuggestions": [
+        "chime",
+        "insight",
+        "threadflow",
+        "chatflow",
+        "aiweave"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "mobile",
+      "secondary": [
+        "ios"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "chatgpt api",
+        "ai summarization",
+        "thread tracking"
+      ],
+      "core": [
+        "ios development",
+        "api integration",
+        "ai/ml"
+      ],
+      "optional": [
+        "cloud storage",
+        "database"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "chat input",
+        "thread selection",
+        "customization options"
+      ],
+      "interactions": [
+        "group chat with ai insights",
+        "customizable enrichment",
+        "deep thread tracking"
+      ],
+      "design": [
+        "native ios ui/ux",
+        "glassy design",
+        "minimal and fun"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "chatgpt api"
+      ],
+      "services": [
+        "ai summarization service"
+      ],
+      "integrations": [
+        "native ios integration"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "chatgpt integration",
+        "ai summarization",
+        "thread tracking"
+      ],
+      "required": [
+        "natural language processing",
+        "machine learning"
+      ],
+      "potential": [
+        "sentiment analysis",
+        "topic modeling"
+      ]
+    },
+    "nameSuggestions": [
+      "chime",
+      "insight",
+      "threadflow",
+      "chatflow",
+      "aiweave"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.9,
+      "reasons": [
+        "Novel solution for group chat augmentation with AI insights",
+        "Focuses on deep and instinctive tracking of threads",
+        "Aims to improve group chat experience with AI-powered summaries",
+        "Emphasizes customization and user control over contextual enrichment"
+      ],
+      "secondaryTypes": [
+        "Explore existing AI-powered group chat solutions for inspiration and differentiation",
+        "Focus on user experience and intuitive interaction with AI features",
+        "Consider integrating with popular group chat platforms for wider adoption",
+        "Develop a clear value proposition and target audience for effective marketing"
+      ]
+    }
+  },
+  "insights": {
+    "keyPoints": [],
+    "technicalAspects": [],
+    "userExperience": [],
+    "challenges": [],
+    "nextSteps": [],
+    "Response": "you decide"
+  }
+}

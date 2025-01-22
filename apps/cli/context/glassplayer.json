@@ -1,0 +1,275 @@
+{
+  "name": "glassplayer",
+  "description": "glassy react19/next15/tailwind/motion mp3 player",
+  "_system": {
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "glassy",
+        "react19/next15/tailwind/motion",
+        "mp3 player"
+      ],
+      "secondaryTypes": [],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": []
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "glassy",
+            "react19/next15/tailwind/motion",
+            "mp3 player"
+          ]
+        },
+        "utility": {
+          "score": 0.5,
+          "reasons": [
+            "mp3 player"
+          ]
+        },
+        "automation": {
+          "score": 0.1,
+          "reasons": []
+        }
+      }
+    },
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "React 19",
+            "Next.js 15",
+            "Tailwind CSS",
+            "Framer Motion"
+          ],
+          "core": [
+            "JavaScript",
+            "HTML",
+            "CSS"
+          ],
+          "optional": [
+            "TypeScript",
+            "Node.js",
+            "Web Audio API"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "audio playback controls",
+            "playlist management",
+            "visualizations"
+          ],
+          "interactions": [
+            "intuitive",
+            "user-friendly",
+            "interactive"
+          ],
+          "design": [
+            "modern",
+            "responsive",
+            "accessible"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "MP3 metadata API"
+          ],
+          "services": [
+            "cloud storage",
+            "audio streaming service"
+          ],
+          "integrations": [
+            "seamless",
+            "efficient",
+            "reliable"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": [
+            "music recommendation",
+            "audio analysis",
+            "personalization"
+          ]
+        },
+        "nameSuggestions": [
+          "melo",
+          "tune",
+          "beat",
+          "jive",
+          "pulse"
+        ]
+      },
+      "nameSuggestions": [
+        "melo",
+        "tune",
+        "beat",
+        "jive",
+        "pulse"
+      ],
+      "lastUpdated": "2025-01-21T14:41:16.965Z"
+    },
+    "insights": [],
+    "references": [],
+    "patterns": [],
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "React 19",
+          "Next.js 15",
+          "Tailwind CSS",
+          "Framer Motion"
+        ],
+        "core": [
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ],
+        "optional": [
+          "TypeScript",
+          "Node.js",
+          "Web Audio API"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "audio playback controls",
+          "playlist management",
+          "visualizations"
+        ],
+        "interactions": [
+          "intuitive",
+          "user-friendly",
+          "interactive"
+        ],
+        "design": [
+          "modern",
+          "responsive",
+          "accessible"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "MP3 metadata API"
+        ],
+        "services": [
+          "cloud storage",
+          "audio streaming service"
+        ],
+        "integrations": [
+          "seamless",
+          "efficient",
+          "reliable"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": [
+          "music recommendation",
+          "audio analysis",
+          "personalization"
+        ]
+      },
+      "nameSuggestions": [
+        "melo",
+        "tune",
+        "beat",
+        "jive",
+        "pulse"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "React 19",
+        "Next.js 15",
+        "Tailwind CSS",
+        "Framer Motion"
+      ],
+      "core": [
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "optional": [
+        "TypeScript",
+        "Node.js",
+        "Web Audio API"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "audio playback controls",
+        "playlist management",
+        "visualizations"
+      ],
+      "interactions": [
+        "intuitive",
+        "user-friendly",
+        "interactive"
+      ],
+      "design": [
+        "modern",
+        "responsive",
+        "accessible"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "MP3 metadata API"
+      ],
+      "services": [
+        "cloud storage",
+        "audio streaming service"
+      ],
+      "integrations": [
+        "seamless",
+        "efficient",
+        "reliable"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": [
+        "music recommendation",
+        "audio analysis",
+        "personalization"
+      ]
+    },
+    "nameSuggestions": [
+      "melo",
+      "tune",
+      "beat",
+      "jive",
+      "pulse"
+    ]
+  }
+}

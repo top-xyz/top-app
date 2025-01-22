@@ -1,0 +1,289 @@
+{
+  "name": "enso",
+  "description": "what does chatgpt/cursor for group chat look like? how to ideally augment the group chat conventional experience with ai fueled insights. allow users to customize their contextual enrichment? deep and instinctive tracking of threads in a group chat. better ai summaries of what you missed. native ios with industry standard glassy ui/ux, minimal and fun to use, easy to understand",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "mobile",
+          "secondary": [
+            "ios"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "chat api",
+            "ai framework",
+            "natural language processing"
+          ],
+          "core": [
+            "ios development tools",
+            "swift",
+            "objective-c"
+          ],
+          "optional": [
+            "cloud storage",
+            "serverless computing"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "group chat interface",
+            "ai-powered insights",
+            "customization options"
+          ],
+          "interactions": [
+            "chat bubbles",
+            "threaded discussions",
+            "summary cards"
+          ],
+          "design": [
+            "glassy ui/ux",
+            "minimalism",
+            "fun and intuitive"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [],
+          "services": [
+            "group chat platform api"
+          ],
+          "integrations": [
+            "ai services",
+            "cloud storage"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "thread analysis",
+            "summarization",
+            "personalization"
+          ],
+          "required": [
+            "natural language processing",
+            "machine learning"
+          ],
+          "potential": [
+            "sentiment analysis",
+            "topic modeling",
+            "user behavior prediction"
+          ]
+        },
+        "nameSuggestions": [
+          "chit",
+          "gleam",
+          "weave",
+          "spark",
+          "muse"
+        ]
+      },
+      "lastUpdated": "2025-01-22T01:17:04.826Z",
+      "changeLogs": [
+        {
+          "id": "change-1737508624824",
+          "timestamp": "2025-01-22T01:17:04.824Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "reasons": [],
+                "secondaryTypes": []
+              },
+              "timestamp": "2025-01-22T01:17:04.824Z"
+            }
+          ],
+          "metadata": {
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737508624825",
+          "timestamp": "2025-01-22T01:17:04.825Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "reasons": [],
+                "secondaryTypes": []
+              },
+              "current": {
+                "reasons": [],
+                "secondaryTypes": []
+              },
+              "timestamp": "2025-01-22T01:17:04.825Z"
+            }
+          ],
+          "metadata": {
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-22T01:17:00.427Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "mobile",
+        "secondary": [
+          "ios"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "chat api",
+          "ai framework",
+          "natural language processing"
+        ],
+        "core": [
+          "ios development tools",
+          "swift",
+          "objective-c"
+        ],
+        "optional": [
+          "cloud storage",
+          "serverless computing"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "group chat interface",
+          "ai-powered insights",
+          "customization options"
+        ],
+        "interactions": [
+          "chat bubbles",
+          "threaded discussions",
+          "summary cards"
+        ],
+        "design": [
+          "glassy ui/ux",
+          "minimalism",
+          "fun and intuitive"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [],
+        "services": [
+          "group chat platform api"
+        ],
+        "integrations": [
+          "ai services",
+          "cloud storage"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "thread analysis",
+          "summarization",
+          "personalization"
+        ],
+        "required": [
+          "natural language processing",
+          "machine learning"
+        ],
+        "potential": [
+          "sentiment analysis",
+          "topic modeling",
+          "user behavior prediction"
+        ]
+      },
+      "nameSuggestions": [
+        "chit",
+        "gleam",
+        "weave",
+        "spark",
+        "muse"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "mobile",
+      "secondary": [
+        "ios"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "chat api",
+        "ai framework",
+        "natural language processing"
+      ],
+      "core": [
+        "ios development tools",
+        "swift",
+        "objective-c"
+      ],
+      "optional": [
+        "cloud storage",
+        "serverless computing"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "group chat interface",
+        "ai-powered insights",
+        "customization options"
+      ],
+      "interactions": [
+        "chat bubbles",
+        "threaded discussions",
+        "summary cards"
+      ],
+      "design": [
+        "glassy ui/ux",
+        "minimalism",
+        "fun and intuitive"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [],
+      "services": [
+        "group chat platform api"
+      ],
+      "integrations": [
+        "ai services",
+        "cloud storage"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "thread analysis",
+        "summarization",
+        "personalization"
+      ],
+      "required": [
+        "natural language processing",
+        "machine learning"
+      ],
+      "potential": [
+        "sentiment analysis",
+        "topic modeling",
+        "user behavior prediction"
+      ]
+    },
+    "nameSuggestions": [
+      "chit",
+      "gleam",
+      "weave",
+      "spark",
+      "muse"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "reasons": [],
+      "secondaryTypes": []
+    }
+  }
+}

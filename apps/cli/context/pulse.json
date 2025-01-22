@@ -1,0 +1,258 @@
+{
+  "name": "pulse",
+  "description": "glassy raycast/kanye/teenage engineering music player; ipod for web in 2025",
+  "_system": {
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "glassy raycast/kanye/teenage engineering music player suggests a novel and creative approach to music playback.",
+        "ipod for web in 2025 implies a new and innovative way to experience music in the future."
+      ],
+      "secondaryTypes": [
+        "utility"
+      ],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": [
+            "The project description does not explicitly mention teaching, skills development, or practice."
+          ]
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "glassy raycast/kanye/teenage engineering music player suggests a novel and creative approach to music playback.",
+            "ipod for web in 2025 implies a new and innovative way to experience music in the future."
+          ]
+        },
+        "utility": {
+          "score": 0.6,
+          "reasons": [
+            "The project aims to provide a functional music player with specific features."
+          ]
+        },
+        "automation": {
+          "score": 0.4,
+          "reasons": [
+            "The project description does not explicitly mention workflows, efficiency, or integration."
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "audio playback",
+            "web audio api",
+            "css3 animations",
+            "javascript"
+          ],
+          "core": [
+            "html5"
+          ],
+          "optional": [
+            "webgl",
+            "webxr"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "drag and drop",
+            "touch controls",
+            "keyboard shortcuts"
+          ],
+          "interactions": [
+            "visualizations",
+            "haptic feedback"
+          ],
+          "design": [
+            "minimalistic",
+            "retro-futuristic",
+            "responsive"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "soundcloud api",
+            "spotify api"
+          ],
+          "services": [
+            "music streaming services"
+          ],
+          "integrations": [
+            "social media sharing"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": [
+            "music recommendation",
+            "mood detection"
+          ]
+        },
+        "nameSuggestions": [
+          "prism",
+          "chroma",
+          "beatbox",
+          "rewind",
+          "groove"
+        ]
+      },
+      "nameSuggestions": [
+        "prism",
+        "chroma",
+        "beatbox",
+        "rewind",
+        "groove"
+      ],
+      "lastUpdated": "2025-01-21T14:51:31.865Z"
+    },
+    "insights": [],
+    "references": [],
+    "patterns": [],
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "audio playback",
+          "web audio api",
+          "css3 animations",
+          "javascript"
+        ],
+        "core": [
+          "html5"
+        ],
+        "optional": [
+          "webgl",
+          "webxr"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "drag and drop",
+          "touch controls",
+          "keyboard shortcuts"
+        ],
+        "interactions": [
+          "visualizations",
+          "haptic feedback"
+        ],
+        "design": [
+          "minimalistic",
+          "retro-futuristic",
+          "responsive"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "soundcloud api",
+          "spotify api"
+        ],
+        "services": [
+          "music streaming services"
+        ],
+        "integrations": [
+          "social media sharing"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": [
+          "music recommendation",
+          "mood detection"
+        ]
+      },
+      "nameSuggestions": [
+        "prism",
+        "chroma",
+        "beatbox",
+        "rewind",
+        "groove"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "audio playback",
+        "web audio api",
+        "css3 animations",
+        "javascript"
+      ],
+      "core": [
+        "html5"
+      ],
+      "optional": [
+        "webgl",
+        "webxr"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "drag and drop",
+        "touch controls",
+        "keyboard shortcuts"
+      ],
+      "interactions": [
+        "visualizations",
+        "haptic feedback"
+      ],
+      "design": [
+        "minimalistic",
+        "retro-futuristic",
+        "responsive"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "soundcloud api",
+        "spotify api"
+      ],
+      "services": [
+        "music streaming services"
+      ],
+      "integrations": [
+        "social media sharing"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": [
+        "music recommendation",
+        "mood detection"
+      ]
+    },
+    "nameSuggestions": [
+      "prism",
+      "chroma",
+      "beatbox",
+      "rewind",
+      "groove"
+    ]
+  }
+}

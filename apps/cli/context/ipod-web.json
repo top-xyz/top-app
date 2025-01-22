@@ -1,0 +1,232 @@
+{
+  "name": "ipod-web",
+  "description": "a glassy mp3 player for web with teenage engineering / raycast vibe",
+  "_system": {
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "Novel experience: a glassy mp3 player for web is a unique and creative concept.",
+        "Creative approach: the design inspiration from Teenage Engineering and Raycast suggests a focus on aesthetics and user experience."
+      ],
+      "secondaryTypes": [
+        "utility"
+      ],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": [
+            "The project description doesn't explicitly mention teaching or skill development."
+          ]
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "Novel experience: a glassy mp3 player for web is a unique and creative concept.",
+            "Creative approach: the design inspiration from Teenage Engineering and Raycast suggests a focus on aesthetics and user experience."
+          ]
+        },
+        "utility": {
+          "score": 0.6,
+          "reasons": [
+            "Specific task: the project aims to provide an mp3 player functionality for the web.",
+            "Tool: the glassy interface suggests a focus on user interaction and usability."
+          ]
+        },
+        "automation": {
+          "score": 0.3,
+          "reasons": [
+            "The project description doesn't mention workflow improvements or process automation."
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "audio playback API"
+          ],
+          "core": [
+            "web development",
+            "audio processing"
+          ],
+          "optional": [
+            "WebGL",
+            "Web Audio API"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "audio playback controls",
+            "visual effects"
+          ],
+          "interactions": [
+            "intuitive",
+            "engaging",
+            "interactive"
+          ],
+          "design": [
+            "minimalistic",
+            "futuristic",
+            "playful"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [],
+          "services": [],
+          "integrations": []
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": []
+        },
+        "nameSuggestions": [
+          "glassy",
+          "tune",
+          "prism",
+          "chroma",
+          "vibes"
+        ]
+      },
+      "nameSuggestions": [
+        "glassy",
+        "tune",
+        "prism",
+        "chroma",
+        "vibes"
+      ],
+      "lastUpdated": "2025-01-21T15:03:23.282Z"
+    },
+    "insights": [],
+    "references": [],
+    "patterns": [],
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "audio playback API"
+        ],
+        "core": [
+          "web development",
+          "audio processing"
+        ],
+        "optional": [
+          "WebGL",
+          "Web Audio API"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "audio playback controls",
+          "visual effects"
+        ],
+        "interactions": [
+          "intuitive",
+          "engaging",
+          "interactive"
+        ],
+        "design": [
+          "minimalistic",
+          "futuristic",
+          "playful"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [],
+        "services": [],
+        "integrations": []
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": []
+      },
+      "nameSuggestions": [
+        "glassy",
+        "tune",
+        "prism",
+        "chroma",
+        "vibes"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "audio playback API"
+      ],
+      "core": [
+        "web development",
+        "audio processing"
+      ],
+      "optional": [
+        "WebGL",
+        "Web Audio API"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "audio playback controls",
+        "visual effects"
+      ],
+      "interactions": [
+        "intuitive",
+        "engaging",
+        "interactive"
+      ],
+      "design": [
+        "minimalistic",
+        "futuristic",
+        "playful"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [],
+      "services": [],
+      "integrations": []
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": []
+    },
+    "nameSuggestions": [
+      "glassy",
+      "tune",
+      "prism",
+      "chroma",
+      "vibes"
+    ]
+  }
+}

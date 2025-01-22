@@ -3,6 +3,8 @@ import { InteractiveManager } from '../interactive';
 import { input } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { spinner } from '../../../../utils/spinner';
+import { getInitialPromptsPrompt } from '../../../../core/prompts/templates/context/initial';
+import { getDocumentationPlanPrompt } from '../../../../core/prompts/templates/documentation/plan';
 
 export async function handleCreate(manager: InteractiveManager): Promise<boolean> {
   try {

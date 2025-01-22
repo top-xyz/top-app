@@ -12,13 +12,16 @@ import { ProjectType } from '../../types/core/project';
 import { Logger } from '../../utils/logger';
 import * as fs from 'fs';
 import * as path from 'path';
+import { FlowContext, FlowMetadata } from '../../types/core/flow-context';
 
 export class ContextManager {
   private context: ProjectContext = {} as ProjectContext;
   private ai: VertexAIClient;
   private logger: Logger;
   private contextCache: Map<string, EnhancedProjectContext> = new Map();
+  private flowContexts: Map<string, FlowContext> = new Map();
   private contextDir: string;
+  private currentContext: ProjectContext | null = null;
 
   constructor(ai: VertexAIClient, contextDir?: string) {
     this.ai = ai;
@@ -248,58 +251,91 @@ export class ContextManager {
     return dotProduct / (magnitudeA * magnitudeB);
   }
 
-  async initializeProject(name: string, description: string, type: ProjectType): Promise<void> {
-    debug('ContextManager', 'Initializing project:', { name, description, type });
+  private async saveContext(): Promise<void> {
+    debug('ContextManager', 'Saving context');
     
-    // Initialize context structure
-    this.context = {
-      name,
-      description,
-      _system: {
-        initialized: true,
-        stage: 'initialized',
-        projectType: type,
-        timestamp: new Date().toISOString(),
-        metadata: {
-          version: '1.0.0',
-          stage: 'initial',
-          initialized: new Date().toISOString()
-        },
-        insights: {
-          technicalPatterns: [],
-          userNeeds: [],
-          challenges: [],
-          opportunities: []
-        },
-        embeddings: {
-          vision: [],
-          technical: [],
-          workflow: []
-        }
-      }
-    };
-    
-    // Generate initial embeddings
-    const visionEmbeddings = await this.ai.generateEmbeddings(description);
-    if (visionEmbeddings) {
-      this.context._system.embeddings.vision = visionEmbeddings;
+    if (!this.currentContext) {
+      throw new Error('No active context to save');
     }
     
-    debug('ContextManager', 'Project initialized with embeddings');
+    const filename = `${this.currentContext.name || 'temp'}.json`;
+    const filepath = path.join(this.contextDir, filename);
+    
+    try {
+      await fs.promises.mkdir(this.contextDir, { recursive: true });
+      await fs.promises.writeFile(filepath, JSON.stringify(this.currentContext, null, 2));
+      debug('ContextManager', 'Context saved to:', filepath);
+    } catch (error) {
+      debug('ContextManager', 'Error saving context:', error);
+      throw error;
+    }
+  }
+
+  async initializeProject(context: ProjectInitialContext): Promise<void> {
+    debug('ContextManager', 'Initializing project:', context);
+
+    this.currentContext = {
+      name: context.name,
+      description: context.description,
+      history: [], // Initialize empty history array
+      _system: {
+        metadata: {},
+        embeddings: {},
+        responses: {},
+        lastUpdated: new Date().toISOString()
+      }
+    };
+
+    await this.saveContext();
+  }
+
+  async updateProjectStructure(vision: any): Promise<void> {
+    debug('ContextManager', 'Updating project structure');
+    
+    if (!this.currentContext) {
+      throw new Error('No active project context');
+    }
+    
+    this.currentContext.vision = vision;
+    if (this.currentContext._system) {
+      this.currentContext._system.vision = vision;
+      this.currentContext._system.metadata = {
+        ...this.currentContext._system.metadata,
+        vision,
+        lastUpdated: new Date().toISOString()
+      };
+    }
+    
+    await this.saveContext();
   }
 
   async addInsights(insights: any): Promise<void> {
     debug('ContextManager', 'Adding insights:', insights);
-    this.context._system.insights = {
-      ...this.context._system.insights,
+    this.currentContext._system.insights = {
+      ...this.currentContext._system.insights,
       ...insights
     };
   }
 
+  async updateInsights(insights: any): Promise<any> {
+    debug('ContextManager', 'Updating insights:', insights);
+    if (!this.currentContext) {
+      throw new Error('No context initialized');
+    }
+    
+    this.currentContext.insights = {
+      ...this.currentContext.insights,
+      ...insights
+    };
+    
+    await this.saveContext();
+    return this.currentContext.insights;
+  }
+
   async addReferences(references: any[]): Promise<void> {
     debug('ContextManager', 'Adding references:', references);
-    this.context._system.references = [
-      ...this.context._system.references,
+    this.currentContext._system.references = [
+      ...this.currentContext._system.references,
       ...references.map(ref => ({
         ...ref,
         added: new Date().toISOString()
@@ -309,8 +345,8 @@ export class ContextManager {
 
   async addPatterns(patterns: any[]): Promise<void> {
     debug('ContextManager', 'Adding patterns:', patterns);
-    this.context._system.patterns = [
-      ...this.context._system.patterns,
+    this.currentContext._system.patterns = [
+      ...this.currentContext._system.patterns,
       ...patterns.map(pattern => ({
         ...pattern,
         added: new Date().toISOString()
@@ -318,75 +354,178 @@ export class ContextManager {
     ];
   }
 
-  getContext(): any {
-    return this.context;
+  async getContext(): Promise<any> {
+    return this.currentContext;
   }
 
   async getInsights(): Promise<any> {
-    return this.context._system.insights;
+    return this.currentContext._system.insights;
   }
 
   async getSystemContext(): Promise<any> {
-    return this.context._system;
+    return this.currentContext._system;
   }
 
   async getProjectType(): Promise<string> {
-    return this.context._system.projectType;
+    return this.currentContext._system.projectType;
   }
 
-  async processResponse(questionId: string, question: string, response: string): Promise<void> {
-    debug('ContextManager', 'Processing response:', { questionId, question, response });
+  async updateProjectType(projectType: ProjectType): Promise<void> {
+    if (!this.currentContext) {
+      throw new Error('No active context');
+    }
+
+    const previousType = this.currentContext.metadata?.projectType;
     
-    // Add to history
-    this.context.history.push({
-      type: 'response',
-      questionId,
-      question,
+    // Initialize metadata if needed
+    if (!this.currentContext.metadata) {
+      this.currentContext.metadata = {
+        initialized: true,
+        version: '1.0.0',
+        stage: 'initial',
+        projectType
+      };
+    } else {
+      this.currentContext.metadata.projectType = projectType;
+    }
+
+    // Track the change
+    const change: ContextChange = {
+      field: 'projectType',
+      previous: previousType,
+      current: projectType,
+      timestamp: new Date().toISOString(),
+      confidence: projectType.confidence
+    };
+
+    // Add to change log
+    if (!this.currentContext._system) {
+      this.currentContext._system = {
+        metadata: {
+          semanticVersion: {
+            major: 1,
+            minor: 0,
+            patch: 0,
+            timestamp: new Date().toISOString()
+          },
+          lastUpdated: new Date().toISOString(),
+          changeLogs: []
+        }
+      } as any;
+    }
+
+    const changeLog: ContextChangeLog = {
+      id: `change-${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      component: 'projectType',
+      changes: [change],
+      metadata: {
+        confidence: projectType.confidence,
+        trigger: 'projectTypeDetection'
+      }
+    };
+
+    if (!this.currentContext._system.metadata.changeLogs) {
+      this.currentContext._system.metadata.changeLogs = [];
+    }
+    this.currentContext._system.metadata.changeLogs.push(changeLog);
+
+    // Save context
+    await this.saveContext();
+    
+    debug('ContextManager', 'Project type updated:', projectType);
+  }
+
+  async updateVisionAnalysis(vision: any): Promise<void> {
+    debug('ContextManager', 'Updating vision analysis');
+    
+    if (!this.currentContext) {
+      throw new Error('No active context');
+    }
+
+    // Extract and store name suggestions
+    const nameSuggestions = vision.nameSuggestions;
+    const visionWithoutSuggestions = { ...vision };
+    delete visionWithoutSuggestions.nameSuggestions;
+    
+    // Update vision in context
+    this.currentContext.vision = visionWithoutSuggestions;
+    
+    // Initialize _system if it doesn't exist
+    if (!this.currentContext._system) {
+      this.currentContext._system = {
+        initialized: true,
+        stage: 'initialized',
+        projectType: null,
+        timestamp: new Date().toISOString(),
+        metadata: {},
+        insights: {},
+        vision: null,
+        embeddings: {
+          vision: [],
+          technical: [],
+          workflow: []
+        },
+        references: [],
+        patterns: []
+      };
+    }
+
+    // Update vision in _system
+    this.currentContext._system.vision = visionWithoutSuggestions;
+    this.currentContext._system.metadata = {
+      ...this.currentContext._system.metadata,
+      vision: visionWithoutSuggestions,
+      nameSuggestions,
+      lastUpdated: new Date().toISOString()
+    };
+    
+    await this.saveContext();
+  }
+
+  async processResponse(promptId: string, response: string): Promise<void> {
+    debug('ContextManager', 'Processing response:', { promptId, response });
+    
+    if (!this.currentContext) {
+      throw new Error('No active project context');
+    }
+
+    // Initialize responses if they don't exist
+    if (!this.currentContext._system.responses) {
+      this.currentContext._system.responses = {};
+    }
+
+    // Store the response
+    this.currentContext._system.responses[promptId] = {
       response,
       timestamp: new Date().toISOString()
-    });
+    };
 
-    // Generate and store metadata about the response
-    const metadata = await this.ai.generateContent({
-      prompt: `Analyze this response and extract key metadata:
-Question: ${question}
-Response: ${response}
+    await this.saveContext();
+  }
 
-Return a JSON object with:
-{
-  "topics": string[],
-  "entities": string[],
-  "technicalConcepts": string[],
-  "possibleReferences": [
-    {
-      "type": "documentation" | "example" | "resource",
-      "description": string
-    }
-  ]
-}`,
-      type: 'structured'
-    });
-
+  async processResponse(questionId: string, question: string, response: any): Promise<any> {
     try {
-      const parsedMetadata = JSON.parse(metadata);
-      
-      // Store metadata
-      this.context._system.metadata[questionId] = {
-        ...parsedMetadata,
-        processed: new Date().toISOString()
-      };
-
-      // If new references are suggested, add them
-      if (parsedMetadata.possibleReferences?.length > 0) {
-        await this.addReferences(parsedMetadata.possibleReferences);
-      }
-
+      // Handle both string and object responses
+      const parsed = typeof response === 'string' ? 
+        // Try to extract JSON from markdown code blocks
+        response.match(/```json\n([\s\S]*?)\n```/)?.[1] || response :
+        response;
+        
+      return typeof parsed === 'string' ? JSON.parse(parsed) : parsed;
     } catch (error) {
-      debug('ContextManager', 'Error processing response metadata:', error);
+      debug('ContextManager', 'Error parsing response:', error);
+      // Return a basic metadata structure if parsing fails
+      return {
+        topics: [],
+        entities: [],
+        sentiment: 'neutral',
+        confidence: 0
+      };
     }
   }
 
-  getRelationshipGraph(): any {
+  async getRelationshipGraph(): any {
     // Build a graph of relationships between different pieces of context
     const graph = {
       nodes: [],
@@ -394,16 +533,16 @@ Return a JSON object with:
     };
 
     // Add nodes for each major context section
-    if (this.context._system.insights) {
+    if (this.currentContext._system.insights) {
       graph.nodes.push({
         id: 'insights',
         type: 'insights',
-        data: this.context._system.insights
+        data: this.currentContext._system.insights
       });
     }
 
     // Add nodes for patterns
-    this.context._system.patterns.forEach((pattern: any) => {
+    this.currentContext._system.patterns.forEach((pattern: any) => {
       graph.nodes.push({
         id: `pattern_${pattern.name}`,
         type: 'pattern',
@@ -412,7 +551,7 @@ Return a JSON object with:
     });
 
     // Add nodes for references
-    this.context._system.references.forEach((ref: any, index: number) => {
+    this.currentContext._system.references.forEach((ref: any, index: number) => {
       graph.nodes.push({
         id: `reference_${index}`,
         type: 'reference',
@@ -453,5 +592,199 @@ Return a JSON object with:
     else if (similarity > 0.4) relationship = 'weakly related';
 
     return { similarity, relationship };
+  }
+
+  async updateFlowContext(flowContext: FlowContext): Promise<void> {
+    debug('ContextManager', 'Updating flow context');
+
+    try {
+      // Store flow context
+      this.flowContexts.set(flowContext.name, flowContext);
+
+      // Update project context with flow metadata
+      if (this.currentContext) {
+        this.currentContext.metadata = {
+          ...this.currentContext.metadata,
+          flowState: flowContext.metadata.currentState,
+          flowPatterns: flowContext.metadata.patterns,
+          flowErgonomics: flowContext.metadata.ergonomics
+        };
+      }
+
+      // Persist flow context
+      await this.saveFlowContext(flowContext);
+
+      debug('ContextManager', 'Flow context updated successfully');
+    } catch (error) {
+      debug('ContextManager', 'Error updating flow context:', error);
+      throw error;
+    }
+  }
+
+  private async saveFlowContext(flowContext: FlowContext): Promise<void> {
+    const flowDir = path.join(this.contextDir, 'flow');
+    await fs.mkdir(flowDir, { recursive: true });
+
+    const filename = path.join(flowDir, `${flowContext.name}.json`);
+    await fs.writeFile(filename, JSON.stringify(flowContext, null, 2));
+  }
+
+  async getFlowContext(name: string): Promise<FlowContext | undefined> {
+    return this.flowContexts.get(name);
+  }
+
+  async getAllFlowContexts(): Promise<FlowContext[]> {
+    return Array.from(this.flowContexts.values());
+  }
+
+  async updateProjectState(newState: string): Promise<void> {
+    if (!this.currentContext) {
+      throw new Error('No active context');
+    }
+
+    debug('ContextManager', 'Updating project state', { newState });
+
+    this.currentContext.metadata = {
+      ...this.currentContext.metadata,
+      stage: newState,
+      timestamp: new Date().toISOString()
+    };
+
+    await this.saveContext(this.currentContext);
+  }
+
+  private async generateChangeLog(
+    component: string,
+    changes: ContextChange[],
+    metadata: any = {}
+  ): Promise<ContextChangeLog> {
+    return {
+      id: `change_${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      component,
+      changes,
+      metadata: {
+        ...metadata,
+        flowState: this.currentContext?.metadata?.stage || 'unknown'
+      }
+    };
+  }
+
+  private updateSemanticVersion(
+    context: EnhancedProjectContext,
+    changeType: 'major' | 'minor' | 'patch',
+    description?: string
+  ): void {
+    const version = context.metadata.semanticVersion || { major: 0, minor: 0, patch: 0, timestamp: '' };
+    
+    switch (changeType) {
+      case 'major':
+        version.major++;
+        version.minor = 0;
+        version.patch = 0;
+        break;
+      case 'minor':
+        version.minor++;
+        version.patch = 0;
+        break;
+      case 'patch':
+        version.patch++;
+        break;
+    }
+    
+    version.timestamp = new Date().toISOString();
+    version.description = description;
+    
+    context.metadata.semanticVersion = version;
+    context.metadata.lastUpdated = version.timestamp;
+  }
+
+  async updateContext(
+    contextId: string,
+    updates: Record<string, any>,
+    options: {
+      component: string;
+      changeType: 'major' | 'minor' | 'patch';
+      description?: string;
+      metadata?: any;
+    }
+  ): Promise<void> {
+    const context = this.contextCache.get(contextId) as EnhancedProjectContext;
+    if (!context) {
+      throw new Error(`Context not found: ${contextId}`);
+    }
+
+    const changes: ContextChange[] = [];
+    
+    // Track changes
+    for (const [key, value] of Object.entries(updates)) {
+      changes.push({
+        field: key,
+        previous: context[key],
+        current: value,
+        timestamp: new Date().toISOString()
+      });
+      context[key] = value;
+    }
+
+    // Generate change log
+    const changeLog = await this.generateChangeLog(
+      options.component,
+      changes,
+      options.metadata
+    );
+
+    // Update semantic version
+    this.updateSemanticVersion(
+      context,
+      options.changeType,
+      options.description
+    );
+
+    // Update context embeddings
+    context.embeddings = await this.ai.generateContextEmbeddings(context);
+
+    // Store change log
+    if (!context.metadata.changeLogs) {
+      context.metadata.changeLogs = [];
+    }
+    context.metadata.changeLogs.push(changeLog);
+
+    // Update cache and persist
+    this.contextCache.set(contextId, context);
+    await this.persistContext(context);
+  }
+
+  private async persistContext(context: EnhancedProjectContext): Promise<void> {
+    // Implement persistence logic here
+  }
+
+  async getVisionAnalysis(): Promise<VisionAnalysis | null> {
+    if (!this.currentContext) {
+      return null;
+    }
+    return this.currentContext.vision || null;
+  }
+
+  async updateVisionAnalysis(vision: VisionAnalysis): Promise<void> {
+    if (!this.currentContext) {
+      throw new Error('No active context');
+    }
+    
+    this.currentContext.vision = vision;
+    await this.saveContext();
+    
+    debug('ContextManager', 'Vision analysis updated');
+  }
+
+  async saveContext(): Promise<void> {
+    if (!this.currentContext?.name) {
+      debug('ContextManager', 'No context to save');
+      return;
+    }
+
+    const contextPath = path.join(this.contextDir, `${this.currentContext.name}.json`);
+    await fs.promises.writeFile(contextPath, JSON.stringify(this.currentContext, null, 2));
+    debug('ContextManager', 'Context saved to:', contextPath);
   }
 }

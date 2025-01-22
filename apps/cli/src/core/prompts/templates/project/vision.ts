@@ -1,37 +1,38 @@
 import { debug } from '../../../utils/debug';
-import { ProjectType } from './project-types/detector';
-import { innovativeTemplate } from './project-types/innovative';
-import { utilityTemplate } from './project-types/utility';
-import { learningTemplate } from './project-types/learning';
-import { automationTemplate } from './project-types/automation';
+import { ProjectType } from './types/detector';
+import { innovativeTemplate } from './types/innovative';
+import { utilityTemplate } from './types/utility';
+import { learningTemplate } from './types/learning';
+import { automationTemplate } from './types/automation';
 import { VertexAIClient } from '../../client/vertex-ai';
 
 export interface VisionAnalysis {
   platformRequirements: {
-    platformSpecificRequirements: {};
+    platformSpecificRequirements: any[];
     primary: string;
     secondary: string[];
   };
   technicalRequirements: {
-    coreTechnicalNeeds: {};
+    coreTechnicalNeeds: any[];
     core: string[];
     optional: string[];
   };
   userExperienceElements: {
-    keyInteractions: {};
+    keyInteractions: any[];
     interactions: string[];
     design: string[];
   };
   integrationRequirements: {
-    apis: {};
+    apis: any[];
     services: string[];
     integrations: string[];
   };
   aiMlCapabilities: {
-    requiredAiFeatures: {};
+    requiredAiFeatures: any[];
     required: string[];
     potential: string[];
   };
+  nameSuggestions: string[];
 }
 
 interface ProjectVisionContext {
@@ -48,78 +49,92 @@ const projectTemplates = {
 };
 
 export function getVisionAnalysisPrompt(description: string): string {
-  return `Analyze this project vision to extract detailed technical and platform requirements.
+  return `You are a technical architect analyzing project requirements. Your task is to extract structured insights from the project vision.
+
 Project Description:
 ${description}
 
-Return a JSON object with this exact structure:
+IMPORTANT INSTRUCTIONS:
+1. Return ONLY a JSON object with NO additional text/markdown
+2. Ensure all JSON fields are properly quoted
+3. Use [] for empty arrays, never null
+4. Keep suggestions focused and actionable
+5. Validate JSON structure before responding
+
+Required JSON Structure:
 {
   "platformRequirements": {
-    "platformSpecificRequirements": {},
+    "platformSpecificRequirements": [],
     "primary": "web|mobile|desktop|cli|embedded|cloud",
     "secondary": ["list", "of", "platforms"]
   },
   "technicalRequirements": {
-    "coreTechnicalNeeds": {},
+    "coreTechnicalNeeds": [],
     "core": ["required", "technologies"],
-    "optional": ["optional", "technologies"]
+    "optional": ["optional", "technologies"] 
   },
   "userExperienceElements": {
-    "keyInteractions": {},
+    "keyInteractions": [],
     "interactions": ["key", "user", "interactions"],
     "design": ["design", "requirements"]
   },
   "integrationRequirements": {
-    "apis": {},
+    "apis": [],
     "services": ["required", "services"],
     "integrations": ["needed", "integrations"]
   },
   "aiMlCapabilities": {
-    "requiredAiFeatures": {},
+    "requiredAiFeatures": [],
     "required": ["required", "ai", "features"],
     "potential": ["potential", "ai", "features"]
-  }
+  },
+  "nameSuggestions": ["name1", "name2", "name3"]
 }
 
-IMPORTANT:
-1. Be specific to this project
-2. Include all required fields
-3. Return ONLY the JSON object, no explanations
-4. Ensure valid JSON format`;
+Name Generation Rules:
+1. Length: 3-6 letters, lowercase only
+2. Style: Playful, memorable, unique
+3. Relevance: Subtle connection to purpose
+4. Quantity: Generate 4-5 suggestions
+5. Avoid: Technical terms, literal descriptions
+
+Remember: Return ONLY the JSON object with no other text`;
 }
 
 export async function analyzeProjectVision(
   description: string,
+  projectType: ProjectType,
   aiClient: VertexAIClient,
   logger?: any
 ): Promise<VisionAnalysis> {
   try {
     const defaultAnalysis: VisionAnalysis = {
       platformRequirements: {
-        platformSpecificRequirements: {},
+        platformSpecificRequirements: [],
         primary: 'ios',
         secondary: []
       },
       technicalRequirements: {
-        coreTechnicalNeeds: {},
+        coreTechnicalNeeds: [],
         core: [],
         optional: []
       },
       userExperienceElements: {
-        keyInteractions: {},
+        keyInteractions: [],
         interactions: [],
         design: []
       },
       integrationRequirements: {
-        apis: {},
+        apis: [],
         services: [],
         integrations: []
       },
       aiMlCapabilities: {
-        requiredAiFeatures: {},
+        requiredAiFeatures: [],
         required: [],
         potential: []
-      }
+      },
+      nameSuggestions: []
     };
 
     const prompt = getVisionAnalysisPrompt(description);

@@ -94,47 +94,101 @@ export const insightCategories: Record<string, InsightCategory[]> = {
   ]
 };
 
-export const getInsightsPrompt = (context: ProjectInitialContext) => {
-  const { name, goals, type, responses = {} } = context;
-  const categories = insightCategories[type] || insightCategories.innovative;
-  
-  // Build category-specific prompts with context hints
-  const categoryPrompts = categories.map(category => {
-    const hints = category.contextHints?.length 
-      ? `\nConsider:\n${category.contextHints.map(hint => `- ${hint}`).join('\n')}`
-      : '';
-    
-    return `${category.label} (${category.key}):
-${category.description}${hints}`;
-  }).join('\n\n');
-
-  // Include relevant user responses in the context
-  const relevantResponses = Object.entries(responses)
-    .filter(([key, value]) => value && typeof value === 'string')
-    .map(([key, value]) => `${key}: ${value}`)
+export const generateInsightsPrompt = (question: string, response: string, context: ProjectInitialContext) => {
+  const projectType = context.type?.primaryType || 'undefined';
+  const categories = insightCategories[projectType] || insightCategories.innovative;
+  const contextualHints = categories
+    .map(cat => cat.contextHints || [])
+    .flat()
     .join('\n');
 
-  return `Analyze this ${type} project and extract key insights:
+  return `
+You are a technical insight analyzer.
 
-Project Name: ${name}
-Project Goals: ${goals}
-${relevantResponses ? `\nUser Input:\n${relevantResponses}` : ''}
+IMPORTANT INSTRUCTIONS:
+1. Return ONLY a JSON object with NO additional text/markdown
+2. Analyze the response thoroughly in the context of the project
+3. Provide actionable insights that align with project goals
+4. Keep insights focused and specific
+5. Validate JSON structure before responding
 
-Generate insights for each category below. Each insight should be specific, actionable, and relevant to the project context.
+Project Context:
+Type: ${projectType}
+Vision: ${context.vision?.summary || 'Not defined'}
+Goals: ${context.vision?.goals?.join(', ') || 'Not defined'}
 
-${categoryPrompts}
+Context Considerations:
+${contextualHints}
 
-Return a JSON object with this structure:
+Question: ${question}
+Response: ${response}
+
+Required JSON Structure:
 {
-  ${categories.map(category => `"${category.key}": ["insight1", "insight2", ...]`).join(',\n  ')}
+  "insights": [
+    {
+      "category": string,
+      "key": string,
+      "title": string,
+      "description": string,
+      "implications": string[],
+      "recommendations": string[],
+      "priority": "high|medium|low",
+      "confidence": 0.0-1.0
+    }
+  ],
+  "summary": {
+    "keyThemes": string[],
+    "criticalPaths": string[],
+    "risks": string[],
+    "opportunities": string[]
+  }
 }
 
-IMPORTANT:
-- Each insight should be specific to this project
-- Keep insights concise (10-15 words)
-- Ensure insights align with the project type (${type})
-- Focus on actionable and relevant information
-- Maintain valid JSON format with double quotes
-- No trailing commas
-- No comments or additional text`;
+Remember: Return ONLY the JSON object with no other text`;
 };
+
+export function getInsightsPrompt(context: ProjectInitialContext): string {
+  const projectType = context.type?.primaryType || 'undefined';
+  const categories = insightCategories[projectType] || insightCategories.innovative;
+  
+  return `You are a technical insight analyzer.
+
+IMPORTANT INSTRUCTIONS:
+1. Return ONLY a JSON object with NO additional text/markdown
+2. Analyze each category thoroughly
+3. Provide actionable insights
+4. Keep insights focused and specific
+5. Validate JSON structure before responding
+
+Project Context:
+${JSON.stringify(context, null, 2)}
+
+Required JSON Structure:
+{
+  "insights": [
+    {
+      "category": string,
+      "key": string,
+      "title": string,
+      "description": string,
+      "implications": string[],
+      "recommendations": string[],
+      "priority": "high|medium|low",
+      "confidence": 0.0-1.0
+    }
+  ],
+  "summary": {
+    "keyThemes": string[],
+    "criticalPaths": string[],
+    "risks": string[],
+    "opportunities": string[]
+  }
+}
+
+Categories to Analyze:
+${categories.map(cat => `- ${cat.label}: ${cat.description}
+  Hints: ${cat.contextHints?.join(', ')}`).join('\n')}
+
+Remember: Return ONLY the JSON object with no other text`;
+}

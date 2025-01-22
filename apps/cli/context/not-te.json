@@ -1,0 +1,213 @@
+{
+  "name": "not-te",
+  "description": "glassy react19/next15/tailwind/motion mp3 player for web with teenage engineering influences",
+  "goals": [],
+  "type": null,
+  "structure": null,
+  "insights": null,
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": []
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "react19",
+        "next15",
+        "tailwind",
+        "motion"
+      ],
+      "core": [
+        "javascript",
+        "html",
+        "css"
+      ],
+      "optional": [
+        "mp3 decoding",
+        "audio playback"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "play/pause",
+        "seek",
+        "volume control",
+        "playlist management"
+      ],
+      "interactions": [
+        "intuitive",
+        "responsive",
+        "visually appealing"
+      ],
+      "design": [
+        "clean",
+        "minimal",
+        "modern",
+        "teenage engineering inspired"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [],
+      "services": [],
+      "integrations": []
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": []
+    },
+    "nameSuggestions": [
+      "pulse",
+      "groove",
+      "tempo",
+      "chroma",
+      "vinyl"
+    ]
+  },
+  "history": [],
+  "_system": {
+    "initialized": true,
+    "stage": "initialized",
+    "projectType": null,
+    "timestamp": "2025-01-21T14:35:32.838Z",
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": []
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "react19",
+            "next15",
+            "tailwind",
+            "motion"
+          ],
+          "core": [
+            "javascript",
+            "html",
+            "css"
+          ],
+          "optional": [
+            "mp3 decoding",
+            "audio playback"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "play/pause",
+            "seek",
+            "volume control",
+            "playlist management"
+          ],
+          "interactions": [
+            "intuitive",
+            "responsive",
+            "visually appealing"
+          ],
+          "design": [
+            "clean",
+            "minimal",
+            "modern",
+            "teenage engineering inspired"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [],
+          "services": [],
+          "integrations": []
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": []
+        },
+        "nameSuggestions": [
+          "pulse",
+          "groove",
+          "tempo",
+          "chroma",
+          "vinyl"
+        ]
+      },
+      "nameSuggestions": [
+        "pulse",
+        "groove",
+        "tempo",
+        "chroma",
+        "vinyl"
+      ],
+      "lastUpdated": "2025-01-21T14:35:39.248Z"
+    },
+    "insights": {},
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": []
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "react19",
+          "next15",
+          "tailwind",
+          "motion"
+        ],
+        "core": [
+          "javascript",
+          "html",
+          "css"
+        ],
+        "optional": [
+          "mp3 decoding",
+          "audio playback"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "play/pause",
+          "seek",
+          "volume control",
+          "playlist management"
+        ],
+        "interactions": [
+          "intuitive",
+          "responsive",
+          "visually appealing"
+        ],
+        "design": [
+          "clean",
+          "minimal",
+          "modern",
+          "teenage engineering inspired"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [],
+        "services": [],
+        "integrations": []
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": []
+      },
+      "nameSuggestions": [
+        "pulse",
+        "groove",
+        "tempo",
+        "chroma",
+        "vinyl"
+      ]
+    },
+    "embeddings": {
+      "vision": [],
+      "technical": [],
+      "workflow": []
+    },
+    "references": [],
+    "patterns": []
+  }
+}

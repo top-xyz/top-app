@@ -1,0 +1,26 @@
+{
+  "name": "yebox",
+  "description": "if kanye and raycast made a web player for video / audio / gif",
+  "goals": [],
+  "type": null,
+  "structure": null,
+  "insights": null,
+  "vision": null,
+  "history": [],
+  "_system": {
+    "initialized": true,
+    "stage": "initialized",
+    "projectType": null,
+    "timestamp": "2025-01-21T14:00:12.833Z",
+    "metadata": {},
+    "insights": {},
+    "vision": null,
+    "embeddings": {
+      "vision": [],
+      "technical": [],
+      "workflow": []
+    },
+    "references": [],
+    "patterns": []
+  }
+}

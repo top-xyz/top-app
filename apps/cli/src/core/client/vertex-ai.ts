@@ -16,6 +16,18 @@ interface VertexError extends Error {
   stack_trace?: string;
 }
 
+interface EnhancedContextEmbeddings {
+  vision: number[];
+  technical: number[];
+  workflow: number[];
+  components: Record<string, number[]>;
+  changes: Record<string, number[]>;
+  semantic: {
+    full: number[];
+    summary: number[];
+  };
+}
+
 export class VertexAIClient {
   private vertexai: VertexAI;
   private defaultModel = 'gemini-pro';
@@ -42,23 +54,53 @@ export class VertexAIClient {
         location: this.location
       });
     } catch (error) {
-      debug('VertexAI', 'Error initializing VertexAI:', error);
-      throw new Error('Failed to initialize VertexAI client. Please check your credentials.');
+      debug('VertexAI', 'Error initializing clients:', error);
+      throw new Error('Failed to initialize Vertex AI clients');
     }
   }
 
-  private cleanJsonResponse(text: string): string {
-    // Remove markdown code blocks
-    text = text.replace(/```json\n/g, '').replace(/```\n/g, '').replace(/```/g, '');
+  private cleanJsonResponse(response: string): string {
+    debug('VertexAI', 'Cleaning JSON response');
     
-    // Remove any non-JSON text before or after
-    const jsonStart = text.indexOf('{');
-    const jsonEnd = text.lastIndexOf('}') + 1;
-    if (jsonStart >= 0 && jsonEnd > 0) {
-      text = text.slice(jsonStart, jsonEnd);
+    // Remove markdown code block syntax
+    response = response.replace(/```json\s*|\s*```/g, '').trim();
+    
+    // Find the first { and last }
+    const start = response.indexOf('{');
+    const end = response.lastIndexOf('}');
+    
+    if (start === -1 || end === -1) {
+      throw new Error('No JSON content found in response');
     }
     
-    return text.trim();
+    // Extract just the JSON content
+    let jsonContent = response.substring(start, end + 1);
+    
+    try {
+      // First attempt to parse as-is
+      JSON.parse(jsonContent);
+      return jsonContent;
+    } catch (e) {
+      debug('VertexAI', 'Initial JSON parse failed, attempting to fix common issues');
+      
+      try {
+        // Fix common JSON issues
+        jsonContent = jsonContent
+          // Fix missing quotes around property names
+          .replace(/([{,]\s*)(\w+)(?=\s*:)/g, '$1"$2"')
+          // Fix missing quotes around string values
+          .replace(/:\s*([^"{}\[\],\s][^,}\]]*?)(?=\s*[,}\]])/g, ':"$1"')
+          // Remove any trailing commas
+          .replace(/,(\s*[}\]])/g, '$1');
+        
+        // Verify fixed JSON
+        JSON.parse(jsonContent);
+        return jsonContent;
+      } catch (finalError) {
+        debug('VertexAI', 'Failed to fix JSON:', jsonContent);
+        throw new Error('Failed to extract valid JSON from response');
+      }
+    }
   }
 
   async generateContent(options: AIRequestOptions): Promise<string> {
@@ -67,7 +109,7 @@ export class VertexAIClient {
       context = 'general',
       history = [],
       type = 'chat',
-      temperature = 0.7,
+      temperature = 0.85,
       maxTokens = 1024,
       model = this.defaultModel
     } = options;
@@ -169,5 +211,83 @@ To authenticate:
       history: messages.slice(0, -1),
       ...options
     });
+  }
+
+  async generateEmbedding(content: string, type: 'text' | 'code' | 'mixed' = 'text'): Promise<number[]> {
+    debug('VertexAI', 'Generating embedding');
+    try {
+      const model = this.vertexai.preview.getGenerativeModel({
+        model: 'multimodalembedding@001',
+        generation_config: {
+          taskType: type === 'code' ? 'CODE' : type === 'mixed' ? 'SEMANTIC_SIMILARITY' : 'RETRIEVAL_DOCUMENT'
+        }
+      });
+
+      const result = await model.generateContent({
+        contents: [{ text: content }]
+      });
+
+      return result.response.candidates[0].content.parts[0].embedding;
+    } catch (error) {
+      debug('VertexAI', 'Error generating embedding:', error);
+      throw new Error('Failed to generate embedding');
+    }
+  }
+
+  async generateBatchEmbeddings(contents: string[], type: 'text' | 'code' | 'mixed' = 'text'): Promise<number[][]> {
+    debug('VertexAI', 'Generating batch embeddings');
+    try {
+      const model = this.vertexai.preview.getGenerativeModel({
+        model: 'multimodalembedding@001',
+        generation_config: {
+          taskType: type === 'code' ? 'CODE' : type === 'mixed' ? 'SEMANTIC_SIMILARITY' : 'RETRIEVAL_DOCUMENT'
+        }
+      });
+
+      const results = await Promise.all(
+        contents.map(text => 
+          model.generateContent({
+            contents: [{ text }]
+          })
+        )
+      );
+
+      return results.map(result => result.response.candidates[0].content.parts[0].embedding);
+    } catch (error) {
+      debug('VertexAI', 'Error generating batch embeddings:', error);
+      throw new Error('Failed to generate batch embeddings');
+    }
+  }
+
+  async generateContextEmbeddings(context: any): Promise<EnhancedContextEmbeddings> {
+    debug('VertexAI', 'Generating context embeddings');
+    
+    const components: Record<string, number[]> = {};
+    const changes: Record<string, number[]> = {};
+    
+    // Generate component embeddings
+    for (const [key, value] of Object.entries(context)) {
+      if (typeof value === 'string') {
+        // Use appropriate task type based on content
+        const type = key.includes('code') || key.includes('technical') ? 'code' : 'text';
+        components[key] = await this.generateEmbedding(value, type);
+      }
+    }
+    
+    // Generate full context embedding using mixed type for better semantic understanding
+    const fullText = JSON.stringify(context);
+    const semantic = {
+      full: await this.generateEmbedding(fullText, 'mixed'),
+      summary: await this.generateEmbedding(context.description || '', 'mixed')
+    };
+    
+    return {
+      vision: components.vision || [],
+      technical: components.technical || [],
+      workflow: components.workflow || [],
+      components,
+      changes,
+      semantic
+    };
   }
 }

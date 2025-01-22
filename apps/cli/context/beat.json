@@ -1,0 +1,301 @@
+{
+  "name": "beat",
+  "description": "glassy web music player for 2025",
+  "_system": {
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "New experiences: A web music player with a glassy interface offers a novel and visually appealing way to interact with music.",
+        "Creativity: The project description suggests a focus on creative features and unique design elements."
+      ],
+      "secondaryTypes": [
+        "utility"
+      ],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": [
+            "While the project may have some educational value, its primary focus is not on teaching or skill development."
+          ]
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "New experiences: A web music player with a glassy interface offers a novel and visually appealing way to interact with music.",
+            "Creativity: The project description suggests a focus on creative features and unique design elements."
+          ]
+        },
+        "utility": {
+          "score": 0.6,
+          "reasons": [
+            "Specific tasks: The project aims to provide a tool for playing music on the web.",
+            "Backend services: The project may involve the development of backend services to support the music player."
+          ]
+        },
+        "automation": {
+          "score": 0.4,
+          "reasons": [
+            "While the project may involve some automation, its primary focus is not on workflow improvements or process automation."
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "HTML5",
+            "CSS3",
+            "JavaScript",
+            "Audio API",
+            "WebRTC"
+          ],
+          "core": [
+            "Web Audio API",
+            "WebRTC"
+          ],
+          "optional": [
+            "WebGL",
+            "WebAssembly"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "play/pause",
+            "seek",
+            "volume control",
+            "playlist management",
+            "visualization"
+          ],
+          "interactions": [
+            "touch",
+            "mouse",
+            "keyboard"
+          ],
+          "design": [
+            "minimalistic",
+            "transparent",
+            "glass-like",
+            "responsive"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "Spotify API",
+            "SoundCloud API",
+            "Last.fm API"
+          ],
+          "services": [
+            "music streaming services",
+            "cloud storage"
+          ],
+          "integrations": [
+            "social media sharing",
+            "personalization features"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "music recommendation",
+            "mood detection"
+          ],
+          "required": [
+            "machine learning"
+          ],
+          "potential": [
+            "natural language processing",
+            "voice control"
+          ]
+        },
+        "nameSuggestions": [
+          "chime",
+          "glassy",
+          "melo",
+          "sonar",
+          "tune"
+        ]
+      },
+      "nameSuggestions": [
+        "chime",
+        "glassy",
+        "melo",
+        "sonar",
+        "tune"
+      ],
+      "lastUpdated": "2025-01-21T14:48:44.354Z"
+    },
+    "insights": [],
+    "references": [],
+    "patterns": [],
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "HTML5",
+          "CSS3",
+          "JavaScript",
+          "Audio API",
+          "WebRTC"
+        ],
+        "core": [
+          "Web Audio API",
+          "WebRTC"
+        ],
+        "optional": [
+          "WebGL",
+          "WebAssembly"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "play/pause",
+          "seek",
+          "volume control",
+          "playlist management",
+          "visualization"
+        ],
+        "interactions": [
+          "touch",
+          "mouse",
+          "keyboard"
+        ],
+        "design": [
+          "minimalistic",
+          "transparent",
+          "glass-like",
+          "responsive"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "Spotify API",
+          "SoundCloud API",
+          "Last.fm API"
+        ],
+        "services": [
+          "music streaming services",
+          "cloud storage"
+        ],
+        "integrations": [
+          "social media sharing",
+          "personalization features"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "music recommendation",
+          "mood detection"
+        ],
+        "required": [
+          "machine learning"
+        ],
+        "potential": [
+          "natural language processing",
+          "voice control"
+        ]
+      },
+      "nameSuggestions": [
+        "chime",
+        "glassy",
+        "melo",
+        "sonar",
+        "tune"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Audio API",
+        "WebRTC"
+      ],
+      "core": [
+        "Web Audio API",
+        "WebRTC"
+      ],
+      "optional": [
+        "WebGL",
+        "WebAssembly"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "play/pause",
+        "seek",
+        "volume control",
+        "playlist management",
+        "visualization"
+      ],
+      "interactions": [
+        "touch",
+        "mouse",
+        "keyboard"
+      ],
+      "design": [
+        "minimalistic",
+        "transparent",
+        "glass-like",
+        "responsive"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "Spotify API",
+        "SoundCloud API",
+        "Last.fm API"
+      ],
+      "services": [
+        "music streaming services",
+        "cloud storage"
+      ],
+      "integrations": [
+        "social media sharing",
+        "personalization features"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "music recommendation",
+        "mood detection"
+      ],
+      "required": [
+        "machine learning"
+      ],
+      "potential": [
+        "natural language processing",
+        "voice control"
+      ]
+    },
+    "nameSuggestions": [
+      "chime",
+      "glassy",
+      "melo",
+      "sonar",
+      "tune"
+    ]
+  }
+}

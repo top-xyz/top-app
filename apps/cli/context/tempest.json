@@ -1,0 +1,352 @@
+{
+  "name": "tempest",
+  "description": "weather application with modern ui/ux; glassy, raycast inspiration; ai-native, deeply technical; live animations/visualizations of weather patterns. ai-first approach to notification alerts/weather alerts / wind / dangerous condition alrerts, etc.; chat interface for asking about the weather, anywhere, with good / useful contextual responses, ie if you ask if it's a good day to fish tomorrow, it lets you know why or why not, etc.",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "modern JavaScript framework",
+            "real-time weather API",
+            "AI/ML library"
+          ],
+          "core": [
+            "React",
+            "OpenWeatherMap API",
+            "TensorFlow.js"
+          ],
+          "optional": [
+            "WebGL for advanced visualizations",
+            "Push notifications framework"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "chat interface",
+            "interactive weather visualizations",
+            "contextual weather alerts"
+          ],
+          "interactions": [
+            "conversational",
+            "visual",
+            "proactive"
+          ],
+          "design": [
+            "glassy UI",
+            "Raycast-inspired interactions",
+            "data-driven animations"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "OpenWeatherMap API",
+            "geolocation API"
+          ],
+          "services": [
+            "push notification service"
+          ],
+          "integrations": [
+            "AI-powered chat platform (e.g., Dialogflow)"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "natural language processing",
+            "weather prediction",
+            "contextual understanding"
+          ],
+          "required": [
+            "intent recognition",
+            "weather forecasting",
+            "entity extraction"
+          ],
+          "potential": [
+            "sentiment analysis",
+            "personalized recommendations",
+            "conversational AI"
+          ]
+        },
+        "nameSuggestions": [
+          "Skylight",
+          "Weatherwise",
+          "Nimbus",
+          "Zephyr",
+          "Aurora"
+        ]
+      },
+      "lastUpdated": "2025-01-22T00:13:02.543Z",
+      "changeLogs": [
+        {
+          "id": "change-1737504782541",
+          "timestamp": "2025-01-22T00:13:02.541Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and cutting-edge technology (AI-native, live animations/visualizations).",
+                  "Focuses on a unique approach to weather applications (AI-first, chat interface, contextual responses).",
+                  "Aims to push boundaries and redefine user experience in the weather application domain."
+                ],
+                "secondaryTypes": [
+                  "Prioritize research and development of innovative AI features.",
+                  "Explore partnerships with AI research institutions or experts.",
+                  "Consider conducting user research to validate the effectiveness and desirability of the proposed AI-driven functionalities."
+                ]
+              },
+              "timestamp": "2025-01-22T00:13:02.541Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737504782542",
+          "timestamp": "2025-01-22T00:13:02.542Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and cutting-edge technology (AI-native, live animations/visualizations).",
+                  "Focuses on a unique approach to weather applications (AI-first, chat interface, contextual responses).",
+                  "Aims to push boundaries and redefine user experience in the weather application domain."
+                ],
+                "secondaryTypes": [
+                  "Prioritize research and development of innovative AI features.",
+                  "Explore partnerships with AI research institutions or experts.",
+                  "Consider conducting user research to validate the effectiveness and desirability of the proposed AI-driven functionalities."
+                ]
+              },
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and cutting-edge technology (AI-native, live animations/visualizations).",
+                  "Focuses on a unique approach to weather applications (AI-first, chat interface, contextual responses).",
+                  "Aims to push boundaries and redefine user experience in the weather application domain."
+                ],
+                "secondaryTypes": [
+                  "Prioritize research and development of innovative AI features.",
+                  "Explore partnerships with AI research institutions or experts.",
+                  "Consider conducting user research to validate the effectiveness and desirability of the proposed AI-driven functionalities."
+                ]
+              },
+              "timestamp": "2025-01-22T00:13:02.542Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-22T00:12:54.810Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "modern JavaScript framework",
+          "real-time weather API",
+          "AI/ML library"
+        ],
+        "core": [
+          "React",
+          "OpenWeatherMap API",
+          "TensorFlow.js"
+        ],
+        "optional": [
+          "WebGL for advanced visualizations",
+          "Push notifications framework"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "chat interface",
+          "interactive weather visualizations",
+          "contextual weather alerts"
+        ],
+        "interactions": [
+          "conversational",
+          "visual",
+          "proactive"
+        ],
+        "design": [
+          "glassy UI",
+          "Raycast-inspired interactions",
+          "data-driven animations"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "OpenWeatherMap API",
+          "geolocation API"
+        ],
+        "services": [
+          "push notification service"
+        ],
+        "integrations": [
+          "AI-powered chat platform (e.g., Dialogflow)"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "natural language processing",
+          "weather prediction",
+          "contextual understanding"
+        ],
+        "required": [
+          "intent recognition",
+          "weather forecasting",
+          "entity extraction"
+        ],
+        "potential": [
+          "sentiment analysis",
+          "personalized recommendations",
+          "conversational AI"
+        ]
+      },
+      "nameSuggestions": [
+        "Skylight",
+        "Weatherwise",
+        "Nimbus",
+        "Zephyr",
+        "Aurora"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "modern JavaScript framework",
+        "real-time weather API",
+        "AI/ML library"
+      ],
+      "core": [
+        "React",
+        "OpenWeatherMap API",
+        "TensorFlow.js"
+      ],
+      "optional": [
+        "WebGL for advanced visualizations",
+        "Push notifications framework"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "chat interface",
+        "interactive weather visualizations",
+        "contextual weather alerts"
+      ],
+      "interactions": [
+        "conversational",
+        "visual",
+        "proactive"
+      ],
+      "design": [
+        "glassy UI",
+        "Raycast-inspired interactions",
+        "data-driven animations"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "OpenWeatherMap API",
+        "geolocation API"
+      ],
+      "services": [
+        "push notification service"
+      ],
+      "integrations": [
+        "AI-powered chat platform (e.g., Dialogflow)"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "natural language processing",
+        "weather prediction",
+        "contextual understanding"
+      ],
+      "required": [
+        "intent recognition",
+        "weather forecasting",
+        "entity extraction"
+      ],
+      "potential": [
+        "sentiment analysis",
+        "personalized recommendations",
+        "conversational AI"
+      ]
+    },
+    "nameSuggestions": [
+      "Skylight",
+      "Weatherwise",
+      "Nimbus",
+      "Zephyr",
+      "Aurora"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.9,
+      "reasons": [
+        "Emphasizes novel solutions and cutting-edge technology (AI-native, live animations/visualizations).",
+        "Focuses on a unique approach to weather applications (AI-first, chat interface, contextual responses).",
+        "Aims to push boundaries and redefine user experience in the weather application domain."
+      ],
+      "secondaryTypes": [
+        "Prioritize research and development of innovative AI features.",
+        "Explore partnerships with AI research institutions or experts.",
+        "Consider conducting user research to validate the effectiveness and desirability of the proposed AI-driven functionalities."
+      ]
+    }
+  },
+  "insights": {
+    "insights": [],
+    "summary": {
+      "keyThemes": [],
+      "criticalPaths": [],
+      "risks": [],
+      "opportunities": []
+    },
+    "response": " you plan whatever would be most impactful"
+  }
+}

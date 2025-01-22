@@ -64,3 +64,37 @@ export interface CommandContext {
   options: CommandOptions;
   command: string;
 }
+
+export interface VisionAnalysis {
+  platformRequirements: {
+    platformSpecificRequirements: any[];
+    primary: string;
+    secondary: string[];
+  };
+  technicalRequirements: {
+    coreTechnicalNeeds: any[];
+    core: string[];
+    optional: string[];
+  };
+  userExperienceElements: {
+    keyInteractions: any[];
+    interactions: string[];
+    design: string[];
+  };
+  integrationRequirements: {
+    apis: any[];
+    services: string[];
+    integrations: string[];
+  };
+  aiMlCapabilities: {
+    requiredAiFeatures: any[];
+    required: string[];
+    potential: string[];
+  };
+  nameSuggestions: NameSuggestion[];
+}
+
+export interface NameSuggestion {
+  name: string;
+  reason: string;
+}

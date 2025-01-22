@@ -1,0 +1,316 @@
+{
+  "name": "sharebump",
+  "description": "glassy react19/next15/tailwind/motion/liveblocks / ai native mp3 player",
+  "goals": [],
+  "type": null,
+  "structure": null,
+  "insights": null,
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "React 19",
+        "Next.js 15",
+        "Tailwind CSS",
+        "Motion",
+        "Liveblocks",
+        "AI-powered MP3 player"
+      ],
+      "core": [
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "optional": [
+        "Node.js",
+        "TypeScript"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "Seamless audio playback",
+        "Intuitive user interface",
+        "Real-time collaboration",
+        "AI-powered features"
+      ],
+      "interactions": [
+        "Drag and drop",
+        "Keyboard shortcuts",
+        "Voice commands"
+      ],
+      "design": [
+        "Modern",
+        "Minimalist",
+        "Responsive"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "AI-powered MP3 API",
+        "Cloud storage API"
+      ],
+      "services": [
+        "Cloud hosting",
+        "Real-time database"
+      ],
+      "integrations": [
+        "Social media platforms",
+        "Music streaming services"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "Audio analysis",
+        "Music generation",
+        "Personalized recommendations"
+      ],
+      "required": [
+        "Machine learning",
+        "Natural language processing"
+      ],
+      "potential": [
+        "Computer vision",
+        "Augmented reality"
+      ]
+    },
+    "nameSuggestions": [
+      "muse",
+      "flow",
+      "beat",
+      "tune",
+      "spark"
+    ]
+  },
+  "history": [],
+  "_system": {
+    "initialized": true,
+    "stage": "initialized",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "Novel combination of technologies (React, Next, Tailwind, Motion, Liveblocks)",
+        "Focus on a unique application (AI native MP3 player)"
+      ],
+      "secondaryTypes": [
+        "utility"
+      ],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": [
+            "Potential for learning about specific technologies, but not the primary focus"
+          ]
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "Novel combination of technologies (React, Next, Tailwind, Motion, Liveblocks)",
+            "Focus on a unique application (AI native MP3 player)"
+          ]
+        },
+        "utility": {
+          "score": 0.6,
+          "reasons": [
+            "Provides a specific tool (AI native MP3 player)"
+          ]
+        },
+        "automation": {
+          "score": 0.4,
+          "reasons": [
+            "Potential for automation through AI features, but not the primary focus"
+          ]
+        }
+      }
+    },
+    "timestamp": "2025-01-21T14:38:39.059Z",
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "React 19",
+            "Next.js 15",
+            "Tailwind CSS",
+            "Motion",
+            "Liveblocks",
+            "AI-powered MP3 player"
+          ],
+          "core": [
+            "JavaScript",
+            "HTML",
+            "CSS"
+          ],
+          "optional": [
+            "Node.js",
+            "TypeScript"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "Seamless audio playback",
+            "Intuitive user interface",
+            "Real-time collaboration",
+            "AI-powered features"
+          ],
+          "interactions": [
+            "Drag and drop",
+            "Keyboard shortcuts",
+            "Voice commands"
+          ],
+          "design": [
+            "Modern",
+            "Minimalist",
+            "Responsive"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "AI-powered MP3 API",
+            "Cloud storage API"
+          ],
+          "services": [
+            "Cloud hosting",
+            "Real-time database"
+          ],
+          "integrations": [
+            "Social media platforms",
+            "Music streaming services"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "Audio analysis",
+            "Music generation",
+            "Personalized recommendations"
+          ],
+          "required": [
+            "Machine learning",
+            "Natural language processing"
+          ],
+          "potential": [
+            "Computer vision",
+            "Augmented reality"
+          ]
+        },
+        "nameSuggestions": [
+          "muse",
+          "flow",
+          "beat",
+          "tune",
+          "spark"
+        ]
+      },
+      "nameSuggestions": [
+        "muse",
+        "flow",
+        "beat",
+        "tune",
+        "spark"
+      ],
+      "lastUpdated": "2025-01-21T14:38:50.227Z"
+    },
+    "insights": {},
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "React 19",
+          "Next.js 15",
+          "Tailwind CSS",
+          "Motion",
+          "Liveblocks",
+          "AI-powered MP3 player"
+        ],
+        "core": [
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ],
+        "optional": [
+          "Node.js",
+          "TypeScript"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "Seamless audio playback",
+          "Intuitive user interface",
+          "Real-time collaboration",
+          "AI-powered features"
+        ],
+        "interactions": [
+          "Drag and drop",
+          "Keyboard shortcuts",
+          "Voice commands"
+        ],
+        "design": [
+          "Modern",
+          "Minimalist",
+          "Responsive"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "AI-powered MP3 API",
+          "Cloud storage API"
+        ],
+        "services": [
+          "Cloud hosting",
+          "Real-time database"
+        ],
+        "integrations": [
+          "Social media platforms",
+          "Music streaming services"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "Audio analysis",
+          "Music generation",
+          "Personalized recommendations"
+        ],
+        "required": [
+          "Machine learning",
+          "Natural language processing"
+        ],
+        "potential": [
+          "Computer vision",
+          "Augmented reality"
+        ]
+      },
+      "nameSuggestions": [
+        "muse",
+        "flow",
+        "beat",
+        "tune",
+        "spark"
+      ]
+    },
+    "embeddings": {
+      "vision": [],
+      "technical": [],
+      "workflow": []
+    },
+    "references": [],
+    "patterns": []
+  }
+}

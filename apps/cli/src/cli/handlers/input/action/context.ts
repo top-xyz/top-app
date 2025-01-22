@@ -4,8 +4,8 @@ import { input } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { spinner } from '../../../../utils/spinner';
 import { EnhancedProjectContext, SystemContext, ProjectContext } from '../../../../types/core/context';
-import { getInsightsPrompt } from '../../../../core/prompts/templates/insights';
-import { getContextualResponsePrompt } from '../../../../core/prompts/templates/response';
+import { getInsightsPrompt } from '../../../../core/prompts/templates/context/insights';
+import { getContextualResponsePrompt } from '../../../../core/prompts/templates/context/response';
 
 interface ConversationContext {
   messages: Array<{

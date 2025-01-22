@@ -1,0 +1,239 @@
+{
+  "name": "",
+  "description": "what does chatgpt/cursor for group chat look like? how to ideally augment the group chat conventional experience with ai fueled insights. allow users to customize their contextual enrichment? deep and instinctive tracking of threads in a group chat. better ai summaries of what you missed. native ios with industry standard glassy ui/ux, minimal and fun to use, easy to understand",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [
+            "native iOS"
+          ],
+          "primary": "mobile",
+          "secondary": []
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "AI chat engine",
+            "Natural language processing",
+            "Text analysis",
+            "Summarization engine",
+            "User interface framework"
+          ],
+          "core": [
+            "Python",
+            "Swift",
+            "React Native",
+            "TensorFlow"
+          ],
+          "optional": [
+            "Cloud platform (AWS, Azure, etc.)"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "Group chat interface",
+            "Contextual enrichment options",
+            "Thread tracking",
+            "AI summaries",
+            "Minimalistic and intuitive UI"
+          ],
+          "interactions": [
+            "Text input",
+            "Button clicks",
+            "Customization options (sliders, toggles)",
+            "Visual indicators for threads",
+            "Summary cards"
+          ],
+          "design": [
+            "Glassy UI elements",
+            "Minimalist color scheme",
+            "Clear information hierarchy",
+            "Fun and engaging micro-interactions"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [],
+          "services": [
+            "Speech-to-text API (if needed)"
+          ],
+          "integrations": []
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [
+            "Context-aware conversation analysis",
+            "Thread identification and summarization",
+            "Adaptive summarization based on user preferences"
+          ],
+          "required": [
+            "Natural language processing",
+            "Machine learning",
+            "Deep learning"
+          ],
+          "potential": [
+            "Sentiment analysis",
+            "Emotion recognition",
+            "Personalized recommendations"
+          ]
+        }
+      },
+      "nameSuggestions": [
+        "Sparky",
+        "Echo",
+        "Weave",
+        "Flow",
+        "Muse"
+      ],
+      "lastUpdated": "2025-01-21T22:38:04.485Z"
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-21T22:37:59.709Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [
+          "native iOS"
+        ],
+        "primary": "mobile",
+        "secondary": []
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "AI chat engine",
+          "Natural language processing",
+          "Text analysis",
+          "Summarization engine",
+          "User interface framework"
+        ],
+        "core": [
+          "Python",
+          "Swift",
+          "React Native",
+          "TensorFlow"
+        ],
+        "optional": [
+          "Cloud platform (AWS, Azure, etc.)"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "Group chat interface",
+          "Contextual enrichment options",
+          "Thread tracking",
+          "AI summaries",
+          "Minimalistic and intuitive UI"
+        ],
+        "interactions": [
+          "Text input",
+          "Button clicks",
+          "Customization options (sliders, toggles)",
+          "Visual indicators for threads",
+          "Summary cards"
+        ],
+        "design": [
+          "Glassy UI elements",
+          "Minimalist color scheme",
+          "Clear information hierarchy",
+          "Fun and engaging micro-interactions"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [],
+        "services": [
+          "Speech-to-text API (if needed)"
+        ],
+        "integrations": []
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "Context-aware conversation analysis",
+          "Thread identification and summarization",
+          "Adaptive summarization based on user preferences"
+        ],
+        "required": [
+          "Natural language processing",
+          "Machine learning",
+          "Deep learning"
+        ],
+        "potential": [
+          "Sentiment analysis",
+          "Emotion recognition",
+          "Personalized recommendations"
+        ]
+      }
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [
+        "native iOS"
+      ],
+      "primary": "mobile",
+      "secondary": []
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "AI chat engine",
+        "Natural language processing",
+        "Text analysis",
+        "Summarization engine",
+        "User interface framework"
+      ],
+      "core": [
+        "Python",
+        "Swift",
+        "React Native",
+        "TensorFlow"
+      ],
+      "optional": [
+        "Cloud platform (AWS, Azure, etc.)"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "Group chat interface",
+        "Contextual enrichment options",
+        "Thread tracking",
+        "AI summaries",
+        "Minimalistic and intuitive UI"
+      ],
+      "interactions": [
+        "Text input",
+        "Button clicks",
+        "Customization options (sliders, toggles)",
+        "Visual indicators for threads",
+        "Summary cards"
+      ],
+      "design": [
+        "Glassy UI elements",
+        "Minimalist color scheme",
+        "Clear information hierarchy",
+        "Fun and engaging micro-interactions"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [],
+      "services": [
+        "Speech-to-text API (if needed)"
+      ],
+      "integrations": []
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "Context-aware conversation analysis",
+        "Thread identification and summarization",
+        "Adaptive summarization based on user preferences"
+      ],
+      "required": [
+        "Natural language processing",
+        "Machine learning",
+        "Deep learning"
+      ],
+      "potential": [
+        "Sentiment analysis",
+        "Emotion recognition",
+        "Personalized recommendations"
+      ]
+    }
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "name": "not-tidal",
+  "description": "mp3 player website made by kanye and raycast",
+  "goals": [],
+  "type": null,
+  "structure": null,
+  "insights": null,
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ],
+      "core": [
+        "audio playback",
+        "file uploads",
+        "user authentication",
+        "search functionality",
+        "playlist management"
+      ],
+      "optional": [
+        "streaming capabilities",
+        "social media integration",
+        "voice control",
+        "machine learning for music recommendations"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "search for music",
+        "create playlists",
+        "share playlists",
+        "listen to music",
+        "adjust playback settings"
+      ],
+      "interactions": [
+        "intuitive navigation",
+        "responsive design",
+        "personalized recommendations",
+        "gamification elements"
+      ],
+      "design": [
+        "clean and modern",
+        "user-friendly",
+        "accessible",
+        "visually appealing"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "Spotify API",
+        "SoundCloud API",
+        "Last.fm API"
+      ],
+      "services": [
+        "cloud storage",
+        "payment processing",
+        "analytics"
+      ],
+      "integrations": [
+        "social media platforms",
+        "music streaming services",
+        "third-party analytics tools"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": [
+        "music recommendation",
+        "mood detection",
+        "personalized playlists"
+      ]
+    },
+    "nameSuggestions": [
+      {
+        "name": "melo",
+        "reason": "Short, catchy, and relates to music."
+      },
+      {
+        "name": "vibes",
+        "reason": "Evokes the feeling of music and personalizes the experience."
+      },
+      {
+        "name": "playtune",
+        "reason": "Playful and relates to the act of playing music."
+      },
+      {
+        "name": "tracklist",
+        "reason": "Descriptive and relates to the core functionality of the website."
+      }
+    ]
+  },
+  "history": [],
+  "_system": {
+    "initialized": true,
+    "stage": "initialized",
+    "projectType": null,
+    "timestamp": "2025-01-21T14:04:39.133Z",
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "React",
+            "Node.js",
+            "Express",
+            "MongoDB"
+          ],
+          "core": [
+            "audio playback",
+            "file uploads",
+            "user authentication",
+            "search functionality",
+            "playlist management"
+          ],
+          "optional": [
+            "streaming capabilities",
+            "social media integration",
+            "voice control",
+            "machine learning for music recommendations"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "search for music",
+            "create playlists",
+            "share playlists",
+            "listen to music",
+            "adjust playback settings"
+          ],
+          "interactions": [
+            "intuitive navigation",
+            "responsive design",
+            "personalized recommendations",
+            "gamification elements"
+          ],
+          "design": [
+            "clean and modern",
+            "user-friendly",
+            "accessible",
+            "visually appealing"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "Spotify API",
+            "SoundCloud API",
+            "Last.fm API"
+          ],
+          "services": [
+            "cloud storage",
+            "payment processing",
+            "analytics"
+          ],
+          "integrations": [
+            "social media platforms",
+            "music streaming services",
+            "third-party analytics tools"
+          ]
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": [
+            "music recommendation",
+            "mood detection",
+            "personalized playlists"
+          ]
+        },
+        "nameSuggestions": [
+          {
+            "name": "melo",
+            "reason": "Short, catchy, and relates to music."
+          },
+          {
+            "name": "vibes",
+            "reason": "Evokes the feeling of music and personalizes the experience."
+          },
+          {
+            "name": "playtune",
+            "reason": "Playful and relates to the act of playing music."
+          },
+          {
+            "name": "tracklist",
+            "reason": "Descriptive and relates to the core functionality of the website."
+          }
+        ]
+      },
+      "nameSuggestions": [
+        {
+          "name": "melo",
+          "reason": "Short, catchy, and relates to music."
+        },
+        {
+          "name": "vibes",
+          "reason": "Evokes the feeling of music and personalizes the experience."
+        },
+        {
+          "name": "playtune",
+          "reason": "Playful and relates to the act of playing music."
+        },
+        {
+          "name": "tracklist",
+          "reason": "Descriptive and relates to the core functionality of the website."
+        }
+      ],
+      "lastUpdated": "2025-01-21T14:04:44.357Z"
+    },
+    "insights": {},
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "React",
+          "Node.js",
+          "Express",
+          "MongoDB"
+        ],
+        "core": [
+          "audio playback",
+          "file uploads",
+          "user authentication",
+          "search functionality",
+          "playlist management"
+        ],
+        "optional": [
+          "streaming capabilities",
+          "social media integration",
+          "voice control",
+          "machine learning for music recommendations"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "search for music",
+          "create playlists",
+          "share playlists",
+          "listen to music",
+          "adjust playback settings"
+        ],
+        "interactions": [
+          "intuitive navigation",
+          "responsive design",
+          "personalized recommendations",
+          "gamification elements"
+        ],
+        "design": [
+          "clean and modern",
+          "user-friendly",
+          "accessible",
+          "visually appealing"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "Spotify API",
+          "SoundCloud API",
+          "Last.fm API"
+        ],
+        "services": [
+          "cloud storage",
+          "payment processing",
+          "analytics"
+        ],
+        "integrations": [
+          "social media platforms",
+          "music streaming services",
+          "third-party analytics tools"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": [
+          "music recommendation",
+          "mood detection",
+          "personalized playlists"
+        ]
+      },
+      "nameSuggestions": [
+        {
+          "name": "melo",
+          "reason": "Short, catchy, and relates to music."
+        },
+        {
+          "name": "vibes",
+          "reason": "Evokes the feeling of music and personalizes the experience."
+        },
+        {
+          "name": "playtune",
+          "reason": "Playful and relates to the act of playing music."
+        },
+        {
+          "name": "tracklist",
+          "reason": "Descriptive and relates to the core functionality of the website."
+        }
+      ]
+    },
+    "embeddings": {
+      "vision": [],
+      "technical": [],
+      "workflow": []
+    },
+    "references": [],
+    "patterns": []
+  }
+}

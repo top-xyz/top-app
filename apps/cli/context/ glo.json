@@ -1,0 +1,246 @@
+{
+  "name": " glo",
+  "description": "glassy mp3 player with raycast/teenage engineering vibe",
+  "_system": {
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.8,
+      "reasons": [
+        "glassy mp3 player suggests a novel and unique design approach",
+        "raycast/teenage engineering vibe implies a focus on creative and experimental features"
+      ],
+      "secondaryTypes": [
+        "utility"
+      ],
+      "analysis": {
+        "learning": {
+          "score": 0.2,
+          "reasons": [
+            "no clear indication of teaching or skill development"
+          ]
+        },
+        "innovative": {
+          "score": 0.8,
+          "reasons": [
+            "glassy mp3 player suggests a novel and unique design approach",
+            "raycast/teenage engineering vibe implies a focus on creative and experimental features"
+          ]
+        },
+        "utility": {
+          "score": 0.6,
+          "reasons": [
+            "mp3 player indicates a specific practical function"
+          ]
+        },
+        "automation": {
+          "score": 0.3,
+          "reasons": [
+            "no clear indication of workflow improvement or process automation"
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "vision": {
+        "platformRequirements": {
+          "platformSpecificRequirements": [],
+          "primary": "web",
+          "secondary": [
+            "mobile"
+          ]
+        },
+        "technicalRequirements": {
+          "coreTechnicalNeeds": [
+            "audio playback",
+            "raycasting",
+            "web audio api",
+            "touch interaction"
+          ],
+          "core": [
+            "html",
+            "css",
+            "javascript"
+          ],
+          "optional": [
+            "webgl",
+            "three.js",
+            "webxr"
+          ]
+        },
+        "userExperienceElements": {
+          "keyInteractions": [
+            "touch controls",
+            "raycast selection",
+            "haptic feedback"
+          ],
+          "interactions": [
+            "intuitive",
+            "fluid",
+            "playful"
+          ],
+          "design": [
+            "minimalistic",
+            "glassy",
+            "futuristic"
+          ]
+        },
+        "integrationRequirements": {
+          "apis": [
+            "web audio api"
+          ],
+          "services": [],
+          "integrations": []
+        },
+        "aiMlCapabilities": {
+          "requiredAiFeatures": [],
+          "required": [],
+          "potential": []
+        },
+        "nameSuggestions": [
+          "glimmer",
+          "prism",
+          "chroma",
+          "sonar",
+          "echo"
+        ]
+      },
+      "nameSuggestions": [
+        "glimmer",
+        "prism",
+        "chroma",
+        "sonar",
+        "echo"
+      ],
+      "lastUpdated": "2025-01-21T15:08:02.956Z"
+    },
+    "insights": [],
+    "references": [],
+    "patterns": [],
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "web",
+        "secondary": [
+          "mobile"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "audio playback",
+          "raycasting",
+          "web audio api",
+          "touch interaction"
+        ],
+        "core": [
+          "html",
+          "css",
+          "javascript"
+        ],
+        "optional": [
+          "webgl",
+          "three.js",
+          "webxr"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "touch controls",
+          "raycast selection",
+          "haptic feedback"
+        ],
+        "interactions": [
+          "intuitive",
+          "fluid",
+          "playful"
+        ],
+        "design": [
+          "minimalistic",
+          "glassy",
+          "futuristic"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "web audio api"
+        ],
+        "services": [],
+        "integrations": []
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [],
+        "required": [],
+        "potential": []
+      },
+      "nameSuggestions": [
+        "glimmer",
+        "prism",
+        "chroma",
+        "sonar",
+        "echo"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "web",
+      "secondary": [
+        "mobile"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "audio playback",
+        "raycasting",
+        "web audio api",
+        "touch interaction"
+      ],
+      "core": [
+        "html",
+        "css",
+        "javascript"
+      ],
+      "optional": [
+        "webgl",
+        "three.js",
+        "webxr"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "touch controls",
+        "raycast selection",
+        "haptic feedback"
+      ],
+      "interactions": [
+        "intuitive",
+        "fluid",
+        "playful"
+      ],
+      "design": [
+        "minimalistic",
+        "glassy",
+        "futuristic"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "web audio api"
+      ],
+      "services": [],
+      "integrations": []
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [],
+      "required": [],
+      "potential": []
+    },
+    "nameSuggestions": [
+      "glimmer",
+      "prism",
+      "chroma",
+      "sonar",
+      "echo"
+    ]
+  }
+}
