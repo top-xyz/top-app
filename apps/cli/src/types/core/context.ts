@@ -1,4 +1,4 @@
-import { ProjectType, ProjectInsights } from './project';
+import { ProjectType, ProjectInsights, FlowState, InteractionPattern, ErgonomicProfile } from './project';
 import { FlowState, InteractionPattern, ErgonomicProfile } from './flow';
 
 // Base context interfaces
@@ -180,6 +180,24 @@ export interface EnhancedContext extends Context {
 }
 
 // Project-specific context types
+export interface ProjectInsights {
+  keyThemes: string[];
+  criticalPaths: string[];
+  risks: string[];
+  opportunities: string[];
+  items: {
+    category: string;
+    key: string;
+    title: string;
+    description: string;
+    implications: string[];
+    recommendations: string[];
+    priority: 'high' | 'medium' | 'low';
+    confidence: number;
+  }[];
+  response?: string;
+}
+
 export interface ProjectContext extends BaseContext {
   insights: ProjectInsights;
   metadata: SystemMetadata & {

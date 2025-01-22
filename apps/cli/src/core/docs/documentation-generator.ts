@@ -1,133 +1,161 @@
 import { debug } from '../../utils/debug';
 import { VertexAIClient } from '../client/vertex-ai';
 import { EnhancedProjectContext } from '../../types/core/context';
-import { DocumentSection, DocumentStructure, GeneratedDocument } from '../../types/core/documentation';
+import { DocumentCategory, DocumentFile, DocumentStructure, GeneratedDocument } from '../../types/core/documentation';
 import { getDocumentStructurePrompt } from '../prompts/templates/documentation/structure';
 import { getDocumentContentPrompt } from '../prompts/templates/documentation/content';
 import { ContextVisualizer } from '../../utils/context-visualizer';
-import { Logger } from '../../utils/logger';
-import path from 'path';
-import fs from 'fs';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export class DocumentationGenerator {
-  private logger: Logger;
+  private ai: VertexAIClient;
+  private context: any;
   private outputDir: string;
 
-  constructor(
-    private ai: VertexAIClient,
-    outputDir: string
-  ) {
-    debug('DocGen', 'Initializing DocumentationGenerator');
-    this.logger = new Logger();
-    this.outputDir = outputDir;
+  constructor(ai: VertexAIClient, context: any) {
+    this.ai = ai;
+    this.context = context;
+    this.outputDir = path.join(process.cwd(), 'ctx');
   }
 
-  async initialize() {
-    debug('DocGen', 'Ensuring output directory exists');
-    await fs.promises.mkdir(this.outputDir, { recursive: true });
+  private filterContext(context: any): any {
+    // Extract only essential information to reduce token count
+    return {
+      project: {
+        name: context.name,
+        description: context.description,
+        type: context?.metadata?.projectType?.primaryType || 'unknown'
+      },
+      technical: {
+        platform: context?.vision?.platformRequirements?.primary,
+        requirements: context?.vision?.technicalRequirements?.core?.slice(0, 3) || [],
+        integrations: context?.vision?.integrationRequirements?.apis?.slice(0, 2) || []
+      },
+      ux: context?.vision?.userExperienceElements?.keyInteractions || []
+    };
   }
 
-  async generateDocumentation(context: EnhancedProjectContext): Promise<GeneratedDocument> {
-    debug('DocGen', 'Generating documentation with context:', {
-      projectName: context.name,
-      projectType: context.type
-    });
+  private getEssentialDocSections(): { category: string; files: string[] }[] {
+    return [
+      {
+        category: 'overview',
+        files: ['README.md', 'ARCHITECTURE.md', 'CONTRIBUTING.md']
+      },
+      {
+        category: 'requirements',
+        files: ['requirements/functional.md', 'requirements/non-functional.md', 'requirements/constraints.md']
+      },
+      {
+        category: 'architecture',
+        files: [
+          'architecture/overview.md',
+          'architecture/components.md',
+          'architecture/data-model.md',
+          'architecture/interfaces.md'
+        ]
+      },
+      {
+        category: 'development',
+        files: [
+          'development/setup.md',
+          'development/workflow.md',
+          'development/guidelines.md',
+          'development/testing.md'
+        ]
+      },
+      {
+        category: 'deployment',
+        files: ['deployment/environments.md', 'deployment/configuration.md', 'deployment/monitoring.md']
+      }
+    ];
+  }
+
+  private async generateDocFile(filePath: string, context: any): Promise<string> {
+    const fileInfo = {
+      path: filePath,
+      category: path.dirname(filePath),
+      name: path.basename(filePath, '.md'),
+      type: 'markdown'
+    };
+
+    const prompt = `Generate comprehensive documentation for ${fileInfo.name} in the ${fileInfo.category} category.
+Use this project context:
+${JSON.stringify(context, null, 2)}
+
+Requirements:
+- Focus on ${fileInfo.category}-specific content
+- Use clear, technical language
+- Include practical examples where relevant
+- Format in markdown
+- Keep sections focused and concise
+- Include relevant diagrams in mermaid syntax if needed
+
+Output a single markdown file with appropriate sections and content.`;
 
     try {
-      // Step 1: Generate context snapshot for better LLM understanding
-      const snapshot = await ContextVisualizer.generateSnapshot(context);
-      debug('DocGen', 'Generated context snapshot');
-
-      // Step 2: Get ideal document structure from LLM
-      const structure = await this.generateDocumentStructure(context, snapshot);
-      debug('DocGen', 'Generated document structure:', structure);
-
-      // Step 3: Generate content for each section
-      const content = await this.generateDocumentContent(context, structure);
-      debug('DocGen', 'Generated document content');
-
-      // Step 4: Save documentation
-      const document: GeneratedDocument = {
-        content,
-        structure,
-        metadata: {
-          generatedAt: new Date().toISOString(),
-          version: '1.0.0',
-          context: {
-            projectType: context.type?.primaryType || 'unknown',
-            technicalStack: context.insights?.technicalPatterns || []
-          }
-        }
-      };
-
-      await this.saveDocumentation(document);
-      return document;
+      return await this.ai.generateContent({
+        type: 'text',
+        temperature: 0.7,
+        maxTokens: 4096, // Smaller token limit per file
+        model: 'gemini-pro',
+        prompt
+      });
     } catch (error) {
-      debug('DocGen', 'Error generating documentation:', error);
+      debug('DocGen', `Error generating ${filePath}:`, error);
       throw error;
     }
   }
 
-  private async generateDocumentStructure(
-    context: EnhancedProjectContext,
-    snapshot: any
-  ): Promise<DocumentStructure> {
-    const prompt = getDocumentStructurePrompt(context, snapshot);
-
-    const response = await this.ai.generateContent({
-      prompt,
-      type: 'structured',
-      temperature: 0.7
-    });
-
-    return JSON.parse(response);
+  private async writeDocFile(filePath: string, content: string): Promise<void> {
+    const fullPath = path.join(this.outputDir, filePath);
+    await fs.promises.mkdir(path.dirname(fullPath), { recursive: true });
+    await fs.promises.writeFile(fullPath, content, 'utf-8');
+    debug('DocGen', `Written ${filePath}`);
   }
 
-  private async generateDocumentContent(
-    context: EnhancedProjectContext,
-    structure: DocumentStructure
-  ): Promise<string> {
-    const generateSectionContent = async (section: DocumentSection, depth: number = 0): Promise<string> => {
-      const prompt = getDocumentContentPrompt(context, section, structure, depth);
+  public async generateDocumentation(): Promise<void> {
+    debug('DocGen', 'Initializing DocumentationGenerator');
+    debug('DocGen', 'Context set');
 
-      const content = await this.ai.generateContent({
-        prompt,
-        type: 'text',
-        temperature: 0.5
-      });
+    const sections = this.getEssentialDocSections();
+    const generatedFiles: string[] = [];
 
-      let sectionContent = '#'.repeat(depth + 1) + ' ' + section.title + '\n\n' + content;
-
-      if (section.subsections?.length) {
-        for (const subsection of section.subsections) {
-          sectionContent += '\n\n' + await generateSectionContent(subsection, depth + 1);
+    for (const section of sections) {
+      debug('DocGen', `Generating ${section.category} documentation`);
+      
+      for (const file of section.files) {
+        try {
+          const content = await this.generateDocFile(file, this.filterContext(this.context));
+          await this.writeDocFile(file, content);
+          generatedFiles.push(file);
+        } catch (error) {
+          debug('DocGen', `Error generating ${file}:`, error);
+          // Continue with other files even if one fails
         }
       }
-
-      return sectionContent;
-    };
-
-    let fullContent = `# ${context.name} Documentation\n\n`;
-    
-    for (const section of structure.sections) {
-      fullContent += await generateSectionContent(section) + '\n\n';
     }
 
-    return fullContent;
-  }
-
-  private async saveDocumentation(doc: GeneratedDocument) {
-    const outputPath = path.join(this.outputDir, 'documentation.md');
-    await fs.promises.writeFile(outputPath, doc.content, 'utf8');
+    debug('DocGen', 'Documentation generation complete');
+    console.log('\n📂 Documentation Overview');
+    console.log('Your project documentation is organized into the following sections:\n');
     
-    // Save metadata separately
-    const metaPath = path.join(this.outputDir, 'documentation.meta.json');
-    await fs.promises.writeFile(
-      metaPath,
-      JSON.stringify({ structure: doc.structure, metadata: doc.metadata }, null, 2),
-      'utf8'
-    );
+    // Group and display files by category
+    const filesByCategory = generatedFiles.reduce((acc, file) => {
+      const category = path.dirname(file);
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(path.basename(file));
+      return acc;
+    }, {} as Record<string, string[]>);
 
-    debug('DocGen', 'Documentation saved to:', outputPath);
+    Object.entries(filesByCategory).forEach(([category, files]) => {
+      console.log(`${category}/`);
+      files.forEach(file => console.log(`  └─ ${file}`));
+      console.log('');
+    });
   }
 }

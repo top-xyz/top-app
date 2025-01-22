@@ -1,5 +1,5 @@
 import { debug } from '../../utils/debug';
-import { VertexAI } from '@google-cloud/vertexai';
+import { VertexAI, GenerativeModel } from '@google-cloud/vertexai';
 
 export interface AIRequestOptions {
   prompt: string;
@@ -33,6 +33,7 @@ export class VertexAIClient {
   private defaultModel = 'gemini-pro';
   private project: string;
   private location: string;
+  private model: GenerativeModel;
 
   constructor(options?: {
     projectId?: string;
@@ -52,6 +53,13 @@ export class VertexAIClient {
       this.vertexai = new VertexAI({
         project: this.project,
         location: this.location
+      });
+      this.model = this.vertexai.preview.getGenerativeModel({
+        model: this.defaultModel,
+        generation_config: {
+          max_output_tokens: 8192,
+          temperature: 0.7
+        }
       });
     } catch (error) {
       debug('VertexAI', 'Error initializing clients:', error);
@@ -196,6 +204,54 @@ To authenticate:
       }
     } catch (error) {
       debug('VertexAI', 'Error in generateContent:', error);
+      throw error;
+    }
+  }
+
+  async generateBatchContent(requests: Array<{
+    type: string;
+    prompt: string;
+    temperature?: number;
+    maxTokens?: number;
+    model?: string;
+  }>): Promise<string[]> {
+    try {
+      // Combine all prompts into a single structured request
+      const combinedPrompt = requests.map((req, i) => 
+        `Request ${i + 1}:\n${req.prompt}\n---\n`
+      ).join('\n');
+
+      const structuredPrompt = `
+        Process multiple requests and return a JSON array of responses.
+        Each response should be properly formatted according to its type.
+        
+        Requests:
+        ${combinedPrompt}
+        
+        Return format:
+        {
+          "responses": [
+            {"index": 0, "content": "response1"},
+            {"index": 1, "content": "response2"},
+            ...
+          ]
+        }
+      `;
+
+      const result = await this.model.generateContent({
+        contents: [{ role: "user", parts: [{ text: structuredPrompt }] }]
+      });
+
+      const response = result.response;
+      if (!response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        throw new Error('Invalid response format from Vertex AI');
+      }
+
+      const parsedResponse = JSON.parse(response.candidates[0].content.parts[0].text);
+      return parsedResponse.responses.map(r => r.content);
+
+    } catch (error) {
+      debug('VertexAI', 'Error in generateBatchContent:', error);
       throw error;
     }
   }

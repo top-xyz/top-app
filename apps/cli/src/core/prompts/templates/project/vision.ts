@@ -92,10 +92,10 @@ Required JSON Structure:
 }
 
 Name Generation Rules:
-1. Length: 3-6 letters, lowercase only
+1. Length: 3-6 letters, all lower case letters 
 2. Style: Playful, memorable, unique
 3. Relevance: Subtle connection to purpose
-4. Quantity: Generate 4-5 suggestions
+4. Quantity: Generate 3-5 suggestions
 5. Avoid: Technical terms, literal descriptions
 
 Remember: Return ONLY the JSON object with no other text`;

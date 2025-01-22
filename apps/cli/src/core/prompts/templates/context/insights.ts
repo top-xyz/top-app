@@ -94,58 +94,44 @@ export const insightCategories: Record<string, InsightCategory[]> = {
   ]
 };
 
-export const generateInsightsPrompt = (question: string, response: string, context: ProjectInitialContext) => {
-  const projectType = context.type?.primaryType || 'undefined';
-  const categories = insightCategories[projectType] || insightCategories.innovative;
-  const contextualHints = categories
-    .map(cat => cat.contextHints || [])
-    .flat()
-    .join('\n');
+export const generateInsightsPrompt = (question: string, response: string, context: ProjectInitialContext): string => {
+  return `Given this question: "${question}"
+And this response: "${response}"
+In the context of this project: ${JSON.stringify(context, null, 2)}
 
-  return `
-You are a technical insight analyzer.
+Generate insights about the response that help understand its implications and guide future development.
+Also generate a brief, casual acknowledgment that shows understanding while being technically savvy.
 
-IMPORTANT INSTRUCTIONS:
-1. Return ONLY a JSON object with NO additional text/markdown
-2. Analyze the response thoroughly in the context of the project
-3. Provide actionable insights that align with project goals
-4. Keep insights focused and specific
-5. Validate JSON structure before responding
-
-Project Context:
-Type: ${projectType}
-Vision: ${context.vision?.summary || 'Not defined'}
-Goals: ${context.vision?.goals?.join(', ') || 'Not defined'}
-
-Context Considerations:
-${contextualHints}
-
-Question: ${question}
-Response: ${response}
-
-Required JSON Structure:
+The response must be valid JSON with this structure:
 {
   "insights": [
     {
-      "category": string,
-      "key": string,
-      "title": string,
-      "description": string,
-      "implications": string[],
-      "recommendations": string[],
-      "priority": "high|medium|low",
-      "confidence": 0.0-1.0
+      "category": string,  // e.g. "Technical", "User Experience", "Innovation"
+      "key": string,       // Short identifier
+      "title": string,     // Concise title 
+      "description": string, // Detailed explanation
+      "implications": string[], // List of key implications
+      "recommendations": string[], // List of actionable recommendations
+      "priority": "high" | "medium" | "low",
+      "confidence": number // 0-1 indicating confidence in insight
     }
   ],
   "summary": {
-    "keyThemes": string[],
-    "criticalPaths": string[],
-    "risks": string[],
-    "opportunities": string[]
-  }
+    "keyThemes": string[],     // Main themes identified
+    "criticalPaths": string[], // Key areas requiring focus
+    "risks": string[],         // Potential challenges
+    "opportunities": string[]  // Areas for growth/improvement
+  },
+  "response": string,         // Original response for reference
+  "acknowledgment": string    // Brief (1-2 sentences), casual but technically savvy response that:
+                             // 1. Shows you understood their point
+                             // 2. References key technical or experiential elements
+                             // 3. Optionally adds an inspiring suggestion
+                             // 4. Keeps it fun and minimal
+                             // Example: "Love that glassy aesthetic! The Metal animations will really make those OP-1 inspired controls pop."
 }
 
-Remember: Return ONLY the JSON object with no other text`;
+Make the acknowledgment reference key technical or experiential elements while keeping it fun and minimal.`;
 };
 
 export function getInsightsPrompt(context: ProjectInitialContext): string {

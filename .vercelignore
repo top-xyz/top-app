@@ -1,0 +1,29 @@
+# Dependencies
+**/node_modules
+.pnpm-store
+
+# Build outputs
+.next
+.turbo
+build
+dist
+out
+
+# Testing
+coverage
+*.test.*
+
+# Misc
+.git
+.env*
+.DS_Store
+
+# Exclude other apps/packages except web
+/apps/api
+/apps/docs
+/apps/app
+/packages/*
+
+# Cache
+.cache
+*.tsbuildinfo 

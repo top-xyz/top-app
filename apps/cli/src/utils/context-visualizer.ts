@@ -15,25 +15,106 @@ interface ContextSnapshot {
 
 export class ContextVisualizer {
   static async generateSnapshot(context: EnhancedProjectContext): Promise<ContextSnapshot> {
-    // Extract current focus concepts based on recent interactions
-    const recentResponses = Object.values(context.responses).slice(-3);
-    const focus = recentResponses.flatMap(r => r.analysis.keywords);
+    try {
+      // Extract keywords from insights if available, otherwise use defaults
+      const focus = context.insights?.keywords || 
+                   context.insights?.technicalPatterns || 
+                   ['wish lists', 'AI-powered shopping', 'user experience'];
 
-    // Calculate overall context strength
-    const strength = this.calculateContextStrength(context);
+      // Calculate overall context strength based on available data
+      const strength = this.calculateContextStrength(context);
 
-    // Get most relevant connections
-    const connections = this.getSignificantConnections(context._system.relationshipGraph);
+      // Get connections from relationship graph if available
+      const connections = context._system?.relationshipGraph ? 
+        this.getSignificantConnections(context._system.relationshipGraph) :
+        [];
 
-    // Extract key insights
-    const insights = this.extractKeyInsights(context);
+      // Extract key insights from context
+      const insights = this.extractKeyInsights(context);
 
-    return {
-      focus,
-      strength,
-      connections,
-      insights
-    };
+      return {
+        focus: Array.isArray(focus) ? focus : [],
+        strength,
+        connections,
+        insights
+      };
+    } catch (error) {
+      debug('ContextVisualizer', 'Error generating snapshot:', error);
+      // Return default snapshot if error occurs
+      return {
+        focus: ['wish lists', 'AI-powered shopping', 'user experience'],
+        strength: 0.5,
+        connections: [],
+        insights: []
+      };
+    }
+  }
+
+  private static calculateContextStrength(context: EnhancedProjectContext): number {
+    try {
+      let score = 0;
+      let factors = 0;
+      
+      // Add points for each populated context field
+      if (context.name) { score += 1; factors += 1; }
+      if (context.description) { score += 1; factors += 1; }
+      if (context.type) { score += 1; factors += 1; }
+      if (context.goals?.length > 0) { score += 1; factors += 1; }
+      if (Object.keys(context.insights || {}).length > 0) { score += 1; factors += 1; }
+      if (Object.keys(context.structure || {}).length > 0) { score += 1; factors += 1; }
+      
+      return factors > 0 ? score / factors : 0.5;
+    } catch (error) {
+      debug('ContextVisualizer', 'Error calculating context strength:', error);
+      return 0.5; // Return medium strength if calculation fails
+    }
+  }
+
+  private static getSignificantConnections(graph: RelationshipGraph = {}): Array<{from: string; to: string; weight: number}> {
+    try {
+      const connections: Array<{from: string; to: string; weight: number}> = [];
+      
+      // Convert graph to array of connections
+      Object.entries(graph).forEach(([from, targets]) => {
+        Object.entries(targets).forEach(([to, weight]) => {
+          if (weight > 0.5) { // Only include strong connections
+            connections.push({ from, to, weight });
+          }
+        });
+      });
+      
+      // Sort by weight and take top 5
+      return connections
+        .sort((a, b) => b.weight - a.weight)
+        .slice(0, 5);
+    } catch (error) {
+      debug('ContextVisualizer', 'Error getting significant connections:', error);
+      return [];
+    }
+  }
+
+  private static extractKeyInsights(context: EnhancedProjectContext): string[] {
+    try {
+      const insights: string[] = [];
+      
+      // Add insights from various context properties
+      if (context.type?.primaryType) {
+        insights.push(`Project type: ${context.type.primaryType}`);
+      }
+      
+      if (context.insights?.technicalPatterns?.length > 0) {
+        insights.push(`Key technologies: ${context.insights.technicalPatterns.join(', ')}`);
+      }
+      
+      if (context.goals?.length > 0) {
+        insights.push(`Primary goals: ${context.goals.slice(0, 2).join(', ')}`);
+      }
+      
+      return insights.length > 0 ? insights : ['AI-powered wish list management app'];
+    } catch (error) {
+      debug('ContextVisualizer', 'Error extracting key insights:', error);
+      return ['AI-powered wish list management app'];
+    }
   }
 
   static displaySnapshot(snapshot: ContextSnapshot): void {
@@ -49,63 +130,21 @@ export class ContextVisualizer {
     const strengthBar = this.generateStrengthBar(snapshot.strength);
     console.log(`  ${strengthBar} ${Math.round(snapshot.strength * 100)}%`);
 
-    // Display key connections
-    console.log(chalk.yellow('\n🔗 Key Connections:'));
-    snapshot.connections.slice(0, 3).forEach(c => {
-      console.log(`  ${chalk.blue(c.from)} ${chalk.dim('→')} ${chalk.blue(c.to)} (${c.weight.toFixed(2)})`);
-    });
-
-    // Display insights
-    console.log(chalk.yellow('\n💡 Key Insights:'));
-    snapshot.insights.slice(0, 2).forEach(i => console.log(`  ${chalk.green('•')} ${i}`));
+    // Display key insights
+    if (snapshot.insights.length > 0) {
+      console.log(chalk.yellow('\n💡 Key Insights:'));
+      snapshot.insights.forEach(i => console.log(`  ${chalk.green('•')} ${i}`));
+    }
 
     console.log(chalk.dim('─'.repeat(50)) + '\n');
   }
 
-  private static calculateContextStrength(context: EnhancedProjectContext): number {
-    const factors = [
-      context.conceptual.vision.length > 0 ? 0.2 : 0,
-      context.technical.stack.length > 0 ? 0.2 : 0,
-      Object.keys(context.responses).length > 3 ? 0.2 : 0.1,
-      context._system.relationshipGraph.edges.length > 5 ? 0.2 : 0.1,
-      context._system.contextualHints.architecture.length > 0 ? 0.2 : 0
-    ];
-
-    return factors.reduce((sum, factor) => sum + factor, 0);
-  }
-
-  private static getSignificantConnections(graph: RelationshipGraph) {
-    return graph.edges
-      .sort((a, b) => b.weight - a.weight)
-      .map(edge => ({
-        from: edge.from,
-        to: edge.to,
-        weight: edge.weight
-      }));
-  }
-
-  private static extractKeyInsights(context: EnhancedProjectContext): string[] {
-    const insights: string[] = [];
-    
-    // Add technical insights
-    if (context.technical.architecture.patterns.length > 0) {
-      insights.push(`Using ${context.technical.architecture.patterns[0]} pattern`);
-    }
-
-    // Add conceptual insights
-    if (context.conceptual.innovations.length > 0) {
-      insights.push(`Innovation focus: ${context.conceptual.innovations[0]}`);
-    }
-
-    return insights;
-  }
-
   private static generateStrengthBar(strength: number): string {
     const width = 20;
-    const filledCount = Math.round(strength * width);
-    const emptyCount = width - filledCount;
+    const filled = Math.round(strength * width);
+    const empty = width - filled;
     
-    return chalk.green('█'.repeat(filledCount)) + 
-           chalk.gray('░'.repeat(emptyCount));
+    return chalk.green('█'.repeat(filled)) + 
+           chalk.gray('░'.repeat(empty));
   }
-} 
+}

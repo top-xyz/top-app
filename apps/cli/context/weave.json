@@ -1,0 +1,317 @@
+{
+  "name": "weave",
+  "description": "what does chatgpt/cursor for group chat look like? how to ideally augment the group chat conventional experience with ai fueled insights. allow users to customize their contextual enrichment? deep and instinctive tracking of threads in a group chat. better ai summaries of what you missed. native ios with industry standard glassy ui/ux, minimal and fun to use, easy to understand",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "lastUpdated": "2025-01-22T08:29:56.456Z",
+      "changeLogs": [
+        {
+          "id": "change-1737534596455",
+          "timestamp": "2025-01-22T08:29:56.455Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Novel solution: AI-powered insights for group chats, not widely available.",
+                  "Cutting-edge technology: Deep thread tracking, AI summaries.",
+                  "Unique approach: Customizable contextual enrichment for individual users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat insights and thread tracking.",
+                  "Explore user interface design for customization options.",
+                  "Consider platform expansion beyond iOS."
+                ]
+              },
+              "timestamp": "2025-01-22T08:29:56.455Z",
+              "confidence": 0.85
+            }
+          ],
+          "metadata": {
+            "confidence": 0.85,
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737534596456",
+          "timestamp": "2025-01-22T08:29:56.456Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Novel solution: AI-powered insights for group chats, not widely available.",
+                  "Cutting-edge technology: Deep thread tracking, AI summaries.",
+                  "Unique approach: Customizable contextual enrichment for individual users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat insights and thread tracking.",
+                  "Explore user interface design for customization options.",
+                  "Consider platform expansion beyond iOS."
+                ]
+              },
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Novel solution: AI-powered insights for group chats, not widely available.",
+                  "Cutting-edge technology: Deep thread tracking, AI summaries.",
+                  "Unique approach: Customizable contextual enrichment for individual users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat insights and thread tracking.",
+                  "Explore user interface design for customization options.",
+                  "Consider platform expansion beyond iOS."
+                ]
+              },
+              "timestamp": "2025-01-22T08:29:56.456Z",
+              "confidence": 0.85
+            }
+          ],
+          "metadata": {
+            "confidence": 0.85,
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-22T08:29:50.267Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "mobile",
+        "secondary": [
+          "ios"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "chatgpt integration",
+          "ai-powered summarization",
+          "thread tracking and analysis",
+          "customizable contextual enrichment",
+          "native ios development framework",
+          "glassy ui/ux design"
+        ],
+        "core": [
+          "swift",
+          "xcode",
+          "chatgpt api"
+        ],
+        "optional": [
+          "cloud storage",
+          "machine learning libraries"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "group chat interface",
+          "ai-powered insights",
+          "customization options",
+          "thread navigation",
+          "summary viewing"
+        ],
+        "interactions": [
+          "text input",
+          "tap gestures",
+          "swipe gestures",
+          "visual indicators"
+        ],
+        "design": [
+          "minimalistic",
+          "intuitive",
+          "fun",
+          "engaging"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "chatgpt api"
+        ],
+        "services": [
+          "cloud messaging service"
+        ],
+        "integrations": [
+          "chatgpt",
+          "cloud storage"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "chatgpt integration",
+          "ai-powered summarization",
+          "thread tracking and analysis",
+          "customizable contextual enrichment"
+        ],
+        "required": [
+          "natural language processing",
+          "machine learning"
+        ],
+        "potential": [
+          "sentiment analysis",
+          "topic modeling",
+          "user behavior prediction"
+        ]
+      },
+      "nameSuggestions": [
+        "chatterbox",
+        "threadflow",
+        "insightchat",
+        "brainstormer",
+        "chatwise"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "mobile",
+      "secondary": [
+        "ios"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "chatgpt integration",
+        "ai-powered summarization",
+        "thread tracking and analysis",
+        "customizable contextual enrichment",
+        "native ios development framework",
+        "glassy ui/ux design"
+      ],
+      "core": [
+        "swift",
+        "xcode",
+        "chatgpt api"
+      ],
+      "optional": [
+        "cloud storage",
+        "machine learning libraries"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "group chat interface",
+        "ai-powered insights",
+        "customization options",
+        "thread navigation",
+        "summary viewing"
+      ],
+      "interactions": [
+        "text input",
+        "tap gestures",
+        "swipe gestures",
+        "visual indicators"
+      ],
+      "design": [
+        "minimalistic",
+        "intuitive",
+        "fun",
+        "engaging"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "chatgpt api"
+      ],
+      "services": [
+        "cloud messaging service"
+      ],
+      "integrations": [
+        "chatgpt",
+        "cloud storage"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "chatgpt integration",
+        "ai-powered summarization",
+        "thread tracking and analysis",
+        "customizable contextual enrichment"
+      ],
+      "required": [
+        "natural language processing",
+        "machine learning"
+      ],
+      "potential": [
+        "sentiment analysis",
+        "topic modeling",
+        "user behavior prediction"
+      ]
+    },
+    "nameSuggestions": [
+      "chatterbox",
+      "threadflow",
+      "insightchat",
+      "brainstormer",
+      "chatwise"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.85,
+      "reasons": [
+        "Novel solution: AI-powered insights for group chats, not widely available.",
+        "Cutting-edge technology: Deep thread tracking, AI summaries.",
+        "Unique approach: Customizable contextual enrichment for individual users."
+      ],
+      "secondaryTypes": [
+        "Further research on AI-powered chat insights and thread tracking.",
+        "Explore user interface design for customization options.",
+        "Consider platform expansion beyond iOS."
+      ]
+    }
+  },
+  "insights": {
+    "insights": [
+      {
+        "category": "Customization",
+        "key": "Freeform input learning",
+        "title": "Weave learns from all user inputs",
+        "description": "Weave uses all user inputs, including freeform natural language chats, as learning opportunities to improve its insights and tailor them to individual preferences and group chat dynamics.",
+        "implications": [
+          "Weave's insights will become more personalized and relevant over time.",
+          "Users can influence the direction of Weave's development by providing feedback and engaging in natural conversations."
+        ],
+        "recommendations": [
+          "Encourage users to provide feedback on Weave's insights.",
+          "Promote the use of freeform natural language chats to maximize learning opportunities."
+        ],
+        "priority": "high",
+        "confidence": 0.8
+      }
+    ],
+    "summary": {
+      "keyThemes": [
+        "Personalized insights",
+        "User-driven learning"
+      ],
+      "criticalPaths": [
+        "Gathering user feedback",
+        "Encouraging natural language interactions"
+      ],
+      "risks": [
+        "Limited user engagement",
+        "Inaccurate or biased insights"
+      ],
+      "opportunities": [
+        "Enhanced user experience",
+        "Improved insight accuracy and relevance"
+      ]
+    },
+    "response": " freeform natural language chats and inputs - every user input is a learning opportunity"
+  }
+}

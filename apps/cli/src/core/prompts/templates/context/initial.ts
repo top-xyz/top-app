@@ -14,6 +14,8 @@ IMPORTANT INSTRUCTIONS:
 3. Each question should build on previous context
 4. Keep questions open-ended but specific
 5. Validate JSON structure before responding
+6. Return NO MORE THAN 3 required questions
+7. Additional questions should be marked as optional (required: false)
 
 Required JSON Structure:
 {
@@ -22,7 +24,7 @@ Required JSON Structure:
       "id": "q1",
       "question": "Clear, engaging question text",
       "type": "open|multiple_choice",
-      "required": true,
+      "required": true|false,
       "options": ["option1", "option2"] | null,
       "context": "Why this question matters"
     }
@@ -38,13 +40,15 @@ Question Guidelines:
 Remember: Return ONLY the JSON object with no other text`;
 
 export const getInitialPromptsPrompt = (context: any): string => {
-  const projectType = context.type || 'undefined';
-  const projectName = context.name || 'undefined';
+  const projectType = context.type?.primaryType || 'undefined';
+  const projectName = context.name || 'unnamed project';
   const projectDesc = context.description || '';
 
   return `You are helping guide the creation of ${projectName}, a ${projectType} project.
 
-${projectDesc ? `Project Description: ${projectDesc}\n\n` : ''}${initialPromptsTemplate}
+Project Description: ${projectDesc}
+
+${initialPromptsTemplate}
 
 Remember: Return ONLY the JSON object with no other text`;
 };

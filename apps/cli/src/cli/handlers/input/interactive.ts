@@ -10,11 +10,14 @@ import { DocumentationGenerator } from '../../../core/docs/documentation-generat
 import { debug, setDebugMode } from '../../../utils/debug';
 import { spinner } from '../../../utils/spinner';
 import chalk from 'chalk';
-import { input, select, confirm } from '@inquirer/prompts';
+import { input, confirm } from '@inquirer/prompts';
 import { ContextManager } from '../../../core/context/context-manager';
 import { ProjectManager } from '../../../core/project-manager';
 import { getInsightsPrompt } from '../../../core/prompts/templates/context/insights';
 import { getContextualResponsePrompt } from '../../../core/prompts/templates/context/response';
+import * as path from 'path';
+import { select } from '@inquirer/prompts';
+import ora from 'ora';
 
 const insightCategories = {
   innovative: [
@@ -55,7 +58,7 @@ export class InteractiveManager {
     this.contextManager = new ContextManager(ai);
     this.promptManager = new PromptManager(ai, this.contextManager);
     this.projectManager = new ProjectManager(this.contextManager, this.promptManager, ai);
-    this.docGenerator = new DocumentationGenerator(ai, outputDir);
+    this.docGenerator = new DocumentationGenerator(ai, templatesDir, outputDir);
     
     spinner.setEnabled(true);
     
@@ -193,88 +196,133 @@ export class InteractiveManager {
     }
   }
 
-  private async handleInitialPrompts(): Promise<void> {
+  async handleInitialPrompts(): Promise<void> {
     debug('handleInitialPrompts', 'Starting initial prompts flow');
     
-    try {
-      // Get initial prompts
-      const initialPrompts = await this.promptManager.generateInitialPrompts(this.currentContext);
-      // console.log('handleInitialPrompts', 'Got initial prompts:', initialPrompts);
+    const response = await this.promptManager.generateInitialPrompts(this.currentContext!);
+    const initialPrompts = response?.questions || [];
+    
+    if (!initialPrompts || initialPrompts.length === 0) {
+      return;
+    }
+    
+    this.currentPrompts = initialPrompts;
+    
+    // Separate required and optional prompts
+    this.requiredPrompts = initialPrompts.filter(p => p.required);
+    this.optionalPrompts = initialPrompts.filter(p => !p.required);
+    
+    debug('handleInitialPrompts', 'Required prompts:', this.requiredPrompts);
+    debug('handleInitialPrompts', 'Optional prompts:', this.optionalPrompts);
+    
+    // Handle required prompts first
+    if (this.requiredPrompts.length > 0) {
+      console.log(chalk.cyan('\n🎯 Let\'s start with some key questions about your project:'));
       
-      if (!initialPrompts || initialPrompts.length === 0) {
-        // console.log('handleInitialPrompts', 'No initial prompts generated');
-        return;
-      }
-      
-      this.currentPrompts = initialPrompts;
-      
-      // Separate required and optional prompts
-      this.requiredPrompts = initialPrompts.filter(p => p.required);
-      this.optionalPrompts = initialPrompts.filter(p => !p.required);
-      
-      debug('handleInitialPrompts', 'Required prompts:', this.requiredPrompts);
-      debug('handleInitialPrompts', 'Optional prompts:', this.optionalPrompts);
-      
-      // Handle required prompts first
       for (const prompt of this.requiredPrompts) {
-        const response = await input({
-          message: prompt.question,
-          validate: this.validate
-        });
+        let response: string;
+        
+        if (prompt.type === 'multiple_choice' && prompt.options) {
+          response = await select({
+            message: prompt.question,
+            choices: prompt.options.map(opt => ({ value: opt, label: opt }))
+          });
+        } else {
+          response = await input({
+            message: prompt.question,
+            validate: this.validate
+          });
+        }
+        
         await this.processUserResponse(prompt.id, prompt.question, response);
         
         // Update context after each response
         this.currentContext = await this.projectManager.getProjectContext();
       }
+    }
+    
+    // Ask if user wants to continue with optional prompts
+    if (this.optionalPrompts.length > 0) {
+      console.log(chalk.cyan('\n💡 I have some optional questions that could help enhance your project.'));
+      console.log(chalk.gray('These will help me better understand your vision and provide more detailed insights.'));
       
-      // Ask if user wants to continue with optional prompts
-      if (this.optionalPrompts.length > 0) {
-        const continueOptional = await confirm({
-          message: 'Would you like to answer some optional questions to enhance your project?'
-        });
-        
-        if (continueOptional) {
-          for (const prompt of this.optionalPrompts) {
-            const response = await input({
+      const continueOptional = await select({
+        message: 'Would you like to continue with these questions?',
+        choices: [
+          { value: true, label: 'Yes, continue with optional questions' },
+          { value: false, label: 'No, skip optional questions' }
+        ]
+      });
+      
+      if (continueOptional) {
+        for (const prompt of this.optionalPrompts) {
+          let response: string;
+          
+          if (prompt.type === 'multiple_choice' && prompt.options) {
+            response = await select({
+              message: prompt.question,
+              choices: prompt.options.map(opt => ({ value: opt, label: opt }))
+            });
+          } else {
+            response = await input({
               message: prompt.question,
               validate: this.validate
             });
-            await this.processUserResponse(prompt.id, prompt.question, response);
-            
-            // Update context after each response
-            this.currentContext = await this.projectManager.getProjectContext();
           }
+          
+          await this.processUserResponse(prompt.id, prompt.question, response);
+          
+          // Update context after each response
+          this.currentContext = await this.projectManager.getProjectContext();
         }
       }
+    }
+    
+    // Generate follow-up prompts based on all responses
+    const followUpPrompts = await this.promptManager.generateFollowUpPrompts(this.currentContext);
+    
+    if (followUpPrompts && followUpPrompts.length > 0) {
+      console.log(chalk.cyan('\n🤔 Based on your responses, I have a few follow-up questions.'));
+      console.log(chalk.gray('These will help me refine the project details and provide better recommendations.'));
       
-      // Generate follow-up prompts based on all responses
-      const followUpPrompts = await this.promptManager.generateFollowUpPrompts(this.currentContext);
-      if (followUpPrompts.length > 0) {
-        const continueFollowUp = await confirm({
-          message: 'I have a few follow-up questions that might help clarify some details. Would you like to continue?'
-        });
-        
-        if (continueFollowUp) {
-          for (const prompt of followUpPrompts) {
-            const response = await input({
+      const nextStep = await select({
+        message: 'Would you like to continue answering questions, or generate documentation for your vision?',
+        choices: [
+          { value: 'continue', label: 'Continue with questions' },
+          { value: 'generate', label: 'Generate documentation' }
+        ]
+      });
+      
+      if (nextStep === 'continue') {
+        for (const prompt of followUpPrompts) {
+          let response: string;
+          
+          if (prompt.type === 'multiple_choice' && prompt.options) {
+            response = await select({
+              message: prompt.question,
+              choices: prompt.options.map(opt => ({ value: opt, label: opt }))
+            });
+          } else {
+            response = await input({
               message: prompt.question,
               validate: this.validate
             });
-            await this.processUserResponse(prompt.id, prompt.question, response);
-            
-            // Update context after each response
-            this.currentContext = await this.projectManager.getProjectContext();
           }
+          
+          await this.processUserResponse(prompt.id, prompt.question, response);
+          
+          // Update context after each response
+          this.currentContext = await this.projectManager.getProjectContext();
         }
       }
       
-      // Summarize the gathered information
-      // console.log('\n🎯 Project Vision:');
-      // console.log(this.currentContext);
+      // If they chose to generate documentation or finished questions, show success message
+      console.log(chalk.cyan('\n✨ Great! I have a good understanding of your project now.'));
       
-    } catch (error) {
-      debug('handleInitialPrompts', 'Error:', error);
-      throw error;
+      // If they chose to generate documentation, do it now
+      if (nextStep === 'generate') {
+        await this.handleDocumentationGeneration();
+      }
     }
   }
 
@@ -301,6 +349,11 @@ export class InteractiveManager {
       );
       
       if (insightsResponse) {
+        // Display acknowledgment if present
+        if (insightsResponse.acknowledgment) {
+          console.log(chalk.cyan(`\n${insightsResponse.acknowledgment}\n`));
+        }
+
         await this.contextManager.updateInsights({
           insights: insightsResponse.insights,
           summary: insightsResponse.summary,
@@ -342,7 +395,7 @@ export class InteractiveManager {
     }
   }
 
-  private async handleDocGeneration(projectName: string, context: Record<string, string>): Promise<boolean> {
+  async handleDocGeneration(projectName: string, context: Record<string, string>): Promise<boolean> {
     try {
       spinner.start('thought', 'generating project documentation');
       
@@ -362,6 +415,84 @@ export class InteractiveManager {
       debug('handleDocGeneration', 'Error:', error);
       spinner.fail('failed to generate documentation');
       return false;
+    }
+  }
+
+  private async handleDocumentationGeneration(): Promise<void> {
+    const docGenChoice = await select({
+      message: chalk.cyan(`\n📚 Documentation Generation\n`) +
+        `I can help create comprehensive documentation for your project, including:\n` +
+        `  • Architecture and technical specifications\n` +
+        `  • Feature breakdowns and user stories\n` +
+        `  • Implementation guidelines and best practices\n\n` +
+        `How would you like to proceed?`,
+      choices: [
+        {
+          name: '📝 Generate Documentation',
+          value: 'generate',
+          description: 'Create comprehensive project documentation now'
+        },
+        {
+          name: '🤔 Continue Prompting',
+          value: 'continue',
+          description: 'Gather more information through additional prompts'
+        }
+      ]
+    });
+
+    if (docGenChoice === 'generate') {
+      await this.generateProjectDocumentation();
+    }
+  }
+
+  public async generateProjectDocumentation(): Promise<void> {
+    try {
+      console.log(chalk.cyan('\n📚 Documentation Generation'));
+      
+      // Create spinner for visual feedback
+      const spinner = ora({
+        text: 'Generating project documentation...',
+        spinner: 'dots'
+      }).start();
+
+      // Initialize doc generator with context
+      const docGen = new DocumentationGenerator(
+        this.ai,
+        this.contextManager.getContext()
+      );
+
+      // Generate documentation
+      await docGen.generateDocumentation();
+      
+      spinner.succeed('Documentation generated successfully! 🎉');
+
+      // Optionally continue with more sections
+      const continueChoice = await select({
+        message: '\nWould you like to generate additional documentation sections?',
+        choices: [
+          {
+            name: '📝 Generate More Sections',
+            value: 'more',
+            description: 'Add specialized documentation sections'
+          },
+          {
+            name: '✨ Continue with Project Setup',
+            value: 'continue',
+            description: 'Move on to the next step'
+          }
+        ]
+      });
+
+      if (continueChoice === 'more') {
+        // TODO: Implement additional section generation
+        // This could include API docs, security docs, etc.
+        console.log(chalk.yellow('\nAdditional section generation coming soon!'));
+      }
+
+    } catch (error) {
+      debug('generateProjectDocumentation', 'Error::', error);
+      console.error(chalk.red('✖ Documentation generation encountered an issue'));
+      throw error;
     }
   }
 }

@@ -1,0 +1,256 @@
+{
+  "name": "m00d-2",
+  "description": "stable diffusion based image gen app; flexible LORA application; glassmorphism UI; minimal and utilitarian, emoji throughout; macos native app and widget",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "lastUpdated": "2025-01-22T18:02:48.586Z",
+      "changeLogs": [
+        {
+          "id": "change-1737568968584",
+          "timestamp": "2025-01-22T18:02:48.584Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Utilizes stable diffusion, a cutting-edge AI image generation model.",
+                  "Introduces a novel LORA application, expanding model capabilities.",
+                  "Implements a unique glassmorphism UI, enhancing user experience.",
+                  "Employs a minimal and utilitarian design with emoji integration, promoting clarity and engagement."
+                ],
+                "secondaryTypes": [
+                  "Highlight the innovative aspects of the project in marketing materials.",
+                  "Consider showcasing the LORA application and its potential uses.",
+                  "Emphasize the user-friendly interface and design elements."
+                ]
+              },
+              "timestamp": "2025-01-22T18:02:48.584Z",
+              "confidence": 0.85
+            }
+          ],
+          "metadata": {
+            "confidence": 0.85,
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737568968585",
+          "timestamp": "2025-01-22T18:02:48.585Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Utilizes stable diffusion, a cutting-edge AI image generation model.",
+                  "Introduces a novel LORA application, expanding model capabilities.",
+                  "Implements a unique glassmorphism UI, enhancing user experience.",
+                  "Employs a minimal and utilitarian design with emoji integration, promoting clarity and engagement."
+                ],
+                "secondaryTypes": [
+                  "Highlight the innovative aspects of the project in marketing materials.",
+                  "Consider showcasing the LORA application and its potential uses.",
+                  "Emphasize the user-friendly interface and design elements."
+                ]
+              },
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.85,
+                "reasons": [
+                  "Utilizes stable diffusion, a cutting-edge AI image generation model.",
+                  "Introduces a novel LORA application, expanding model capabilities.",
+                  "Implements a unique glassmorphism UI, enhancing user experience.",
+                  "Employs a minimal and utilitarian design with emoji integration, promoting clarity and engagement."
+                ],
+                "secondaryTypes": [
+                  "Highlight the innovative aspects of the project in marketing materials.",
+                  "Consider showcasing the LORA application and its potential uses.",
+                  "Emphasize the user-friendly interface and design elements."
+                ]
+              },
+              "timestamp": "2025-01-22T18:02:48.585Z",
+              "confidence": 0.85
+            }
+          ],
+          "metadata": {
+            "confidence": 0.85,
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-22T18:02:42.158Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "desktop",
+        "secondary": [
+          "macos"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "Stable Diffusion",
+          "LORA",
+          "Glassmorphism UI framework"
+        ],
+        "core": [
+          "Python",
+          "PyTorch",
+          "Swift"
+        ],
+        "optional": [
+          "TensorFlow",
+          "CoreML"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "Image generation",
+          "Emoji input",
+          "Widget integration"
+        ],
+        "interactions": [
+          "Simple",
+          "Intuitive",
+          "Fun"
+        ],
+        "design": [
+          "Minimalist",
+          "Utilitarian",
+          "Emoji-driven"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [],
+        "services": [],
+        "integrations": []
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "Text-to-image generation",
+          "Image manipulation"
+        ],
+        "required": [
+          "Machine Learning"
+        ],
+        "potential": [
+          "AI-powered emoji suggestions",
+          "Personalized image generation"
+        ]
+      },
+      "nameSuggestions": [
+        "pixie",
+        "muse",
+        "spark",
+        "imagine",
+        "prism"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "desktop",
+      "secondary": [
+        "macos"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "Stable Diffusion",
+        "LORA",
+        "Glassmorphism UI framework"
+      ],
+      "core": [
+        "Python",
+        "PyTorch",
+        "Swift"
+      ],
+      "optional": [
+        "TensorFlow",
+        "CoreML"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "Image generation",
+        "Emoji input",
+        "Widget integration"
+      ],
+      "interactions": [
+        "Simple",
+        "Intuitive",
+        "Fun"
+      ],
+      "design": [
+        "Minimalist",
+        "Utilitarian",
+        "Emoji-driven"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [],
+      "services": [],
+      "integrations": []
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "Text-to-image generation",
+        "Image manipulation"
+      ],
+      "required": [
+        "Machine Learning"
+      ],
+      "potential": [
+        "AI-powered emoji suggestions",
+        "Personalized image generation"
+      ]
+    },
+    "nameSuggestions": [
+      "pixie",
+      "muse",
+      "spark",
+      "imagine",
+      "prism"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.85,
+      "reasons": [
+        "Utilizes stable diffusion, a cutting-edge AI image generation model.",
+        "Introduces a novel LORA application, expanding model capabilities.",
+        "Implements a unique glassmorphism UI, enhancing user experience.",
+        "Employs a minimal and utilitarian design with emoji integration, promoting clarity and engagement."
+      ],
+      "secondaryTypes": [
+        "Highlight the innovative aspects of the project in marketing materials.",
+        "Consider showcasing the LORA application and its potential uses.",
+        "Emphasize the user-friendly interface and design elements."
+      ]
+    }
+  },
+  "insights": {
+    "insights": [],
+    "summary": {
+      "keyThemes": [],
+      "criticalPaths": [],
+      "risks": [],
+      "opportunities": []
+    },
+    "response": "apple intelligence for automatic prompt enhancement with appropriate visual cues and controls exposed"
+  }
+}

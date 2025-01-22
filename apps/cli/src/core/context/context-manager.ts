@@ -296,12 +296,11 @@ export class ContextManager {
       throw new Error('No active project context');
     }
     
-    this.currentContext.vision = vision;
+    // Store vision only in _system.vision
     if (this.currentContext._system) {
       this.currentContext._system.vision = vision;
       this.currentContext._system.metadata = {
         ...this.currentContext._system.metadata,
-        vision,
         lastUpdated: new Date().toISOString()
       };
     }
@@ -448,9 +447,6 @@ export class ContextManager {
     const visionWithoutSuggestions = { ...vision };
     delete visionWithoutSuggestions.nameSuggestions;
     
-    // Update vision in context
-    this.currentContext.vision = visionWithoutSuggestions;
-    
     // Initialize _system if it doesn't exist
     if (!this.currentContext._system) {
       this.currentContext._system = {
@@ -471,11 +467,10 @@ export class ContextManager {
       };
     }
 
-    // Update vision in _system
+    // Store vision only in _system
     this.currentContext._system.vision = visionWithoutSuggestions;
     this.currentContext._system.metadata = {
       ...this.currentContext._system.metadata,
-      vision: visionWithoutSuggestions,
       nameSuggestions,
       lastUpdated: new Date().toISOString()
     };

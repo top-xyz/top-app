@@ -1,185 +1,64 @@
-# CLI Architecture
+## ARCHITECTURE
+
+This document outlines the architecture for the project, focusing specifically on the . category.
+
+### Project Context
+
+- Project Type: Unknown
+- Technical Requirements: None specified
+- Technical Integrations: None specified
+- UX Requirements: None specified
+
+### Technical Overview
+
+Due to the lack of specific project details, this section provides a general overview of potential architectural considerations for the . category.
+
+#### Key Components
+
+- **Front-end:** Responsible for user interface and interaction.
+- **Back-end:** Handles data processing, business logic, and database interaction.
+- **Database:** Stores application data.
+
+#### Technologies
+
+- **Front-end:** 
+    - HTML, CSS, JavaScript
+    - Frameworks: React, Angular, Vue.js
+- **Back-end:**
+    - Python, Java, Node.js
+    - Frameworks: Django, Spring, Express.js
+- **Database:**
+    - MySQL, PostgreSQL, MongoDB
+
+#### Architecture Diagram
 
 ```mermaid
-graph TD
-    subgraph CLI [CLI Layer]
-        CLI_INDEX[cli/index.ts]
-        HANDLERS[cli/handlers/]
-        ACTION_HANDLERS[handlers/action/*]
-        INPUT_HANDLERS[handlers/input/*]
-    end
-
-    subgraph CORE [Core Layer]
-        PROJECT_MGR[ProjectManager]
-        CONTEXT_MGR[ContextManager]
-        PROMPT_MGR[PromptManager]
-        VERTEX_AI[VertexAIClient]
-        VECTOR_STORE[VectorStore]
-        DOC_GEN[DocumentationGenerator]
-    end
-
-    subgraph TYPES [Type System]
-        CONTEXT_TYPES[context.ts]
-        PROJECT_TYPES[project.ts]
-        PROMPT_TYPES[prompts.ts]
-        CLIENT_TYPES[client.ts]
-        VECTOR_TYPES[vector-store.ts]
-    end
-
-    subgraph TEMPLATES [Templates]
-        DETECT[detect.ts]
-        VISION[vision-analyzer.ts]
-        DOCS[documentation.ts]
-        INSIGHTS[insights.ts]
-        RESPONSE[response.ts]
-    end
-
-    subgraph UTILS [Utilities]
-        LOGGER[Logger]
-        DEBUG[Debug]
-        SPINNER[Spinner]
-        VALIDATOR[Validator]
-        VISUALIZER[ContextVisualizer]
-    end
-
-    %% CLI Layer Dependencies
-    CLI_INDEX --> HANDLERS
-    HANDLERS --> ACTION_HANDLERS
-    HANDLERS --> INPUT_HANDLERS
-    ACTION_HANDLERS --> PROJECT_MGR
-    ACTION_HANDLERS --> CONTEXT_MGR
-    INPUT_HANDLERS --> PROJECT_MGR
-
-    %% Core Layer Dependencies
-    PROJECT_MGR --> CONTEXT_MGR
-    PROJECT_MGR --> VERTEX_AI
-    PROJECT_MGR --> PROJECT_TYPES
-    CONTEXT_MGR --> VERTEX_AI
-    CONTEXT_MGR --> VECTOR_STORE
-    CONTEXT_MGR --> CONTEXT_TYPES
-    PROMPT_MGR --> TEMPLATES
-    DOC_GEN --> CONTEXT_MGR
-
-    %% Type System Dependencies
-    PROJECT_TYPES --> CONTEXT_TYPES
-    CONTEXT_TYPES --> PROJECT_TYPES
-    
-    %% Template Dependencies
-    DETECT --> PROJECT_TYPES
-    VISION --> CONTEXT_TYPES
-    DOCS --> CONTEXT_TYPES
-    INSIGHTS --> CONTEXT_TYPES
-    RESPONSE --> PROMPT_TYPES
-
-    %% Utility Usage
-    PROJECT_MGR --> LOGGER
-    PROJECT_MGR --> DEBUG
-    CONTEXT_MGR --> LOGGER
-    CONTEXT_MGR --> DEBUG
-    VERTEX_AI --> SPINNER
-    HANDLERS --> VALIDATOR
-    CONTEXT_MGR --> VISUALIZER
-
-    classDef default fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef core fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef types fill:#bfb,stroke:#333,stroke-width:2px;
-    classDef templates fill:#fbb,stroke:#333,stroke-width:2px;
-    classDef utils fill:#fff,stroke:#333,stroke-width:2px;
-
-    class CLI_INDEX,HANDLERS,ACTION_HANDLERS,INPUT_HANDLERS default;
-    class PROJECT_MGR,CONTEXT_MGR,PROMPT_MGR,VERTEX_AI,VECTOR_STORE,DOC_GEN core;
-    class CONTEXT_TYPES,PROJECT_TYPES,PROMPT_TYPES,CLIENT_TYPES,VECTOR_TYPES types;
-    class DETECT,VISION,DOCS,INSIGHTS,RESPONSE templates;
-    class LOGGER,DEBUG,SPINNER,VALIDATOR,VISUALIZER utils;
+graph LR
+A[Front-end] --> B(API Gateway)
+B --> C(Back-end)
+C --> D(Database)
 ```
 
-## Key Components
+This is a basic representation of a typical architecture. Specific technologies and components will depend on project requirements.
 
-### CLI Layer
-- Entry point and command handling
-- Action handlers for specific commands
-- Interactive input handling
+### .-Specific Considerations
 
-### Core Layer
-- Project and context management
-- AI client integration
-- Vector storage
-- Documentation generation
+- **Data Model:** Define the data structures and relationships specific to the . category.
+- **API Design:** Design APIs to handle . related data and functionalities.
+- **Security:** Implement appropriate security measures to protect sensitive data.
+- **Scalability:** Consider scalability requirements for the . category.
 
-### Type System
-- Shared type definitions
-- Project and context types
-- Client interfaces
+### Next Steps
 
-### Templates
-- AI prompt templates
-- Response formatting
-- Analysis templates
+- Gather detailed project requirements to refine the architecture.
+- Choose specific technologies based on project needs.
+- Design and develop the . specific components and functionalities.
+- Implement security measures and test the architecture thoroughly.
 
-### Utilities
-- Logging and debugging
-- Progress indication
-- Validation
-- Visualization
+### Additional Resources
 
-## Type Dependencies
+- [Software Architecture Patterns](https://martinfowler.com/articles/patterns-of-enterprise-application-architecture.html)
+- [Microservices Architecture](https://microservices.io/)
+- [Cloud Architecture](https://cloud.google.com/architecture/)
 
-The type system is built around two main concepts:
-1. **Context Types** (`context.ts`)
-   - Base types for all contexts
-   - Enhanced context types with metadata
-   - Project-specific context extensions
-
-2. **Project Types** (`project.ts`)
-   - Project type definitions
-   - Project insights
-   - Type detection interfaces
-
-These two type modules are interdependent:
-- `ProjectType` is used in `SystemMetadata` (context.ts)
-- `ProjectInsights` extends `ContextInsights` (context.ts)
-- `EnhancedProjectContext` extends `EnhancedContext` with project-specific constraints
-
-## Flow of Control
-
-1. CLI commands → Action Handlers
-2. Action Handlers → Core Managers
-3. Core Managers ↔ Type System
-4. Core Managers → Templates
-5. Core Managers → Utils
-
-## Key Interfaces
-
-### EnhancedContext vs EnhancedProjectContext
-
-EnhancedContext provides the base structure:
-```typescript
-interface EnhancedContext extends Context {
-  insights: ContextInsights;
-  _system: {
-    embeddings: ContextEmbeddings;
-    metadata: SystemMetadata;
-    similarity?: number;
-    matchType?: string;
-  };
-  embeddings: ContextEmbeddings;
-  metadata: SystemMetadata;
-  similarity?: number;
-  matchType?: string;
-}
-```
-
-EnhancedProjectContext adds project-specific constraints:
-```typescript
-interface EnhancedProjectContext extends EnhancedContext {
-  insights: ProjectInsights;  // More specific insight types
-  metadata: SystemMetadata & {
-    projectType: ProjectType;  // Required project type
-  };
-}
-```
-
-The key differences:
-1. `insights` is constrained to `ProjectInsights`
-2. `metadata` requires a `projectType`
-3. Inherits all base functionality from `EnhancedContext`
+This document provides a starting point for understanding and designing the architecture of the . category. As the project evolves and more information becomes available, this document should be updated to reflect the specific details and needs of the project.

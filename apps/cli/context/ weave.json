@@ -1,0 +1,298 @@
+{
+  "name": " weave",
+  "description": "what does chatgpt/cursor for group chat look like? how to ideally augment the group chat conventional experience with ai fueled insights. allow users to customize their contextual enrichment? deep and instinctive tracking of threads in a group chat. better ai summaries of what you missed. native ios with industry standard glassy ui/ux, minimal and fun to use, easy to understand",
+  "history": [],
+  "_system": {
+    "metadata": {
+      "lastUpdated": "2025-01-22T07:44:30.884Z",
+      "changeLogs": [
+        {
+          "id": "change-1737531870882",
+          "timestamp": "2025-01-22T07:44:30.882Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and AI-powered insights.",
+                  "Focuses on augmenting existing group chat experience.",
+                  "Prioritizes deep understanding of conversation threads.",
+                  "Aims to provide personalized contextual enrichment for users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat analysis and summarization techniques.",
+                  "Explore integration with existing group chat platforms.",
+                  "Develop a clear user interface and customization options.",
+                  "Consider potential ethical concerns and data privacy implications."
+                ]
+              },
+              "timestamp": "2025-01-22T07:44:30.882Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        },
+        {
+          "id": "change-1737531870883",
+          "timestamp": "2025-01-22T07:44:30.883Z",
+          "component": "projectType",
+          "changes": [
+            {
+              "field": "projectType",
+              "previous": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and AI-powered insights.",
+                  "Focuses on augmenting existing group chat experience.",
+                  "Prioritizes deep understanding of conversation threads.",
+                  "Aims to provide personalized contextual enrichment for users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat analysis and summarization techniques.",
+                  "Explore integration with existing group chat platforms.",
+                  "Develop a clear user interface and customization options.",
+                  "Consider potential ethical concerns and data privacy implications."
+                ]
+              },
+              "current": {
+                "primaryType": "innovative",
+                "confidence": 0.9,
+                "reasons": [
+                  "Emphasizes novel solutions and AI-powered insights.",
+                  "Focuses on augmenting existing group chat experience.",
+                  "Prioritizes deep understanding of conversation threads.",
+                  "Aims to provide personalized contextual enrichment for users."
+                ],
+                "secondaryTypes": [
+                  "Further research on AI-powered chat analysis and summarization techniques.",
+                  "Explore integration with existing group chat platforms.",
+                  "Develop a clear user interface and customization options.",
+                  "Consider potential ethical concerns and data privacy implications."
+                ]
+              },
+              "timestamp": "2025-01-22T07:44:30.883Z",
+              "confidence": 0.9
+            }
+          ],
+          "metadata": {
+            "confidence": 0.9,
+            "trigger": "projectTypeDetection"
+          }
+        }
+      ]
+    },
+    "embeddings": {},
+    "responses": {},
+    "lastUpdated": "2025-01-22T07:44:18.817Z",
+    "vision": {
+      "platformRequirements": {
+        "platformSpecificRequirements": [],
+        "primary": "mobile",
+        "secondary": [
+          "web",
+          "desktop"
+        ]
+      },
+      "technicalRequirements": {
+        "coreTechnicalNeeds": [
+          "iOS native development",
+          "AI-powered summarization",
+          "Real-time chat processing"
+        ],
+        "core": [
+          "Swift",
+          "Python",
+          "TensorFlow",
+          "Firebase"
+        ],
+        "optional": [
+          "React Native",
+          "Node.js",
+          "Cloud Functions"
+        ]
+      },
+      "userExperienceElements": {
+        "keyInteractions": [
+          "Thread summaries",
+          "Contextual insights",
+          "Customization options"
+        ],
+        "interactions": [
+          "Intuitive navigation",
+          "Seamless group chat experience",
+          "Personalized AI assistance"
+        ],
+        "design": [
+          "Minimalist UI",
+          "Glassy aesthetics",
+          "Fun and engaging interactions"
+        ]
+      },
+      "integrationRequirements": {
+        "apis": [
+          "ChatGPT API",
+          "iOS Accessibility APIs",
+          "Firebase Cloud Messaging"
+        ],
+        "services": [
+          "Cloud storage",
+          "Real-time database",
+          "Machine learning platform"
+        ],
+        "integrations": [
+          "Third-party AI models",
+          "Social media platforms",
+          "Productivity tools"
+        ]
+      },
+      "aiMlCapabilities": {
+        "requiredAiFeatures": [
+          "Natural language processing",
+          "Conversation analysis",
+          "Contextual understanding"
+        ],
+        "required": [
+          "Text summarization",
+          "Thread identification",
+          "User behavior prediction"
+        ],
+        "potential": [
+          "Sentiment analysis",
+          "Personalized recommendations",
+          "Automated response generation"
+        ]
+      },
+      "nameSuggestions": [
+        "chatflow",
+        "insightful",
+        "threader",
+        "aihive",
+        "convo"
+      ]
+    }
+  },
+  "vision": {
+    "platformRequirements": {
+      "platformSpecificRequirements": [],
+      "primary": "mobile",
+      "secondary": [
+        "web",
+        "desktop"
+      ]
+    },
+    "technicalRequirements": {
+      "coreTechnicalNeeds": [
+        "iOS native development",
+        "AI-powered summarization",
+        "Real-time chat processing"
+      ],
+      "core": [
+        "Swift",
+        "Python",
+        "TensorFlow",
+        "Firebase"
+      ],
+      "optional": [
+        "React Native",
+        "Node.js",
+        "Cloud Functions"
+      ]
+    },
+    "userExperienceElements": {
+      "keyInteractions": [
+        "Thread summaries",
+        "Contextual insights",
+        "Customization options"
+      ],
+      "interactions": [
+        "Intuitive navigation",
+        "Seamless group chat experience",
+        "Personalized AI assistance"
+      ],
+      "design": [
+        "Minimalist UI",
+        "Glassy aesthetics",
+        "Fun and engaging interactions"
+      ]
+    },
+    "integrationRequirements": {
+      "apis": [
+        "ChatGPT API",
+        "iOS Accessibility APIs",
+        "Firebase Cloud Messaging"
+      ],
+      "services": [
+        "Cloud storage",
+        "Real-time database",
+        "Machine learning platform"
+      ],
+      "integrations": [
+        "Third-party AI models",
+        "Social media platforms",
+        "Productivity tools"
+      ]
+    },
+    "aiMlCapabilities": {
+      "requiredAiFeatures": [
+        "Natural language processing",
+        "Conversation analysis",
+        "Contextual understanding"
+      ],
+      "required": [
+        "Text summarization",
+        "Thread identification",
+        "User behavior prediction"
+      ],
+      "potential": [
+        "Sentiment analysis",
+        "Personalized recommendations",
+        "Automated response generation"
+      ]
+    },
+    "nameSuggestions": [
+      "chatflow",
+      "insightful",
+      "threader",
+      "aihive",
+      "convo"
+    ]
+  },
+  "metadata": {
+    "initialized": true,
+    "version": "1.0.0",
+    "stage": "initial",
+    "projectType": {
+      "primaryType": "innovative",
+      "confidence": 0.9,
+      "reasons": [
+        "Emphasizes novel solutions and AI-powered insights.",
+        "Focuses on augmenting existing group chat experience.",
+        "Prioritizes deep understanding of conversation threads.",
+        "Aims to provide personalized contextual enrichment for users."
+      ],
+      "secondaryTypes": [
+        "Further research on AI-powered chat analysis and summarization techniques.",
+        "Explore integration with existing group chat platforms.",
+        "Develop a clear user interface and customization options.",
+        "Consider potential ethical concerns and data privacy implications."
+      ]
+    }
+  },
+  "insights": {
+    "insights": [],
+    "summary": {
+      "keyThemes": [],
+      "criticalPaths": [],
+      "risks": [],
+      "opportunities": []
+    },
+    "response": " not sure but leverage multimodal embeddings from vertexai throughout"
+  }
+}
