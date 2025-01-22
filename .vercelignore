@@ -1,6 +1,14 @@
-# Dependencies
+# Always ignore these patterns
+**/.next
+**/.turbo
 **/node_modules
-.pnpm-store
+**/dist
+**/build
+**/.cache
+**/*.tsbuildinfo
+**/.env*
+**/.DS_Store
+**/.git
 
 # Build outputs
 .next
@@ -14,7 +22,6 @@ coverage
 *.test.*
 
 # Misc
-.git
 .env*
 .DS_Store
 
