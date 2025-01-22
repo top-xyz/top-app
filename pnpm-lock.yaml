@@ -681,8 +681,8 @@ importers:
         specifier: ^1.4.1
         version: 1.4.1(next@15.1.4(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)(svelte@5.2.7)(vue@3.5.13(typescript@5.7.2))
       posthog-js:
-        specifier: ^1.203.3
-        version: 1.203.3
+        specifier: ^1.207.0
+        version: 1.207.0
       posthog-node:
         specifier: ^4.3.2
         version: 4.3.2
@@ -2261,6 +2261,7 @@ packages:
   '@clerk/clerk-sdk-node@4.13.22':
     resolution: {integrity: sha512-2XwlQ01nK/4cqJsiKFWw5GPZ7l7BChyCobZ6Jd4GZDr65pGhljO3BdKEHA4Dqs/d9H3QJkaZqUAcmpahBaRzug==}
     engines: {node: '>=14'}
+    deprecated: 'January 10 2025 marks the end of support for @clerk/clerk-sdk-node as previously announced in our October 2024 deprecation notice. Express users can migrate to the @clerk/express package. For more information, you can find our changelog here: https://clerk.com/changelog/2025-01-10-node-sdk-eol'
 
   '@clerk/nextjs@4.31.6':
     resolution: {integrity: sha512-rGZ687oHrMzWu2zA5HXHVdCp31C7Ltb+pM0Sc6CgJ7KfURbK8GsG2w/Yw2PhntuKoya4y8h03uaXdgfCxGOzMQ==}
@@ -7072,8 +7073,8 @@ packages:
   core-js-pure@3.39.0:
     resolution: {integrity: sha512-7fEcWwKI4rJinnK+wLTezeg2smbFFdSBP6E2kQZNbnzM2s1rpKQ6aaRteZSSg7FLU3P0HGGVo/gbpfanU36urg==}
 
-  core-js@3.38.1:
-    resolution: {integrity: sha512-OP35aUorbU3Zvlx7pjsFdu1rGNnD4pgw/CWoYzRY3t2EzoVT7shKHY1dlAy3f41cGIO7ZDPQimhGFTlEYkG/Hw==}
+  core-js@3.40.0:
+    resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -10073,15 +10074,15 @@ packages:
   postgres-range@1.1.4:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
 
-  posthog-js@1.203.3:
-    resolution: {integrity: sha512-DTK6LfL87xC7PPleKDParEIfkXl7hXtuDeSOPfhcyCXLuVspq0z7YyRB5dQE9Pbalf3yoGqUKvomYFp/BGVfQg==}
+  posthog-js@1.207.0:
+    resolution: {integrity: sha512-Sx+xamhg1/iKGAtUNh3uAUtAAza4j/yBhxcfUxfqR++WrZdw0V6nmh7LSfVNl7+QVl2qmiPSoZA7z+5ojaWDDQ==}
 
   posthog-node@4.3.2:
     resolution: {integrity: sha512-vy8Mt9IEfniUgqQ1rOCQ31CBO1VNqDGd3ZtHlWR9/YfU6RiuK+9pUXPb4h6HTGzQmjL8NFnjd8K8NMXSX8S6MQ==}
     engines: {node: '>=15.0.0'}
 
-  preact@10.24.3:
-    resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
+  preact@10.25.4:
+    resolution: {integrity: sha512-jLdZDb+Q+odkHJ+MpW/9U5cODzqnB+fy2EiHSZES7ldV5LK7yjlVzTp7R8Xy6W6y75kfK8iWYtFVH7lvjwrCMA==}
 
   prebuild-install@7.1.2:
     resolution: {integrity: sha512-UnNke3IQb6sgarcZIDU3gbMeTp/9SSU1DAIkil7PrqG1vZlBtY5msYccSKSHDqa3hNg436IXK+SNImReuA1wEQ==}
@@ -14859,7 +14860,7 @@ snapshots:
       '@peculiar/asn1-schema': 2.3.15
       '@peculiar/json-schema': 1.1.12
       pvtsutils: 1.3.6
-      tslib: 2.8.1
+      tslib: 2.4.1
       webcrypto-core: 1.8.1
 
   '@pkgjs/parseargs@0.11.0':
@@ -17210,6 +17211,14 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
+  '@vitest/mocker@2.1.8(vite@5.4.10(@types/node@22.10.5)(terser@5.31.0))':
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.12
+    optionalDependencies:
+      vite: 5.4.10(@types/node@22.10.5)(terser@5.31.0)
+
   '@vitest/mocker@2.1.8(vite@5.4.10(@types/node@22.10.7)(terser@5.31.0))':
     dependencies:
       '@vitest/spy': 2.1.8
@@ -18253,7 +18262,7 @@ snapshots:
 
   core-js-pure@3.39.0: {}
 
-  core-js@3.38.1: {}
+  core-js@3.40.0: {}
 
   core-util-is@1.0.3: {}
 
@@ -21144,7 +21153,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.13
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001655
+      caniuse-lite: 1.0.30001676
       postcss: 8.4.31
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
@@ -21908,11 +21917,11 @@ snapshots:
 
   postgres-range@1.1.4: {}
 
-  posthog-js@1.203.3:
+  posthog-js@1.207.0:
     dependencies:
-      core-js: 3.38.1
+      core-js: 3.40.0
       fflate: 0.4.8
-      preact: 10.24.3
+      preact: 10.25.4
       web-vitals: 4.2.4
 
   posthog-node@4.3.2:
@@ -21922,7 +21931,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  preact@10.24.3: {}
+  preact@10.25.4: {}
 
   prebuild-install@7.1.2:
     dependencies:
@@ -24083,7 +24092,7 @@ snapshots:
   vitest@2.1.8(@types/node@22.10.5)(jsdom@25.0.1(bufferutil@4.0.9))(terser@5.31.0):
     dependencies:
       '@vitest/expect': 2.1.8
-      '@vitest/mocker': 2.1.8(vite@5.4.10(@types/node@22.10.7)(terser@5.31.0))
+      '@vitest/mocker': 2.1.8(vite@5.4.10(@types/node@22.10.5)(terser@5.31.0))
       '@vitest/pretty-format': 2.1.8
       '@vitest/runner': 2.1.8
       '@vitest/snapshot': 2.1.8
